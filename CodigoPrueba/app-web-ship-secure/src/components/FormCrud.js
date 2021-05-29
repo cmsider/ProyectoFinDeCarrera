@@ -91,7 +91,12 @@ const FormCrud = () => {
               <DropdownItem disabled>OPT(deshabilitada)</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            variant="contained"
+            color="primary"
+          >
             Agregar
           </button>
         </form>
