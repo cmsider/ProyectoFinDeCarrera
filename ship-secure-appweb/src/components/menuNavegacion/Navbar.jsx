@@ -44,7 +44,7 @@ const Navbar = (props) => {
           ShipSecure
         </Typography>
         <Button variant="text" color="inherit">
-          Login
+          Logout
         </Button>
       </Toolbar>
     </AppBar>

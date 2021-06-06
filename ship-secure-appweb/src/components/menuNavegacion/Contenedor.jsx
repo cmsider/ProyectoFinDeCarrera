@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles, Hidden } from "@material-ui/core";
 import Navbar from "./Navbar";
 import DrawerContenedor from "./DrawerContenedor";
+
 //         <DrawerContenedor variant="permanent" open={true} />
 const estilos = makeStyles((theme) => ({
   root: {
@@ -11,6 +12,8 @@ const estilos = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
+    primary: theme.palette.primary.main,
+
     padding: theme.spacing(3),
   },
 }));
@@ -21,6 +24,7 @@ const Contenedor = () => {
   const accionAbrir = () => {
     setAbrir(!abrir);
   };
+
   return (
     <div className={classes.root}>
       <Navbar accionAbrir={accionAbrir} />
@@ -41,10 +45,7 @@ const Contenedor = () => {
         />
       </Hidden>
 
-      <div className={classes.content}>
-        <div className={classes.toolbar}> </div>
-        Prueba
-      </div>
+      <div className={classes.content}></div>
     </div>
   );
 };
