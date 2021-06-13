@@ -9,7 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
+import { Link } from "react-router-dom";
 import "firebase/firestore";
 import "firebase/auth";
 import Pedido from "./Pedido";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SeguimientoEnvioForm = () => {
+const SeguimientoEnvioForm = (props) => {
   const classes = useStyles();
   const {
     register,
@@ -52,7 +52,7 @@ const SeguimientoEnvioForm = () => {
     console.log(data);
     setentradas(data);
     // limpiar campos
-    e.target.reset();
+    // e.target.reset();
   };
   //Utiliza el hook useState
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -117,8 +117,13 @@ const SeguimientoEnvioForm = () => {
               <Grid item></Grid>
             </Grid>
           </form>
-          {buttonClicked ? <Pedido entradas={entradas} /> : null}
         </div>
+        {buttonClicked && entradas.nroSeg != ""
+          ? props.history.push({
+              pathname: "/pedido",
+              state: entradas.nroSeg, // your data array of objects
+            })
+          : null}
         <Box mt={8}></Box>
       </Container>
     </div>
@@ -127,7 +132,10 @@ const SeguimientoEnvioForm = () => {
 export default SeguimientoEnvioForm;
 /*           
 {buttonClicked ? <Pedido entradas={entradas} /> : null}
-         
+         this.props.history.push({
+                pathname: "/pedido",
+                state: entradas, // your data array of objects
+              })
 {buttonClicked
             ? redirect("/pedido", (entradas = { entradas }))
             : null}
