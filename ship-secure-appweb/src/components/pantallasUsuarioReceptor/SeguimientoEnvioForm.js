@@ -9,12 +9,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link } from "react-router-dom";
 import "firebase/firestore";
 import "firebase/auth";
-import Pedido from "./Pedido";
-
 import { useForm } from "react-hook-form";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(7),
@@ -51,8 +49,7 @@ const SeguimientoEnvioForm = (props) => {
   const procesarFormulario = (data, e) => {
     console.log(data);
     setentradas(data);
-    // limpiar campos
-    // e.target.reset();
+    e.target.reset();
   };
   //Utiliza el hook useState
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -118,7 +115,7 @@ const SeguimientoEnvioForm = (props) => {
             </Grid>
           </form>
         </div>
-        {buttonClicked && entradas.nroSeg != ""
+        {buttonClicked && entradas.nroSeg !== ""
           ? props.history.push({
               pathname: "/pedido",
               state: entradas.nroSeg, // your data array of objects

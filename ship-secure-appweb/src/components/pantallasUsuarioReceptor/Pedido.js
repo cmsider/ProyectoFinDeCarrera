@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import GridList from "@material-ui/core/GridList";
 import { Divider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
