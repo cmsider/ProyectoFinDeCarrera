@@ -24,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
     backgroundColor: theme.palette.primary.main,
   },
+  colorTitulo: {
+    color: "#FFFFFF",
+  },
+  colorTextField: {
+    color: "#FFFFFF",
+    background: "#2F4A5B",
+  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -34,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SeguimientoEnvioForm = (props) => {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const {
     register,
     handleSubmit,
@@ -67,7 +74,11 @@ const SeguimientoEnvioForm = (props) => {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h2" variant="h4">
+          <Typography
+            component="h2"
+            variant="h4"
+            className={classes.colorTitulo}
+          >
             Hola Usuario
           </Typography>
           <form
@@ -83,7 +94,8 @@ const SeguimientoEnvioForm = (props) => {
               type="nroSeg"
               id="nroSeg"
               name="nroSeg"
-              color="secondary"
+              className={classes.colorTextField}
+              InputLabelProps={{ className: classes.colorTitulo }}
               {...register("nroSeg", {
                 required: { value: true, message: "Campo requerido" },
                 minLength: {

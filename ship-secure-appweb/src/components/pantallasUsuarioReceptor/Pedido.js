@@ -16,7 +16,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-
+  root: {
+    color: "#7FA3B5",
+  },
+  colorTitulo: {
+    color: "#FFFFFF",
+  },
+  colorDivider: {
+    background: "#E07D7E",
+  },
   props: {
     MuiTypography: {
       variantMapping: {
@@ -36,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Pedido = (props) => {
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   const [pedido, setPedido] = useState([]);
   //const pedidoID = props.entradas.nroSeg;
@@ -74,7 +82,7 @@ export const Pedido = (props) => {
                   component="h6"
                   variant="h6"
                   className={classes.props}
-                  color="secondary"
+                  className={classes.colorTitulo}
                 >
                   Código de envio
                 </Typography>
@@ -83,63 +91,10 @@ export const Pedido = (props) => {
                   variant="h4"
                   className={classes.props}
                   color="primary"
+                  display="inline"
                 >
                   {item.key}
-                  <Divider />
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Nombre
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.nombres}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Apellido
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.apellidos}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Correo electrónico
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.email}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Fecha de nacimiento
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.fechaNacimiento}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Provincia
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.provincia}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Localidad
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.localidad}
+                  <Divider className={classes.colorDivider} />
                 </Typography>
               </Grid>
 
@@ -147,17 +102,26 @@ export const Pedido = (props) => {
                 <Typography component="h5" variant="h5" color="primary">
                   Dirección
                 </Typography>
-                <Typography component="h1" color="secondary">
+                <Typography component="h1" className={classes.root}>
                   {item.direccion}
                 </Typography>
               </Grid>
 
               <Grid item xs={6}>
                 <Typography component="h5" variant="h5" color="primary">
-                  Codigo postal
+                  Piso/Depto
                 </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.codigoPostal}
+                <Typography component="h1" className={classes.root}>
+                  {item.piso}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography component="h5" variant="h5" color="primary">
+                  Observaciones
+                </Typography>
+                <Typography component="h1" className={classes.root}>
+                  {item.observaciones}
                 </Typography>
               </Grid>
 
@@ -165,35 +129,17 @@ export const Pedido = (props) => {
                 <Typography component="h5" variant="h5" color="primary">
                   Fecha de entrega
                 </Typography>
-                <Typography component="h1" color="secondary">
+                <Typography component="h1" className={classes.root}>
                   {item.fechaEntrega}
                 </Typography>
               </Grid>
 
               <Grid item xs={6}>
                 <Typography component="h5" variant="h5" color="primary">
-                  Hora de entrega
+                  Hora estimada
                 </Typography>
-                <Typography component="h1" color="secondary">
+                <Typography component="h1" className={classes.root}>
                   {item.horaEntrega}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Piso
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.piso}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Detalles de envío
-                </Typography>
-                <Typography component="h1" color="secondary">
-                  {item.observaciones}
                 </Typography>
               </Grid>
 
@@ -201,7 +147,7 @@ export const Pedido = (props) => {
                 <Typography component="h5" variant="h5" color="primary">
                   Temperatura
                 </Typography>
-                <Typography component="h1" color="secondary">
+                <Typography component="h1" className={classes.root}>
                   {item.temperatura}ºC
                 </Typography>
               </Grid>
@@ -210,7 +156,7 @@ export const Pedido = (props) => {
                 <Typography component="h5" variant="h5" color="primary">
                   Peso
                 </Typography>
-                <Typography component="h1" color="secondary">
+                <Typography component="h1" className={classes.root}>
                   {item.peso} Kg
                 </Typography>
               </Grid>

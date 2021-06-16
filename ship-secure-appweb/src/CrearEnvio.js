@@ -29,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  colorLabel: {
+    color: "#7FA3B5",
+  },
+  colorTextCheckBox: {
+    color: "#FFFFFF",
+  },
+  colorDivider: {
+    background: "#E07D7E",
+  },
 }));
 
 const CrearEnvio = () => {
@@ -99,7 +108,7 @@ const CrearEnvio = () => {
                 >
                   DATOS DE CONTACTO
                 </Typography>
-                <Divider />
+                <Divider className={classes.colorDivider} />
               </Grid>
               <Grid item xs={6}>
                 <Typography
@@ -119,7 +128,7 @@ const CrearEnvio = () => {
                   type="nombres"
                   id="nombres"
                   name="nombres"
-                  color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("nombres", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -127,7 +136,6 @@ const CrearEnvio = () => {
                       message: "El nombre ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese nombres"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -154,6 +162,7 @@ const CrearEnvio = () => {
                   id="apellidos"
                   name="apellidos"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("apellidos", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -192,6 +201,7 @@ const CrearEnvio = () => {
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
+                    className: classes.colorLabel,
                   }}
                   {...register("fechaNacimiento", {
                     required: { value: true, message: "Campo requerido" },
@@ -227,6 +237,7 @@ const CrearEnvio = () => {
                   id="email"
                   name="email"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("email", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -252,7 +263,7 @@ const CrearEnvio = () => {
                 >
                   DATOS DE ENVÍO
                 </Typography>
-                <Divider />
+                <Divider className={classes.colorDivider} />
               </Grid>
 
               <Grid item xs={6}>
@@ -275,6 +286,7 @@ const CrearEnvio = () => {
                   id="direccion"
                   name="direccion"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("direccion", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -310,6 +322,7 @@ const CrearEnvio = () => {
                   id="piso"
                   name="piso"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("piso", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -346,6 +359,7 @@ const CrearEnvio = () => {
                   id="observaciones"
                   name="observaciones"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("observaciones", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -371,7 +385,7 @@ const CrearEnvio = () => {
                   component="body2"
                   variant="body2"
                   className={classes.props}
-                  color="secondary"
+                  className={classes.colorTextCheckBox}
                 >
                   Es envio programado?
                 </Typography>
@@ -398,6 +412,7 @@ const CrearEnvio = () => {
                   color="primary"
                   className={classes.textField}
                   InputLabelProps={{
+                    className: classes.colorLabel,
                     shrink: true,
                   }}
                   {...register("fechaEntrega", {
@@ -422,7 +437,7 @@ const CrearEnvio = () => {
                   className={classes.props}
                   color="primary"
                 >
-                  Fecha de entrega
+                  Hora de entrega
                 </Typography>
                 <TextFiled
                   variant="filled"
@@ -436,6 +451,7 @@ const CrearEnvio = () => {
                   color="primary"
                   className={classes.textField}
                   InputLabelProps={{
+                    className: classes.colorLabel,
                     shrink: true,
                   }}
                   {...register("horaEntrega", {
@@ -462,7 +478,7 @@ const CrearEnvio = () => {
                 >
                   DATOS DEL PEDIDO
                 </Typography>
-                <Divider />
+                <Divider className={classes.colorDivider} />
               </Grid>
 
               <Grid item xs={6}>
@@ -485,6 +501,7 @@ const CrearEnvio = () => {
                   id="peso"
                   name="peso"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("peso", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -508,7 +525,7 @@ const CrearEnvio = () => {
                   className={classes.props}
                   color="primary"
                 >
-                  Tenmperatura
+                  Temperatura
                 </Typography>
                 <TextFiled
                   variant="filled"
@@ -520,6 +537,7 @@ const CrearEnvio = () => {
                   id="Temperatura"
                   name="Temperatura"
                   color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
                   {...register("Temperatura", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -535,17 +553,15 @@ const CrearEnvio = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Confirmar envio
-              </Button>
             </Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Confirmar envío
+            </Button>
           </form>
         </div>
       </Container>
