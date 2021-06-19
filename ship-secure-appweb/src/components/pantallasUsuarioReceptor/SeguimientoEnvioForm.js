@@ -41,14 +41,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SeguimientoEnvioForm = (props) => {
-  const classes = useStyles(props);
+  const classes = useStyles();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  //const [nroSegPedido, setNroSegPedido] = useState([]);
   const [entradas, setentradas] = useState({
     nroSeg: "",
   });

@@ -28,7 +28,7 @@ const ListaMenuPPal = () => {
         <Divider />
 
         <Nav>
-          <NavLink to="/home" activeStyle>
+          <NavLink to="/home">
             <ListItem button>
               <ListItemIcon>
                 <HomeIcon />
@@ -39,7 +39,7 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/perfilUsuario" activeStyle>
+          <NavLink to="/perfilUsuario">
             <ListItem button>
               <ListItemIcon>
                 <AccountBoxIcon />
@@ -50,7 +50,7 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/seguimientoEnvio" activeStyle>
+          <NavLink to="/seguimientoEnvio">
             <ListItem button>
               <ListItemIcon>
                 <LocationOnIcon />
@@ -61,7 +61,7 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/historialEnvios" activeStyle>
+          <NavLink to="/historialEnvios">
             <ListItem button>
               <ListItemIcon>
                 <AssignmentIcon />
@@ -72,7 +72,7 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/beneficios" activeStyle>
+          <NavLink to="/beneficios">
             <ListItem button>
               <ListItemIcon>
                 <LabelIcon />

@@ -12,7 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import { db } from "./components/firebase";
 import "firebase/firestore";
-
+import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,11 +65,14 @@ function getModalStyle() {
 
 const CrearEnvio = () => {
   /*BASE DE DATOS */
-
-  const entityRef = db.collection("envios");
+  const history = useHistory();
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
+
+  const redirect = (view) => {
+    history.push(view);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -77,6 +80,7 @@ const CrearEnvio = () => {
 
   const handleClose = () => {
     setOpen(false);
+    redirect("/home");
   };
 
   const [datos, setDatos] = useState({
@@ -106,7 +110,7 @@ const CrearEnvio = () => {
   };
 
   const addEnvio = () => {
-    entityRef.doc(datos.codEnvio).set({
+    db.collection("envios").doc(datos.codEnvio).set({
       id: datos.codEnvio,
       nombres: datos.nombres,
       apellidos: datos.apellidos,
@@ -187,7 +191,6 @@ const CrearEnvio = () => {
               </Grid>
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -221,7 +224,6 @@ const CrearEnvio = () => {
               </Grid>
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -258,7 +260,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -298,7 +299,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -347,7 +347,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -385,7 +384,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -422,7 +420,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={12}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -464,10 +461,8 @@ const CrearEnvio = () => {
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />
                 <Typography
-                  component="body2"
                   variant="body2"
-                  className={classes.props}
-                  className={classes.colorTextCheckBox}
+                  className={(classes.props, classes.colorTextCheckBox)}
                 >
                   Es envio programado?
                 </Typography>
@@ -475,7 +470,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -515,7 +509,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -567,7 +560,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -605,7 +597,6 @@ const CrearEnvio = () => {
 
               <Grid item xs={6}>
                 <Typography
-                  component="body2"
                   variant="body2"
                   className={classes.props}
                   color="primary"
@@ -639,19 +630,24 @@ const CrearEnvio = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
+              <Grid item xs={4}>
+                {" "}
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => {
+                    addEnvio();
+                    handleOpen();
+                  }}
+                >
+                  Confirmar envío
+                </Button>
+              </Grid>
             </Grid>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={() => {
-                addEnvio();
-                handleOpen();
-              }}
-            >
-              Confirmar envío
-            </Button>
 
             <Modal
               open={open}

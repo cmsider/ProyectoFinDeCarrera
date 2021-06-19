@@ -25,37 +25,20 @@ const useStyles = makeStyles((theme) => ({
   colorDivider: {
     background: "#E07D7E",
   },
-  props: {
-    MuiTypography: {
-      variantMapping: {
-        h1: "h1",
-        h2: "h2",
-        h3: "h3",
-        h4: "h4",
-        h5: "h5",
-        h6: "h6",
-        subtitle1: "h2",
-        subtitle2: "h2",
-        body1: "span",
-        body2: "span",
-      },
-    },
-  },
 }));
 
 export const Pedido = (props) => {
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   const [pedido, setPedido] = useState([]);
   //const pedidoID = props.entradas.nroSeg;
   const { state } = props.location;
   const pedidoID = state;
   console.log(props.location);
-  const entityRef = db.collection("envios");
 
   useEffect(() => {
     if (pedidoID) {
-      entityRef
+      db.collection("envios")
         .doc("/" + pedidoID)
         .get()
         .then((querySnapshot) => {
@@ -76,91 +59,88 @@ export const Pedido = (props) => {
       <div className={classes.paper}>
         <form className={classes.form}>
           {pedido.map((item) => (
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <Typography
-                  component="h6"
-                  variant="h6"
-                  className={classes.props}
-                  className={classes.colorTitulo}
-                >
-                  Código de envio
-                </Typography>
-                <Typography
-                  component="h4"
-                  variant="h4"
-                  className={classes.props}
-                  color="primary"
-                  display="inline"
-                >
-                  {item.key}
-                  <Divider className={classes.colorDivider} />
-                </Typography>
-              </Grid>
+            <li key={item}>
+              <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h6"
+                    className={(classes.props, classes.colorTitulo)}
+                  >
+                    Código de envio
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    className={classes.props}
+                    color="primary"
+                    display="inline"
+                  >
+                    {item.key}
+                    <Divider className={classes.colorDivider} />
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Dirección
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.direccion}
-                </Typography>
-              </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Dirección
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.direccion}
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Piso/Depto
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.piso}
-                </Typography>
-              </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Piso/Depto
+                  </Typography>
+                  <Typography className={classes.root}>{item.piso}</Typography>
+                </Grid>
 
-              <Grid item xs={12}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Observaciones
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.observaciones}
-                </Typography>
-              </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h5" color="primary">
+                    Observaciones
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.observaciones}
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Fecha de entrega
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.fechaEntrega}
-                </Typography>
-              </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Fecha de entrega
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.fechaEntrega}
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Hora estimada
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.horaEntrega}
-                </Typography>
-              </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Hora estimada
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.horaEntrega}
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Temperatura
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.temperatura}ºC
-                </Typography>
-              </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Temperatura
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.temperatura}ºC
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={6}>
-                <Typography component="h5" variant="h5" color="primary">
-                  Peso
-                </Typography>
-                <Typography component="h1" className={classes.root}>
-                  {item.peso} Kg
-                </Typography>
+                <Grid item xs={6}>
+                  <Typography variant="h5" color="primary">
+                    Peso
+                  </Typography>
+                  <Typography className={classes.root}>
+                    {item.peso} Kg
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
+            </li>
           ))}
         </form>
       </div>

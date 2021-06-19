@@ -3,6 +3,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import NavLinks from "./components/menuNavegacion/NavLinks";
 import CrearEnvio from "./CrearEnvio";
+import Home from "./components/pantallasUsuarioReceptor/Home";
 
 import theme from "./temaConfig";
 const App = () => {
@@ -20,7 +21,13 @@ const App = () => {
               <NavLink exact to="/CrearEnvio"></NavLink>
             </span>
           </div>
+          <div className="routing-settings">
+            <span key="home">
+              <NavLink exact to="/Home"></NavLink>
+            </span>
+          </div>
           <>
+            <Route exact path="/Home" component={Home} />
             <Route exact path="/" component={NavLinks} />
             <Route exact path="/CrearEnvio" component={CrearEnvio} />
           </>
