@@ -10,6 +10,10 @@ import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
+import { db } from "./components/firebase";
+import "firebase/firestore";
+
+import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -17,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  paper2: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
   avatar: {
     margin: theme.spacing(3),
@@ -40,7 +52,85 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
 const CrearEnvio = () => {
+  /*BASE DE DATOS */
+
+  const entityRef = db.collection("envios");
+
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [datos, setDatos] = useState({
+    nombres: "",
+    apellidos: "",
+    fechaNacimiento: "",
+    email: "",
+    direccion: "",
+    piso: "",
+    observaciones: "",
+    fechaEntrega: "",
+    horaEntrega: "",
+    peso: "",
+    temperatura: "",
+    codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
+  });
+
+  const handleInputChange = (event) => {
+    setDatos({
+      ...datos,
+      [event.target.name]: event.target.value,
+    });
+    console.log(event.target.value);
+  };
+  const enviarDatos = (event) => {
+    event.preventDefault();
+  };
+
+  const addEnvio = () => {
+    entityRef.doc(datos.codEnvio).set({
+      id: datos.codEnvio,
+      nombres: datos.nombres,
+      apellidos: datos.apellidos,
+      fechaNacimiento: datos.fechaNacimiento,
+      email: datos.email,
+      direccion: datos.direccion,
+      piso: datos.piso,
+      localidad: "",
+      codigoPostal: "",
+      provincia: "",
+      observaciones: datos.observaciones,
+      fechaEntrega: datos.fechaEntrega,
+      horaEntrega: datos.horaEntrega,
+      peso: datos.peso,
+      temperatura: datos.temperatura,
+
+      //estos campos seran necesarios luego para asignar un repartidor, una smartbox
+      usuarioCreado: false,
+      idSmartBox: "",
+      idRepartidor: "",
+    });
+    console.log(datos.codEnvio);
+  };
+
   const classes = useStyles();
 
   const {
@@ -48,27 +138,6 @@ const CrearEnvio = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  /*
-  const [entradas, setentradas] = useState({
-    nombre: "",
-    email: "",
-    observaciones: "",
-    subject: "",
-  });
-
-  const procesarFormulario = (data, e) => {
-    console.log(data);
-    setentradas(data);
-    e.target.reset();
-  };
-
-  const [buttonClicked, setButtonClicked] = useState(false);
-
-  const handleButtonClick = () => {
-    setButtonClicked(true);
-  };
-*/
-  /*ENVIO DE MAIL*/
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -97,7 +166,13 @@ const CrearEnvio = () => {
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
-          <form onSubmit={sendEmail} className={classes.form}>
+          <form
+            className={classes.form}
+            onSubmit={(e) => {
+              sendEmail(e);
+              handleSubmit(enviarDatos);
+            }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography
@@ -129,6 +204,7 @@ const CrearEnvio = () => {
                   id="nombres"
                   name="nombres"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("nombres", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -163,6 +239,7 @@ const CrearEnvio = () => {
                   name="apellidos"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("apellidos", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -203,6 +280,7 @@ const CrearEnvio = () => {
                     shrink: true,
                     className: classes.colorLabel,
                   }}
+                  onChangeCapture={handleInputChange}
                   {...register("fechaNacimiento", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -238,6 +316,7 @@ const CrearEnvio = () => {
                   name="email"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("email", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -287,6 +366,7 @@ const CrearEnvio = () => {
                   name="direccion"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("direccion", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -323,6 +403,7 @@ const CrearEnvio = () => {
                   name="piso"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("piso", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -360,6 +441,7 @@ const CrearEnvio = () => {
                   name="observaciones"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("observaciones", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -415,6 +497,7 @@ const CrearEnvio = () => {
                     className: classes.colorLabel,
                     shrink: true,
                   }}
+                  onChangeCapture={handleInputChange}
                   {...register("fechaEntrega", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -454,6 +537,7 @@ const CrearEnvio = () => {
                     className: classes.colorLabel,
                     shrink: true,
                   }}
+                  onChangeCapture={handleInputChange}
                   {...register("horaEntrega", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -502,6 +586,7 @@ const CrearEnvio = () => {
                   name="peso"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  onChangeCapture={handleInputChange}
                   {...register("peso", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -533,12 +618,13 @@ const CrearEnvio = () => {
                   required
                   fullWidth
                   label="Ingrese temperatura "
-                  type="Temperatura"
-                  id="Temperatura"
-                  name="Temperatura"
+                  type="temperatura"
+                  id="temperatura"
+                  name="temperatura"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
-                  {...register("Temperatura", {
+                  onChangeCapture={handleInputChange}
+                  {...register("temperatura", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
                       value: 1,
@@ -559,9 +645,27 @@ const CrearEnvio = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={() => {
+                addEnvio();
+                handleOpen();
+              }}
             >
               Confirmar envío
             </Button>
+
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              <div style={modalStyle} className={classes.paper2}>
+                <h2 id="simple-modal-title">Envio creado</h2>
+                <p id="simple-modal-description">
+                  Envio creado satisfactoriamente!
+                </p>
+              </div>
+            </Modal>
           </form>
         </div>
       </Container>
@@ -569,3 +673,17 @@ const CrearEnvio = () => {
   );
 };
 export default CrearEnvio;
+
+/*
+              onClick={addEnvio}
+
+      .sendForm(
+        "shipSecure_service",
+        "template_x2s995n",
+        e.target,
+        "user_JYv6ZEZaGzGODUvHJ9tRm"
+      )
+onSubmit={(e) => {
+              sendEmail(e);
+              handleSubmit(enviarDatos);
+            }}*/
