@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   colorLabel: {
     color: "#7FA3B5",
   },
-  colorTextCheckBox: {
+  colorText: {
     color: "#FFFFFF",
   },
   colorDivider: {
@@ -207,6 +207,7 @@ const CrearEnvio = () => {
                   id="nombres"
                   name="nombres"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("nombres", {
                     required: { value: true, message: "Campo requerido" },
@@ -241,6 +242,8 @@ const CrearEnvio = () => {
                   name="apellidos"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
+                  SelectProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("apellidos", {
                     required: { value: true, message: "Campo requerido" },
@@ -281,6 +284,7 @@ const CrearEnvio = () => {
                     shrink: true,
                     className: classes.colorLabel,
                   }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("fechaNacimiento", {
                     required: { value: true, message: "Campo requerido" },
@@ -316,6 +320,7 @@ const CrearEnvio = () => {
                   name="email"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("email", {
                     required: { value: true, message: "Campo requerido" },
@@ -365,6 +370,7 @@ const CrearEnvio = () => {
                   name="direccion"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("direccion", {
                     required: { value: true, message: "Campo requerido" },
@@ -401,6 +407,7 @@ const CrearEnvio = () => {
                   name="piso"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("piso", {
                     required: { value: true, message: "Campo requerido" },
@@ -438,6 +445,7 @@ const CrearEnvio = () => {
                   name="observaciones"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("observaciones", {
                     required: { value: true, message: "Campo requerido" },
@@ -462,7 +470,7 @@ const CrearEnvio = () => {
                 />
                 <Typography
                   variant="body2"
-                  className={(classes.props, classes.colorTextCheckBox)}
+                  className={(classes.props, classes.colorText)}
                 >
                   Es envio programado?
                 </Typography>
@@ -491,6 +499,8 @@ const CrearEnvio = () => {
                     className: classes.colorLabel,
                     shrink: true,
                   }}
+                  FormHelperTextProps={{ className: classes.colorText }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("fechaEntrega", {
                     required: { value: true, message: "Campo requerido" },
@@ -530,6 +540,7 @@ const CrearEnvio = () => {
                     className: classes.colorLabel,
                     shrink: true,
                   }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("horaEntrega", {
                     required: { value: true, message: "Campo requerido" },
@@ -578,6 +589,7 @@ const CrearEnvio = () => {
                   name="peso"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("peso", {
                     required: { value: true, message: "Campo requerido" },
@@ -614,6 +626,7 @@ const CrearEnvio = () => {
                   name="temperatura"
                   color="primary"
                   InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
                   {...register("temperatura", {
                     required: { value: true, message: "Campo requerido" },
