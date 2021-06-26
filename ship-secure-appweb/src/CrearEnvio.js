@@ -50,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
   colorDivider: {
     background: "#E07D7E",
   },
+  colorFondo: {
+    background: "#003648",
+    backgroundColor: "#003648",
+    border: "#003648",
+  },
 }));
 
 function getModalStyle() {
@@ -140,6 +145,7 @@ const CrearEnvio = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -644,8 +650,16 @@ const CrearEnvio = () => {
                 </span>
               </Grid>
               <Grid item xs={4}>
-                {" "}
+                <input
+                  size="1"
+                  maxlength="1"
+                  type="text"
+                  className={classes.colorFondo}
+                  {...register("codEnvio")}
+                  readOnly="readOnly"
+                />
               </Grid>
+
               <Grid item xs={4}>
                 <Button
                   type="submit"
@@ -653,6 +667,7 @@ const CrearEnvio = () => {
                   color="primary"
                   className={classes.submit}
                   onClick={() => {
+                    setValue("codEnvio", datos.codEnvio);
                     addEnvio();
                     handleOpen();
                   }}
@@ -670,9 +685,7 @@ const CrearEnvio = () => {
             >
               <div style={modalStyle} className={classes.paper2}>
                 <h2 id="simple-modal-title">Envio creado</h2>
-                <p id="simple-modal-description">
-                  Envio creado satisfactoriamente!
-                </p>
+                <p>{datos.codEnvio}</p>
               </div>
             </Modal>
           </form>
