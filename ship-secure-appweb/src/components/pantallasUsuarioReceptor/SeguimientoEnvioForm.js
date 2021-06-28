@@ -94,6 +94,7 @@ const SeguimientoEnvioForm = (props) => {
               id="nroSeg"
               name="nroSeg"
               className={classes.colorTextField}
+              inputProps={{ className: classes.colorTitulo }}
               InputLabelProps={{ className: classes.colorTitulo }}
               {...register("nroSeg", {
                 required: { value: true, message: "Campo requerido" },

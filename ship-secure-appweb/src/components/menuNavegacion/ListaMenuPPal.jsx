@@ -13,6 +13,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import LabelIcon from "@material-ui/icons/Label";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink, Nav } from "./stylesNavLink";
+import EditLocationIcon from "@material-ui/icons/EditLocation";
 
 const ListaMenuPPal = () => {
   return (
