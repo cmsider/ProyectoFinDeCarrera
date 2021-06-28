@@ -14,8 +14,10 @@ import { useHistory } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextFiled from "@material-ui/core/TextField";
 import { useForm } from "react-hook-form";
+import { Info } from "@material-ui/icons";
 
 import Modal from "@material-ui/core/Modal";
+import { Icon } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,11 +42,21 @@ const useStyles = makeStyles((theme) => ({
   colorDivider: {
     background: "#E07D7E",
   },
+  colorIcon: {
+    color:"#E07D7E",
+    marginTop:"5px",
+    marginLeft:"20px",
+  },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, -1),
   },
   colorText: {
     color: "#FFFFFF",
+    margin: theme.spacing(-1, 0, 0),
+  },
+  colorOption: {
+    color: "#FFFFFF",
+    margin: theme.spacing(1, 0, 1),
   },
 }));
 
@@ -220,13 +232,13 @@ export const Pedido = (props) => {
               aria-describedby="simple-modal-description"
             >
               <div style={modalStyle} className={classes.paper2}>
-                <h2 id="simple-modal-title">Reprogramar Envío</h2>
+                <h4 id="simple-modal-title" className={(classes.props, classes.colorOption)}>Reprogramar Envío</h4>
                 <p>
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Typography
                         variant="body2"
-                        className={(classes.props, classes.colorText)}
+                        className={(classes.props, classes.colorOption)}
                       >
                         Quieres cambiar la dirección?
                       </Typography>
@@ -244,11 +256,9 @@ export const Pedido = (props) => {
                         Nueva Dirección
                       </Typography>
                       <Typography className={classes.root}>{pedido.direccion}</Typography>
-                      CRIS TUVE QUE SACAR LA VALIDACION DE DATOS REQUERIDOS PORQUE SE ROMPIA CON handleInputChange.
-                      Hay que verlo
                       <TextFiled
                         variant="filled"
-                        margin="normal"
+                        margin="dense"
                         required
                         fullWidth
                         label="Ingrese nueva dirección"
@@ -258,7 +268,6 @@ export const Pedido = (props) => {
                         color="primary"
                         InputLabelProps={{ className: classes.colorLabel }}
                         inputProps={{ className: classes.colorText }}
-                        placeholder="Ingrese direccion"
                       ></TextFiled>
 
                     </Grid>
@@ -268,33 +277,87 @@ export const Pedido = (props) => {
                         Piso/Depto
                       </Typography>
                       <Typography className={classes.root}>{pedido.piso}</Typography>
+                      <TextFiled
+                      variant="filled"
+                      margin="dense"
+                      required
+                      fullWidth
+                      label="Ingrese piso/departamento"
+                      type="piso"
+                     id="piso"
+                     name="piso"
+                      color="primary"
+                      InputLabelProps={{ className: classes.colorLabel }}
+                      inputProps={{ className: classes.colorText }}
+                     ></TextFiled>
                     </Grid>
+
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
                         Localidad
                       </Typography>
-                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      <Typography className={classes.root}>{pedido.piso}</Typography>
+                      <TextFiled
+                      variant="filled"
+                      margin="dense"
+                      required
+                      fullWidth
+                      label="Ingrese localidad"
+                      type="localidad"
+                     id="localidad"
+                     name="localidad"
+                      color="primary"
+                      InputLabelProps={{ className: classes.colorLabel }}
+                      inputProps={{ className: classes.colorText }}
+                     ></TextFiled>
                     </Grid>
+
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
                         Código Postal
                       </Typography>
                       <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      <TextFiled
+                      variant="filled"
+                      margin="dense"
+                      required
+                      fullWidth
+                      label="Ingrese código postal"
+                      type="CP"
+                      id="CP"
+                      name="CP"
+                      color="primary"
+                      InputLabelProps={{ className: classes.colorLabel }}
+                      inputProps={{ className: classes.colorText }}
+                      ></TextFiled>
                     </Grid>
-                    <Grid item xs={12}>
+                  </Grid>
+
+                  <Grid item xs={30}>
                       <Typography variant="h7" color="primary">
                         Observaciones
                       </Typography>
-                      <Typography className={classes.root}>
-                        {pedido.observaciones}
-                      </Typography>
+                      <Typography className={classes.root}>{pedido.piso}</Typography>
+                      <TextFiled
+                      variant="filled"
+                      margin="dense"
+                      required
+                      fullWidth
+                      label=""
+                      type="observaciones"
+                     id="observaciones"
+                     name="observaciones"
+                      color="primary"
+                      InputLabelProps={{ className: classes.colorLabel }}
+                      inputProps={{ className: classes.colorText }}
+                     ></TextFiled>
                     </Grid>
-                  </Grid>
+
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Typography
                         variant="body2"
-                        className={(classes.props, classes.colorText)}
+                        className={(classes.props, classes.colorOption)}
                       >
                         Quieres cambiar el horario?
                       </Typography>
@@ -314,10 +377,9 @@ export const Pedido = (props) => {
                       <Typography className={classes.root}>{pedido.direccion}</Typography>
                       <TextFiled
                         variant="filled"
-                        margin="normal"
+                        margin="dense"
                         required
                         fullWidth
-                        label="Ingrese nueva fecha de entrega"
                         type="date"
                         id="fechaEntrega"
                         name="fechaEntrega"
@@ -340,10 +402,9 @@ export const Pedido = (props) => {
                       <Typography className={classes.root}>{pedido.piso}</Typography>
                       <TextFiled
                         variant="filled"
-                        margin="normal"
+                        margin="dense"
                         required
                         fullWidth
-                        label="Ingrese nueva hora de entrega"
                         type="time"
                         id="horaEntrega"
                         name="horaEntrega"
@@ -358,6 +419,32 @@ export const Pedido = (props) => {
                       ></TextFiled>
                     </Grid>
                   </Grid>
+                  <Grid container spacing={2}>
+                  <Grid item xs={1}>
+                      <Info className={(classes.props, classes.colorIcon)}></Info>
+                    </Grid>
+                    <Grid item xs={10}>
+
+                  <small className={(classes.props, classes.colorOption)}>  
+                  
+                        Una vez que se evien los datos para reprogramar el envío, se notificará automáticamente al repartidor y le llegará a su cuenta de mail el comprobante con el detalle y costo adicional del envío.
+                    
+                      </small>
+                      </Grid>  
+                      </Grid> 
+                  <Grid item xs={25} align="center">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => {
+                    handleOpen();
+                  }}
+                >
+                  Enviar
+                </Button>
+              </Grid>
                 </p>
               </div>
             </Modal>
