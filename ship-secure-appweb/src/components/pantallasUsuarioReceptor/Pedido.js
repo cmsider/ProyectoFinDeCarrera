@@ -11,6 +11,9 @@ import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import EditLocationIcon from "@material-ui/icons/EditLocation";
 import { useHistory } from "react-router-dom";
+import Checkbox from "@material-ui/core/Checkbox";
+import TextFiled from "@material-ui/core/TextField";
+import { useForm } from "react-hook-form";
 
 import Modal from "@material-ui/core/Modal";
 
@@ -23,10 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper2: {
     position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
+    width: 700,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
   },
   root: {
@@ -41,7 +43,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  colorText: {
+    color: "#FFFFFF",
+  },
 }));
+
 
 function getModalStyle() {
   const top = 50;
@@ -86,7 +92,7 @@ export const Pedido = (props) => {
   const handleClose = () => {
     setOpen(false);
 
-    redirect("/home");
+    redirect("/pedido");
   };
 
   const listItems = pedido.map((pedido, index) => (
@@ -185,42 +191,181 @@ export const Pedido = (props) => {
   }, [pedidoID]);
 
   return (
-    <Container component="main" maxWidth="sm">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <form className={classes.form}>
-          <ul>
-            {listItems}
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                fullWidth
-                onClick={handleOpen}
-              >
-                <EditLocationIcon />
-                Reprogramar
-              </Button>
-            </Grid>
-          </ul>
+    <div>
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <form className={classes.form}>
+            <ul>
+              {listItems}
+              <Grid item xs={12}>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  fullWidth
+                  onClick={handleOpen}
+                >
+                  <EditLocationIcon />
+                  Reprogramar
+                </Button>
+              </Grid>
+            </ul>
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <div style={modalStyle} className={classes.paper2}>
-              <h2 id="simple-modal-title">Envio creado</h2>
-              <p>asdas</p>
-            </div>
-          </Modal>
-        </form>
-      </div>
-      <Box mt={8}></Box>
-    </Container>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              <div style={modalStyle} className={classes.paper2}>
+                <h2 id="simple-modal-title">Reprogramar Envío</h2>
+                <p>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorText)}
+                      >
+                        Quieres cambiar la dirección?
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Checkbox
+                        color="primary"
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Nueva Dirección
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      CRIS TUVE QUE SACAR LA VALIDACION DE DATOS REQUERIDOS PORQUE SE ROMPIA CON handleInputChange.
+                      Hay que verlo
+                      <TextFiled
+                        variant="filled"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Ingrese nueva dirección"
+                        type="direccion"
+                        id="direccion"
+                        name="direccion"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                        placeholder="Ingrese direccion"
+                      ></TextFiled>
+
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Piso/Depto
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.piso}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Localidad
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Código Postal
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h7" color="primary">
+                        Observaciones
+                      </Typography>
+                      <Typography className={classes.root}>
+                        {pedido.observaciones}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorText)}
+                      >
+                        Quieres cambiar el horario?
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Checkbox
+                        color="primary"
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Nueva Fecha
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Ingrese nueva fecha de entrega"
+                        type="date"
+                        id="fechaEntrega"
+                        name="fechaEntrega"
+                        color="primary"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
+                        FormHelperTextProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText }}
+
+                      ></TextFiled>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="h7" color="primary">
+                        Nueva Hora
+                      </Typography>
+                      <Typography className={classes.root}>{pedido.piso}</Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Ingrese nueva hora de entrega"
+                        type="time"
+                        id="horaEntrega"
+                        name="horaEntrega"
+                        color="primary"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
+                        inputProps={{ className: classes.colorText }}
+
+                      ></TextFiled>
+                    </Grid>
+                  </Grid>
+                </p>
+              </div>
+            </Modal>
+          </form>
+        </div>
+        <Box mt={8}></Box>
+      </Container>
+    </div>
   );
 };
 
