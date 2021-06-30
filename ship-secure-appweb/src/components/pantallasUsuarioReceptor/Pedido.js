@@ -111,7 +111,7 @@ export const Pedido = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.props} color="primary">
-            CÃ³digo de envio
+            Código de envio
           </Typography>
           <Typography
             variant="h4"
@@ -168,7 +168,7 @@ export const Pedido = (props) => {
             Temperatura
           </Typography>
           <Typography className={classes.root}>
-            {pedido.temperatura}ÂºC
+            {pedido.temperatura}ºC
           </Typography>
         </Grid>
 
@@ -177,6 +177,19 @@ export const Pedido = (props) => {
             Peso
           </Typography>
           <Typography className={classes.root}>{pedido.peso} Kg</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            fullWidth
+            onClick={handleOpen}
+          >
+            <EditLocationIcon />
+            Reprogramar
+          </Button>
         </Grid>
       </Grid>
     </li>
@@ -207,22 +220,7 @@ export const Pedido = (props) => {
         <CssBaseline />
         <div className={classes.paper}>
           <form className={classes.form}>
-            <ul>
-              {listItems}
-              <Grid item xs={12}>
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  fullWidth
-                  onClick={handleOpen}
-                >
-                  <EditLocationIcon />
-                  Reprogramar
-                </Button>
-              </Grid>
-            </ul>
+            <ul>{listItems}</ul>
 
             <Modal
               open={open}
@@ -235,7 +233,7 @@ export const Pedido = (props) => {
                   id="simple-modal-title"
                   className={(classes.props, classes.colorOption)}
                 >
-                  Reprogramar EnvÃ­o
+                  Reprogramar Enví­o
                 </h4>
                 <p>
                   <Grid container spacing={2}>
@@ -244,7 +242,7 @@ export const Pedido = (props) => {
                         variant="body2"
                         className={(classes.props, classes.colorOption)}
                       >
-                        Quieres cambiar la direcciÃ³n?
+                        Quieres cambiar la dirección?
                       </Typography>
                     </Grid>
                     <Grid item xs={1}>
@@ -257,7 +255,7 @@ export const Pedido = (props) => {
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
-                        Nueva DirecciÃ³n
+                        Nueva Dirección
                       </Typography>
                       <Typography className={classes.root}>
                         {pedido.direccion}
@@ -323,7 +321,7 @@ export const Pedido = (props) => {
 
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
-                        CÃ³digo Postal
+                        Código Postal
                       </Typography>
                       <Typography className={classes.root}>
                         {pedido.direccion}
@@ -333,7 +331,7 @@ export const Pedido = (props) => {
                         margin="dense"
                         required
                         fullWidth
-                        label="Ingrese cÃ³digo postal"
+                        label="Ingrese código postal"
                         type="CP"
                         id="CP"
                         name="CP"
@@ -442,10 +440,10 @@ export const Pedido = (props) => {
                     </Grid>
                     <Grid item xs={10}>
                       <small className={(classes.props, classes.colorOption)}>
-                        Una vez que se evien los datos para reprogramar el
-                        envÃ­o, se notificarÃ¡ automÃ¡ticamente al repartidor y
-                        le llegarÃ¡ a su cuenta de mail el comprobante con el
-                        detalle y costo adicional del envÃ­o.
+                        Una vez que se envien los datos para reprogramar el
+                        envío, se notificará¡ automáticamente al repartidor y le
+                        llegará¡ a su cuenta de mail el comprobante con el
+                        detalle y costo adicional del enví­o.
                       </small>
                     </Grid>
                   </Grid>
