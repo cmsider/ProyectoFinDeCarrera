@@ -14,6 +14,7 @@ import { db } from "./components/firebase";
 import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
+import { Alert } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -103,6 +104,8 @@ const CrearEnvio = () => {
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
   });
 
+  const [validacionTrue, setValidacionTrue] = useState(false);
+
   const handleInputChange = (event) => {
     setDatos({
       ...datos,
@@ -111,7 +114,8 @@ const CrearEnvio = () => {
     console.log(event.target.value);
   };
   const enviarDatos = (event) => {
-    event.preventDefault();
+    //  event.preventDefault();
+    //event.target.reset();
   };
 
   const addEnvio = () => {
@@ -144,13 +148,35 @@ const CrearEnvio = () => {
 
   const {
     register,
-    handleSubmit,
-    setValue,
+    // handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
-  const sendEmail = (e) => {
+  const handleSubmit = (e) => {
+    // HERE: you always want to prevent default, so do this first
     e.preventDefault();
+    if (!isFormValid()) {
+      //message of error in the screen, maybe sweet alerts
+      alert("Faltan campos por llenar");
+      console.log("falta algo");
+    } else {
+      addEnvio();
+      handleOpen();
+      sendEmail(e);
+    }
+  };
+
+  const isFormValid = () => {
+    if (!datos.nombres || !datos.email || !datos.direccion) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const sendEmail = (e) => {
+    //  e.preventDefault();
 
     emailjs
       .sendForm(
@@ -167,7 +193,7 @@ const CrearEnvio = () => {
           console.log(error.text);
         }
       );
-    e.target.reset();
+    //e.target.reset();
   };
   /* */
 
@@ -176,13 +202,7 @@ const CrearEnvio = () => {
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
-          <form
-            className={classes.form}
-            onSubmit={(e) => {
-              sendEmail(e);
-              handleSubmit(enviarDatos);
-            }}
-          >
+          <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography
@@ -206,20 +226,21 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese nombres"
-                  type="nombres"
+                  type="string"
                   id="nombres"
                   name="nombres"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
+                  error={!!errors.nombres}
                   {...register("nombres", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
-                      value: 1,
-                      message: "El nombre ingresado no es valido",
+                      value: 2,
+                      message: "El nombre ingresado es demasiado corto",
                     },
                   })}
                 ></TextFiled>
@@ -240,13 +261,13 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese apellidos"
                   type="apellidos"
                   id="apellidos"
                   name="apellidos"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   SelectProps={{ className: classes.colorText }}
@@ -254,16 +275,15 @@ const CrearEnvio = () => {
                   {...register("apellidos", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
-                      value: 1,
+                      value: 2,
                       message: "El apellidos ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese apellidos"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
                   {errors?.apellidos?.message}
-                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                  {/*si da error en el nombre muestra el mensaje de error en nombre*/}
                 </span>
               </Grid>
 
@@ -278,7 +298,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese fecha de nacimiento"
                   type="date"
@@ -318,7 +337,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese correo electrónico"
                   type="email"
@@ -335,7 +353,6 @@ const CrearEnvio = () => {
                       message: "El nombre ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese correo electronico"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -368,7 +385,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese dirección"
                   type="direccion"
@@ -385,7 +401,6 @@ const CrearEnvio = () => {
                       message: "El nombre ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese direccion"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -405,7 +420,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese piso/departamento"
                   type="piso"
@@ -422,7 +436,6 @@ const CrearEnvio = () => {
                       message: "El piso ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese piso"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -443,7 +456,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Observaciones"
                   type="observaciones"
@@ -460,7 +472,6 @@ const CrearEnvio = () => {
                       message: "Las observaciones ingresadas no son validas",
                     },
                   })}
-                  placeholder="Ingrese observaciones "
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -493,7 +504,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese fecha de Entrega"
                   type="date"
@@ -534,7 +544,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese hora de entrega"
                   type="time"
@@ -587,7 +596,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese peso"
                   type="peso"
@@ -604,7 +612,6 @@ const CrearEnvio = () => {
                       message: "El peso ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese peso"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -624,7 +631,6 @@ const CrearEnvio = () => {
                 <TextFiled
                   variant="filled"
                   margin="normal"
-                  required
                   fullWidth
                   label="Ingrese temperatura "
                   type="temperatura"
@@ -641,7 +647,6 @@ const CrearEnvio = () => {
                       message: "El piso ingresado no es valido",
                     },
                   })}
-                  placeholder="Ingrese Temperatura"
                 ></TextFiled>
 
                 <span className="text-danger text-small d-block mb-2">
@@ -652,7 +657,7 @@ const CrearEnvio = () => {
               <Grid item xs={4}>
                 <input
                   size="1"
-                  maxlength="1"
+                  maxLength="1"
                   type="text"
                   className={classes.colorFondo}
                   {...register("codEnvio")}
@@ -667,9 +672,9 @@ const CrearEnvio = () => {
                   color="primary"
                   className={classes.submit}
                   onClick={() => {
+                    console.log("onclick");
+
                     setValue("codEnvio", datos.codEnvio);
-                    addEnvio();
-                    handleOpen();
                   }}
                 >
                   Confirmar envío
@@ -709,3 +714,4 @@ onSubmit={(e) => {
               sendEmail(e);
               handleSubmit(enviarDatos);
             }}*/
+/*  onSubmit={(e) => handleSubmit(e)} */

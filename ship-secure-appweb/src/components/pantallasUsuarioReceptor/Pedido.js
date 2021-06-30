@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -255,7 +254,11 @@ export const Pedido = (props) => {
                       <Typography variant="h7" color="primary">
                         Nueva Dirección
                       </Typography>
-                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      <Typography className={classes.root}>
+                        {pedido.direccion}
+                      </Typography>
+                      CRIS TUVE QUE SACAR LA VALIDACION DE DATOS REQUERIDOS
+                      PORQUE SE ROMPIA CON handleInputChange. Hay que verlo
                       <TextFiled
                         variant="filled"
                         margin="dense"
@@ -269,67 +272,33 @@ export const Pedido = (props) => {
                         InputLabelProps={{ className: classes.colorLabel }}
                         inputProps={{ className: classes.colorText }}
                       ></TextFiled>
-
                     </Grid>
 
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
                         Piso/Depto
                       </Typography>
-                      <Typography className={classes.root}>{pedido.piso}</Typography>
-                      <TextFiled
-                      variant="filled"
-                      margin="dense"
-                      required
-                      fullWidth
-                      label="Ingrese piso/departamento"
-                      type="piso"
-                     id="piso"
-                     name="piso"
-                      color="primary"
-                      InputLabelProps={{ className: classes.colorLabel }}
-                      inputProps={{ className: classes.colorText }}
-                     ></TextFiled>
+                      <Typography className={classes.root}>
+                        {pedido.piso}
+                      </Typography>
                     </Grid>
 
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
                         Localidad
                       </Typography>
-                      <Typography className={classes.root}>{pedido.piso}</Typography>
-                      <TextFiled
-                      variant="filled"
-                      margin="dense"
-                      required
-                      fullWidth
-                      label="Ingrese localidad"
-                      type="localidad"
-                     id="localidad"
-                     name="localidad"
-                      color="primary"
-                      InputLabelProps={{ className: classes.colorLabel }}
-                      inputProps={{ className: classes.colorText }}
-                     ></TextFiled>
+                      <Typography className={classes.root}>
+                        {pedido.direccion}
+                      </Typography>
                     </Grid>
 
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
                         Código Postal
                       </Typography>
-                      <Typography className={classes.root}>{pedido.direccion}</Typography>
-                      <TextFiled
-                      variant="filled"
-                      margin="dense"
-                      required
-                      fullWidth
-                      label="Ingrese código postal"
-                      type="CP"
-                      id="CP"
-                      name="CP"
-                      color="primary"
-                      InputLabelProps={{ className: classes.colorLabel }}
-                      inputProps={{ className: classes.colorText }}
-                      ></TextFiled>
+                      <Typography className={classes.root}>
+                        {pedido.direccion}
+                      </Typography>
                     </Grid>
                   </Grid>
 
@@ -374,7 +343,9 @@ export const Pedido = (props) => {
                       <Typography variant="h7" color="primary">
                         Nueva Fecha
                       </Typography>
-                      <Typography className={classes.root}>{pedido.direccion}</Typography>
+                      <Typography className={classes.root}>
+                        {pedido.direccion}
+                      </Typography>
                       <TextFiled
                         variant="filled"
                         margin="dense"
@@ -391,7 +362,6 @@ export const Pedido = (props) => {
                         }}
                         FormHelperTextProps={{ className: classes.colorText }}
                         inputProps={{ className: classes.colorText }}
-
                       ></TextFiled>
                     </Grid>
 
@@ -399,7 +369,9 @@ export const Pedido = (props) => {
                       <Typography variant="h7" color="primary">
                         Nueva Hora
                       </Typography>
-                      <Typography className={classes.root}>{pedido.piso}</Typography>
+                      <Typography className={classes.root}>
+                        {pedido.piso}
+                      </Typography>
                       <TextFiled
                         variant="filled"
                         margin="dense"
@@ -415,7 +387,6 @@ export const Pedido = (props) => {
                           shrink: true,
                         }}
                         inputProps={{ className: classes.colorText }}
-
                       ></TextFiled>
                     </Grid>
                   </Grid>
