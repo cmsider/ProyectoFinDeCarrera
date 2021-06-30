@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
     background: "#E07D7E",
   },
   colorIcon: {
-    color:"#E07D7E",
-    marginTop:"5px",
-    marginLeft:"20px",
+    color: "#E07D7E",
+    marginTop: "5px",
+    marginLeft: "20px",
   },
   submit: {
     margin: theme.spacing(3, 0, -1),
@@ -111,7 +111,7 @@ export const Pedido = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.props} color="primary">
-            Código de envio
+            CÃ³digo de envio
           </Typography>
           <Typography
             variant="h4"
@@ -168,7 +168,7 @@ export const Pedido = (props) => {
             Temperatura
           </Typography>
           <Typography className={classes.root}>
-            {pedido.temperatura}ºC
+            {pedido.temperatura}ÂºC
           </Typography>
         </Grid>
 
@@ -231,7 +231,12 @@ export const Pedido = (props) => {
               aria-describedby="simple-modal-description"
             >
               <div style={modalStyle} className={classes.paper2}>
-                <h4 id="simple-modal-title" className={(classes.props, classes.colorOption)}>Reprogramar Envío</h4>
+                <h4
+                  id="simple-modal-title"
+                  className={(classes.props, classes.colorOption)}
+                >
+                  Reprogramar EnvÃ­o
+                </h4>
                 <p>
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -239,7 +244,7 @@ export const Pedido = (props) => {
                         variant="body2"
                         className={(classes.props, classes.colorOption)}
                       >
-                        Quieres cambiar la dirección?
+                        Quieres cambiar la direcciÃ³n?
                       </Typography>
                     </Grid>
                     <Grid item xs={1}>
@@ -252,19 +257,17 @@ export const Pedido = (props) => {
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
-                        Nueva Dirección
+                        Nueva DirecciÃ³n
                       </Typography>
                       <Typography className={classes.root}>
                         {pedido.direccion}
                       </Typography>
-                      CRIS TUVE QUE SACAR LA VALIDACION DE DATOS REQUERIDOS
-                      PORQUE SE ROMPIA CON handleInputChange. Hay que verlo
                       <TextFiled
                         variant="filled"
                         margin="dense"
                         required
                         fullWidth
-                        label="Ingrese nueva dirección"
+                        label="Ingrese nueva direcciÃ³n"
                         type="direccion"
                         id="direccion"
                         name="direccion"
@@ -281,6 +284,19 @@ export const Pedido = (props) => {
                       <Typography className={classes.root}>
                         {pedido.piso}
                       </Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese piso/departamento"
+                        type="piso"
+                        id="piso"
+                        name="piso"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                      ></TextFiled>
                     </Grid>
 
                     <Grid item xs={6}>
@@ -288,39 +304,67 @@ export const Pedido = (props) => {
                         Localidad
                       </Typography>
                       <Typography className={classes.root}>
-                        {pedido.direccion}
+                        {pedido.piso}
                       </Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese localidad"
+                        type="localidad"
+                        id="localidad"
+                        name="localidad"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                      ></TextFiled>
                     </Grid>
 
                     <Grid item xs={6}>
                       <Typography variant="h7" color="primary">
-                        Código Postal
+                        CÃ³digo Postal
                       </Typography>
                       <Typography className={classes.root}>
                         {pedido.direccion}
                       </Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese cÃ³digo postal"
+                        type="CP"
+                        id="CP"
+                        name="CP"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                      ></TextFiled>
                     </Grid>
                   </Grid>
 
                   <Grid item xs={30}>
-                      <Typography variant="h7" color="primary">
-                        Observaciones
-                      </Typography>
-                      <Typography className={classes.root}>{pedido.piso}</Typography>
-                      <TextFiled
+                    <Typography variant="h7" color="primary">
+                      Observaciones
+                    </Typography>
+                    <Typography className={classes.root}>
+                      {pedido.piso}
+                    </Typography>
+                    <TextFiled
                       variant="filled"
                       margin="dense"
                       required
                       fullWidth
                       label=""
                       type="observaciones"
-                     id="observaciones"
-                     name="observaciones"
+                      id="observaciones"
+                      name="observaciones"
                       color="primary"
                       InputLabelProps={{ className: classes.colorLabel }}
                       inputProps={{ className: classes.colorText }}
-                     ></TextFiled>
-                    </Grid>
+                    ></TextFiled>
+                  </Grid>
 
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -391,31 +435,33 @@ export const Pedido = (props) => {
                     </Grid>
                   </Grid>
                   <Grid container spacing={2}>
-                  <Grid item xs={1}>
-                      <Info className={(classes.props, classes.colorIcon)}></Info>
+                    <Grid item xs={1}>
+                      <Info
+                        className={(classes.props, classes.colorIcon)}
+                      ></Info>
                     </Grid>
                     <Grid item xs={10}>
-
-                  <small className={(classes.props, classes.colorOption)}>  
-                  
-                        Una vez que se evien los datos para reprogramar el envío, se notificará automáticamente al repartidor y le llegará a su cuenta de mail el comprobante con el detalle y costo adicional del envío.
-                    
+                      <small className={(classes.props, classes.colorOption)}>
+                        Una vez que se evien los datos para reprogramar el
+                        envÃ­o, se notificarÃ¡ automÃ¡ticamente al repartidor y
+                        le llegarÃ¡ a su cuenta de mail el comprobante con el
+                        detalle y costo adicional del envÃ­o.
                       </small>
-                      </Grid>  
-                      </Grid> 
+                    </Grid>
+                  </Grid>
                   <Grid item xs={25} align="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={() => {
-                    handleOpen();
-                  }}
-                >
-                  Enviar
-                </Button>
-              </Grid>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={() => {
+                        handleOpen();
+                      }}
+                    >
+                      Enviar
+                    </Button>
+                  </Grid>
                 </p>
               </div>
             </Modal>
