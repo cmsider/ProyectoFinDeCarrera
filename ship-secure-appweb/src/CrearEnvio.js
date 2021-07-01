@@ -18,7 +18,7 @@ import { Alert } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   },
   colorText: {
     color: "#FFFFFF",
+  },
+  checkbox: {
+    color: "#7FA3B5",
+    margin: theme.spacing(0, -5, 0),
   },
   colorDivider: {
     background: "#E07D7E",
@@ -79,6 +83,8 @@ const CrearEnvio = () => {
   const redirect = (view) => {
     history.push(view);
   };
+
+  const [progCheckbox, setProgCheckbox] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -225,7 +231,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese nombres"
                   type="string"
@@ -260,7 +266,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese apellidos"
                   type="apellidos"
@@ -297,7 +303,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese fecha de nacimiento"
                   type="date"
@@ -336,7 +342,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese correo electrónico"
                   type="email"
@@ -384,7 +390,7 @@ const CrearEnvio = () => {
 
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese dirección"
                   type="direccion"
@@ -419,7 +425,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese piso/departamento"
                   type="piso"
@@ -440,6 +446,76 @@ const CrearEnvio = () => {
 
                 <span className="text-danger text-small d-block mb-2">
                   {errors?.email?.message}
+                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                </span>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Localidad
+                </Typography>
+
+                <TextFiled
+                  variant="filled"
+                  margin="dense"
+                  fullWidth
+                  label="Ingrese localidad"
+                  type="localidad"
+                  id="localidad"
+                  name="localidad"
+                  color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
+                  onChangeCapture={handleInputChange}
+                  {...register("localidad", {
+                    required: { value: true, message: "Campo requerido" },
+                    minLength: {
+                      value: 1,
+                      message: "El nombre ingresado no es valido",
+                    },
+                  })}
+                ></TextFiled>
+
+                <span className="text-danger text-small d-block mb-2">
+                  {errors?.direccion?.message}
+                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                </span>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Código Postal
+                </Typography>
+
+                <TextFiled
+                  variant="filled"
+                  margin="dense"
+                  fullWidth
+                  label="Ingrese Código Postal"
+                  type="cp"
+                  id="cp"
+                  name="cp"
+                  color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
+                  onChangeCapture={handleInputChange}
+                  {...register("direccion", {
+                    required: { value: true, message: "Campo requerido" },
+                    minLength: {
+                      value: 1,
+                      message: "El nombre ingresado no es valido",
+                    },
+                  })}
+                ></TextFiled>
+
+                <span className="text-danger text-small d-block mb-2">
+                  {errors?.cp?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
@@ -479,21 +555,34 @@ const CrearEnvio = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
-
-              <Grid item xs={12}>
+              
+              <Grid container spacing={2}>
+                <Grid item xs={5} style={{ padding: 18 }}>
+                <Typography
+                  variant="body1"
+                  className={(classes.props, classes.colorText)}
+                  
+                >
+                   Es envío programado?
+                </Typography>
+            
+              </Grid>
+            
                 <Checkbox
                   color="primary"
+                  id="progCheckbox"
+                  checked={progCheckbox}
                   inputProps={{ "aria-label": "primary checkbox" }}
+                  value="1" 
+                  className={(classes.props, classes.checkbox)}
+                  onClick={() => setProgCheckbox(!progCheckbox)}
                 />
-                <Typography
-                  variant="body2"
-                  className={(classes.props, classes.colorText)}
-                >
-                  Es envio programado?
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
+               
+                </Grid>
+                 {progCheckbox &&
+              <div style={{display: "flex" ,padding: 11, width: "100%",alignItems:"center",alignContent:"space-between"}}>
+              <Grid container spacing={2}>
+             <Grid item xs={6}>
                 <Typography
                   variant="body2"
                   className={classes.props}
@@ -531,9 +620,9 @@ const CrearEnvio = () => {
                   {errors?.fechaEntrega?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
-              </Grid>
-
-              <Grid item xs={6}>
+                </Grid>
+               
+                <Grid item xs={6}>
                 <Typography
                   variant="body2"
                   className={classes.props}
@@ -570,7 +659,9 @@ const CrearEnvio = () => {
                   {errors?.horaEntrega?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
-              </Grid>
+                </Grid>
+                </Grid>
+              </div>}
 
               <Grid item xs={12}>
                 <Typography
@@ -595,7 +686,7 @@ const CrearEnvio = () => {
 
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese peso"
                   type="peso"
@@ -630,7 +721,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese temperatura "
                   type="temperatura"
