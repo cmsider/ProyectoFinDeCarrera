@@ -15,6 +15,8 @@ import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import { Alert } from "react-bootstrap";
+import CheckIcon from '@material-ui/icons/Check';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,11 +27,24 @@ const useStyles = makeStyles((theme) => ({
   },
   paper2: {
     position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
+    width: 500,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+  },
+  colorIcon: {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.background.default,
+    width: 100,
+    height: 100,
+    borderRadius: 150,
+    marginBlockEnd: 30,
+    marginTop: 10,
+  },
+  colorTitle: {
+    color: "#FFFFFF",
+    marginTop: 10,
+    marginBlockEnd: 10,
   },
   avatar: {
     margin: theme.spacing(3),
@@ -111,6 +126,8 @@ const CrearEnvio = () => {
   });
 
   const [validacionTrue, setValidacionTrue] = useState(false);
+
+  const [isLoading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -749,7 +766,7 @@ const CrearEnvio = () => {
                 <input
                   size="1"
                   maxLength="1"
-                  type="text"
+                  type="hidden"
                   className={classes.colorFondo}
                   {...register("codEnvio")}
                   readOnly="readOnly"
@@ -764,8 +781,8 @@ const CrearEnvio = () => {
                   className={classes.submit}
                   onClick={() => {
                     console.log("onclick");
-
                     setValue("codEnvio", datos.codEnvio);
+                    
                   }}
                 >
                   Confirmar envío
@@ -779,9 +796,50 @@ const CrearEnvio = () => {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
             >
-              <div style={modalStyle} className={classes.paper2}>
-                <h2 id="simple-modal-title">Envio creado</h2>
-                <p>{datos.codEnvio}</p>
+             <div style={modalStyle} className={classes.paper2} >
+             <div style={{ textAlign: "center", verticalAlign: "middle"}}>
+              
+                      <CheckIcon 
+                        className={(classes.props, classes.colorIcon)}
+                        style={{ textAlign: "center", verticalAlign: "middle"}}
+                      ></CheckIcon >
+                 
+                <h4
+                  id="simple-modal-title"
+                  className={(classes.props, classes.colorTitle)}
+                >
+                  ENVÍO CREADO
+                </h4>
+                
+                <Divider 
+                className={classes.colorDivider} style={{marginTop:30}}  />
+
+                <p style={{marginTop:30, marginBlockEnd:40}}>
+              
+              
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorText)}
+                        >
+                        En unos instantes le llegará un correo al mail del contacto con el comprobante y los datos para acceder a su cuenta.
+                      </Typography>
+                
+                 </p>
+                 <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Aceptar
+                </Button>
+       
+              
+                 </div>
+                
               </div>
             </Modal>
           </form>
