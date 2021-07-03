@@ -15,21 +15,36 @@ import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import { Alert } from "react-bootstrap";
+import CheckIcon from '@material-ui/icons/Check';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   paper2: {
     position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
+    width: 500,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+  },
+  colorIcon: {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.background.default,
+    width: 100,
+    height: 100,
+    borderRadius: 150,
+    marginBlockEnd: 30,
+    marginTop: 10,
+  },
+  colorTitle: {
+    color: "#FFFFFF",
+    marginTop: 10,
+    marginBlockEnd: 10,
   },
   avatar: {
     margin: theme.spacing(3),
@@ -47,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
   },
   colorText: {
     color: "#FFFFFF",
+  },
+  checkbox: {
+    color: "#7FA3B5",
+    margin: theme.spacing(0, -5, 0),
   },
   colorDivider: {
     background: "#E07D7E",
@@ -80,6 +99,8 @@ const CrearEnvio = () => {
     history.push(view);
   };
 
+  const [progCheckbox, setProgCheckbox] = useState(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -105,6 +126,8 @@ const CrearEnvio = () => {
   });
 
   const [validacionTrue, setValidacionTrue] = useState(false);
+
+  const [isLoading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -225,7 +248,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese nombres"
                   type="string"
@@ -260,7 +283,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese apellidos"
                   type="apellidos"
@@ -297,7 +320,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese fecha de nacimiento"
                   type="date"
@@ -337,7 +360,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese correo electrónico"
                   type="email"
@@ -385,7 +408,7 @@ const CrearEnvio = () => {
 
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese dirección"
                   type="direccion"
@@ -420,7 +443,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese piso/departamento"
                   type="piso"
@@ -441,6 +464,76 @@ const CrearEnvio = () => {
 
                 <span className="text-danger text-small d-block mb-2">
                   {errors?.email?.message}
+                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                </span>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Localidad
+                </Typography>
+
+                <TextFiled
+                  variant="filled"
+                  margin="dense"
+                  fullWidth
+                  label="Ingrese localidad"
+                  type="localidad"
+                  id="localidad"
+                  name="localidad"
+                  color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
+                  onChangeCapture={handleInputChange}
+                  {...register("localidad", {
+                    required: { value: true, message: "Campo requerido" },
+                    minLength: {
+                      value: 1,
+                      message: "El nombre ingresado no es valido",
+                    },
+                  })}
+                ></TextFiled>
+
+                <span className="text-danger text-small d-block mb-2">
+                  {errors?.direccion?.message}
+                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                </span>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Código Postal
+                </Typography>
+
+                <TextFiled
+                  variant="filled"
+                  margin="dense"
+                  fullWidth
+                  label="Ingrese Código Postal"
+                  type="cp"
+                  id="cp"
+                  name="cp"
+                  color="primary"
+                  InputLabelProps={{ className: classes.colorLabel }}
+                  inputProps={{ className: classes.colorText }}
+                  onChangeCapture={handleInputChange}
+                  {...register("direccion", {
+                    required: { value: true, message: "Campo requerido" },
+                    minLength: {
+                      value: 1,
+                      message: "El nombre ingresado no es valido",
+                    },
+                  })}
+                ></TextFiled>
+
+                <span className="text-danger text-small d-block mb-2">
+                  {errors?.cp?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
@@ -480,21 +573,34 @@ const CrearEnvio = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
-
-              <Grid item xs={12}>
+              
+              <Grid container spacing={2}>
+                <Grid item xs={5} style={{ padding: 18 }}>
+                <Typography
+                  variant="body1"
+                  className={(classes.props, classes.colorText)}
+                  
+                >
+                   Es envío programado?
+                </Typography>
+            
+              </Grid>
+            
                 <Checkbox
                   color="primary"
+                  id="progCheckbox"
+                  checked={progCheckbox}
                   inputProps={{ "aria-label": "primary checkbox" }}
+                  value="1" 
+                  className={(classes.props, classes.checkbox)}
+                  onClick={() => setProgCheckbox(!progCheckbox)}
                 />
-                <Typography
-                  variant="body2"
-                  className={(classes.props, classes.colorText)}
-                >
-                  Es envio programado?
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
+               
+                </Grid>
+                 {progCheckbox &&
+              <div style={{display: "flex" ,padding: 11, width: "100%",alignItems:"center",alignContent:"space-between"}}>
+              <Grid container spacing={2}>
+             <Grid item xs={6}>
                 <Typography
                   variant="body2"
                   className={classes.props}
@@ -532,9 +638,9 @@ const CrearEnvio = () => {
                   {errors?.fechaEntrega?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
-              </Grid>
-
-              <Grid item xs={6}>
+                </Grid>
+               
+                <Grid item xs={6}>
                 <Typography
                   variant="body2"
                   className={classes.props}
@@ -571,7 +677,9 @@ const CrearEnvio = () => {
                   {errors?.horaEntrega?.message}
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
-              </Grid>
+                </Grid>
+                </Grid>
+              </div>}
 
               <Grid item xs={12}>
                 <Typography
@@ -596,7 +704,7 @@ const CrearEnvio = () => {
 
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese peso"
                   type="peso"
@@ -631,7 +739,7 @@ const CrearEnvio = () => {
                 </Typography>
                 <TextFiled
                   variant="filled"
-                  margin="normal"
+                  margin="dense"
                   fullWidth
                   label="Ingrese temperatura "
                   type="temperatura"
@@ -659,7 +767,7 @@ const CrearEnvio = () => {
                 <input
                   size="1"
                   maxLength="1"
-                  type="text"
+                  type="hidden"
                   className={classes.colorFondo}
                   {...register("codEnvio")}
                   readOnly="readOnly"
@@ -674,8 +782,8 @@ const CrearEnvio = () => {
                   className={classes.submit}
                   onClick={() => {
                     console.log("onclick");
-
                     setValue("codEnvio", datos.codEnvio);
+                    
                   }}
                 >
                   Confirmar envío
@@ -689,9 +797,50 @@ const CrearEnvio = () => {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
             >
-              <div style={modalStyle} className={classes.paper2}>
-                <h2 id="simple-modal-title">Envio creado</h2>
-                <p>{datos.codEnvio}</p>
+             <div style={modalStyle} className={classes.paper2} >
+             <div style={{ textAlign: "center", verticalAlign: "middle"}}>
+              
+                      <CheckIcon 
+                        className={(classes.props, classes.colorIcon)}
+                        style={{ textAlign: "center", verticalAlign: "middle"}}
+                      ></CheckIcon >
+                 
+                <h4
+                  id="simple-modal-title"
+                  className={(classes.props, classes.colorTitle)}
+                >
+                  ENVÍO CREADO
+                </h4>
+                
+                <Divider 
+                className={classes.colorDivider} style={{marginTop:30}}  />
+
+                <p style={{marginTop:30, marginBlockEnd:40}}>
+              
+              
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorText)}
+                        >
+                        En unos instantes le llegará un correo al mail del contacto con el comprobante y los datos para acceder a su cuenta.
+                      </Typography>
+                
+                 </p>
+                 <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Aceptar
+                </Button>
+       
+              
+                 </div>
+                
               </div>
             </Modal>
           </form>
