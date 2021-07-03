@@ -304,6 +304,7 @@ const CrearEnvio = () => {
                   id="fechaNacimiento"
                   name="fechaNacimiento"
                   color="primary"
+                  required
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
