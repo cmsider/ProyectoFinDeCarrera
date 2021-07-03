@@ -15,8 +15,7 @@ import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import { Alert } from "react-bootstrap";
-import CheckIcon from '@material-ui/icons/Check';
-
+import CheckIcon from "@material-ui/icons/Check";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -367,6 +366,7 @@ const CrearEnvio = () => {
                   id="email"
                   name="email"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -415,6 +415,7 @@ const CrearEnvio = () => {
                   id="direccion"
                   name="direccion"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -450,6 +451,7 @@ const CrearEnvio = () => {
                   id="piso"
                   name="piso"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -485,6 +487,7 @@ const CrearEnvio = () => {
                   id="localidad"
                   name="localidad"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -516,10 +519,11 @@ const CrearEnvio = () => {
                   margin="dense"
                   fullWidth
                   label="Ingrese Código Postal"
-                  type="cp"
-                  id="cp"
-                  name="cp"
+                  type="codigoPostal"
+                  id="codigoPostal"
+                  name="codigoPostal"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -556,6 +560,7 @@ const CrearEnvio = () => {
                   id="observaciones"
                   name="observaciones"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -573,113 +578,119 @@ const CrearEnvio = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
-              
+
               <Grid container spacing={2}>
                 <Grid item xs={5} style={{ padding: 18 }}>
-                <Typography
-                  variant="body1"
-                  className={(classes.props, classes.colorText)}
-                  
-                >
-                   Es envío programado?
-                </Typography>
-            
-              </Grid>
-            
+                  <Typography
+                    variant="body1"
+                    className={(classes.props, classes.colorText)}
+                  >
+                    Es envío programado?
+                  </Typography>
+                </Grid>
+
                 <Checkbox
                   color="primary"
                   id="progCheckbox"
                   checked={progCheckbox}
                   inputProps={{ "aria-label": "primary checkbox" }}
-                  value="1" 
+                  value="1"
                   className={(classes.props, classes.checkbox)}
                   onClick={() => setProgCheckbox(!progCheckbox)}
                 />
-               
-                </Grid>
-                 {progCheckbox &&
-              <div style={{display: "flex" ,padding: 11, width: "100%",alignItems:"center",alignContent:"space-between"}}>
-              <Grid container spacing={2}>
-             <Grid item xs={6}>
-                <Typography
-                  variant="body2"
-                  className={classes.props}
-                  color="primary"
-                >
-                  Fecha de entrega
-                </Typography>
-                <TextFiled
-                  variant="filled"
-                  margin="normal"
-                  fullWidth
-                  label="Ingrese fecha de Entrega"
-                  type="date"
-                  id="fechaEntrega"
-                  name="fechaEntrega"
-                  color="primary"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    className: classes.colorLabel,
-                    shrink: true,
+              </Grid>
+              {progCheckbox && (
+                <div
+                  style={{
+                    display: "flex",
+                    padding: 11,
+                    width: "100%",
+                    alignItems: "center",
+                    alignContent: "space-between",
                   }}
-                  FormHelperTextProps={{ className: classes.colorText }}
-                  inputProps={{ className: classes.colorText }}
-                  onChangeCapture={handleInputChange}
-                  {...register("fechaEntrega", {
-                    required: { value: true, message: "Campo requerido" },
-                    minLength: {
-                      value: 1,
-                      message: "Fecha ingresada no es valida",
-                    },
-                  })}
-                ></TextFiled>
-
-                <span className="text-danger text-small d-block mb-2">
-                  {errors?.fechaEntrega?.message}
-                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
-                </span>
-                </Grid>
-               
-                <Grid item xs={6}>
-                <Typography
-                  variant="body2"
-                  className={classes.props}
-                  color="primary"
                 >
-                  Hora de entrega
-                </Typography>
-                <TextFiled
-                  variant="filled"
-                  margin="normal"
-                  fullWidth
-                  label="Ingrese hora de entrega"
-                  type="time"
-                  id="horaEntrega"
-                  name="horaEntrega"
-                  color="primary"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    className: classes.colorLabel,
-                    shrink: true,
-                  }}
-                  inputProps={{ className: classes.colorText }}
-                  onChangeCapture={handleInputChange}
-                  {...register("horaEntrega", {
-                    required: { value: true, message: "Campo requerido" },
-                    minLength: {
-                      value: 1,
-                      message: "La hora ingresada no es valida",
-                    },
-                  })}
-                ></TextFiled>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="body2"
+                        className={classes.props}
+                        color="primary"
+                      >
+                        Fecha de entrega
+                      </Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="normal"
+                        fullWidth
+                        label="Ingrese fecha de Entrega"
+                        type="date"
+                        id="fechaEntrega"
+                        name="fechaEntrega"
+                        color="primary"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
+                        FormHelperTextProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("fechaEntrega", {
+                          required: { value: true, message: "Campo requerido" },
+                          minLength: {
+                            value: 1,
+                            message: "Fecha ingresada no es valida",
+                          },
+                        })}
+                      ></TextFiled>
 
-                <span className="text-danger text-small d-block mb-2">
-                  {errors?.horaEntrega?.message}
-                  {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
-                </span>
-                </Grid>
-                </Grid>
-              </div>}
+                      <span className="text-danger text-small d-block mb-2">
+                        {errors?.fechaEntrega?.message}
+                        {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                      </span>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="body2"
+                        className={classes.props}
+                        color="primary"
+                      >
+                        Hora de entrega
+                      </Typography>
+                      <TextFiled
+                        variant="filled"
+                        margin="normal"
+                        fullWidth
+                        label="Ingrese hora de entrega"
+                        type="time"
+                        id="horaEntrega"
+                        name="horaEntrega"
+                        color="primary"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("horaEntrega", {
+                          required: { value: true, message: "Campo requerido" },
+                          minLength: {
+                            value: 1,
+                            message: "La hora ingresada no es valida",
+                          },
+                        })}
+                      ></TextFiled>
+
+                      <span className="text-danger text-small d-block mb-2">
+                        {errors?.horaEntrega?.message}
+                        {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
+                      </span>
+                    </Grid>
+                  </Grid>
+                </div>
+              )}
 
               <Grid item xs={12}>
                 <Typography
@@ -711,6 +722,7 @@ const CrearEnvio = () => {
                   id="peso"
                   name="peso"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -746,6 +758,7 @@ const CrearEnvio = () => {
                   id="temperatura"
                   name="temperatura"
                   color="primary"
+                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -783,7 +796,6 @@ const CrearEnvio = () => {
                   onClick={() => {
                     console.log("onclick");
                     setValue("codEnvio", datos.codEnvio);
-                    
                   }}
                 >
                   Confirmar envío
@@ -797,50 +809,47 @@ const CrearEnvio = () => {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
             >
-             <div style={modalStyle} className={classes.paper2} >
-             <div style={{ textAlign: "center", verticalAlign: "middle"}}>
-              
-                      <CheckIcon 
-                        className={(classes.props, classes.colorIcon)}
-                        style={{ textAlign: "center", verticalAlign: "middle"}}
-                      ></CheckIcon >
-                 
-                <h4
-                  id="simple-modal-title"
-                  className={(classes.props, classes.colorTitle)}
-                >
-                  ENVÍO CREADO
-                </h4>
-                
-                <Divider 
-                className={classes.colorDivider} style={{marginTop:30}}  />
+              <div style={modalStyle} className={classes.paper2}>
+                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+                  <CheckIcon
+                    className={(classes.props, classes.colorIcon)}
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                  ></CheckIcon>
 
-                <p style={{marginTop:30, marginBlockEnd:40}}>
-              
-              
-                      <Typography
-                        variant="body2"
-                        className={(classes.props, classes.colorText)}
-                        >
-                        En unos instantes le llegará un correo al mail del contacto con el comprobante y los datos para acceder a su cuenta.
-                      </Typography>
-                
-                 </p>
-                 <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  Aceptar
-                </Button>
-       
-              
-                 </div>
-                
+                  <h4
+                    id="simple-modal-title"
+                    className={(classes.props, classes.colorTitle)}
+                  >
+                    ENVÍO CREADO
+                  </h4>
+
+                  <Divider
+                    className={classes.colorDivider}
+                    style={{ marginTop: 30 }}
+                  />
+
+                  <p style={{ marginTop: 30, marginBlockEnd: 40 }}>
+                    <Typography
+                      variant="body2"
+                      className={(classes.props, classes.colorText)}
+                    >
+                      En unos instantes le llegará un correo al mail del
+                      contacto con el comprobante y los datos para acceder a su
+                      cuenta.
+                    </Typography>
+                  </p>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => {
+                      handleClose();
+                    }}
+                  >
+                    Aceptar
+                  </Button>
+                </div>
               </div>
             </Modal>
           </form>

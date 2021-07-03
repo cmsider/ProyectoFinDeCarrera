@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     margin: theme.spacing(-1, 0, 0),
   },
+  colorLabel: {
+    color: "#7FA3B5",
+    margin: theme.spacing(-1, 0, 0),
+  },
   colorOption: {
     color: "#FFFFFF",
     margin: theme.spacing(1, 0, 1),
@@ -327,248 +331,233 @@ const Pedido = (props) => {
                   >
                     Reprogramar Enví­o
                   </h4>
-                  <p>
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <Typography
-                          variant="body2"
-                          className={(classes.props, classes.colorOption)}
-                        >
-                          Quieres cambiar la dirección?
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Checkbox
-                          color="primary"
-                          inputProps={{ "aria-label": "primary checkbox" }}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Nueva Dirección
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.direccion}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          label="Ingrese nueva dirección"
-                          type="direccion"
-                          id="direccion"
-                          name="direccion"
-                          color="primary"
-                          InputLabelProps={{ className: classes.colorLabel }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("direccion")}
-                        ></TextFiled>
-                      </Grid>
 
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Piso/Depto
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.piso}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          label="Ingrese piso/departamento"
-                          type="piso"
-                          id="piso"
-                          name="piso"
-                          color="primary"
-                          InputLabelProps={{ className: classes.colorLabel }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("piso")}
-                        ></TextFiled>
-                      </Grid>
-
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Localidad
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.piso}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          label="Ingrese localidad"
-                          type="localidad"
-                          id="localidad"
-                          name="localidad"
-                          color="primary"
-                          InputLabelProps={{ className: classes.colorLabel }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("localidad")}
-                        ></TextFiled>
-                      </Grid>
-
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Código Postal
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.direccion}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          label="Ingrese código postal"
-                          type="codigoPostal"
-                          id="codigoPostal"
-                          name="codigoPostal"
-                          color="primary"
-                          InputLabelProps={{ className: classes.colorLabel }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("codigoPostal")}
-                        ></TextFiled>
-                      </Grid>
-                    </Grid>
-
-                    <Grid item xs={30}>
-                      <Typography variant="h7" color="primary">
-                        Observaciones
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorOption)}
+                      >
+                        Quieres cambiar la dirección?
                       </Typography>
-                      <Typography className={classes.root}>
-                        {pedido.piso}
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Checkbox
+                        color="primary"
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Nueva Dirección
+                      </Typography>
+
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese nueva dirección"
+                        type="direccion"
+                        id="direccion"
+                        name="direccion"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("direccion")}
+                      ></TextFiled>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Piso/Depto
+                      </Typography>
+
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese piso/departamento"
+                        type="piso"
+                        id="piso"
+                        name="piso"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("piso")}
+                      ></TextFiled>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Localidad
+                      </Typography>
+
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese localidad"
+                        type="localidad"
+                        id="localidad"
+                        name="localidad"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("localidad")}
+                      ></TextFiled>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Código Postal
+                      </Typography>
+
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        label="Ingrese código postal"
+                        type="codigoPostal"
+                        id="codigoPostal"
+                        name="codigoPostal"
+                        color="primary"
+                        InputLabelProps={{ className: classes.colorLabel }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("codigoPostal")}
+                      ></TextFiled>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Typography variant="body2" color="primary">
+                      Observaciones
+                    </Typography>
+
+                    <TextFiled
+                      variant="filled"
+                      margin="dense"
+                      required
+                      fullWidth
+                      label=""
+                      type="observaciones"
+                      id="observaciones"
+                      label="Ingrese observaciones"
+                      name="observaciones"
+                      color="primary"
+                      InputLabelProps={{ className: classes.colorLabel }}
+                      inputProps={{ className: classes.colorText }}
+                      onChangeCapture={handleInputChange}
+                      {...register("observaciones")}
+                    ></TextFiled>
+                  </Grid>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body2"
+                        className={(classes.props, classes.colorOption)}
+                      >
+                        Quieres cambiar el horario?
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Checkbox
+                        color="primary"
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Nueva Fecha
+                      </Typography>
+
+                      <TextFiled
+                        variant="filled"
+                        margin="dense"
+                        required
+                        fullWidth
+                        type="date"
+                        id="fechaEntrega"
+                        name="fechaEntrega"
+                        color="primary"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
+                        FormHelperTextProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText }}
+                        onChangeCapture={handleInputChange}
+                        {...register("fechaEntrega")}
+                      ></TextFiled>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2" color="primary">
+                        Nueva Hora
                       </Typography>
                       <TextFiled
                         variant="filled"
                         margin="dense"
                         required
                         fullWidth
-                        label=""
-                        type="observaciones"
-                        id="observaciones"
-                        name="observaciones"
+                        type="time"
+                        id="horaEntrega"
+                        name="horaEntrega"
                         color="primary"
-                        InputLabelProps={{ className: classes.colorLabel }}
+                        className={classes.textField}
+                        InputLabelProps={{
+                          className: classes.colorLabel,
+                          shrink: true,
+                        }}
                         inputProps={{ className: classes.colorText }}
                         onChangeCapture={handleInputChange}
-                        {...register("observaciones")}
+                        {...register("horaEntrega")}
                       ></TextFiled>
                     </Grid>
-
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <Typography
-                          variant="body2"
-                          className={(classes.props, classes.colorOption)}
-                        >
-                          Quieres cambiar el horario?
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Checkbox
-                          color="primary"
-                          inputProps={{ "aria-label": "primary checkbox" }}
-                        />
-                      </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={1}>
+                      <Info
+                        className={(classes.props, classes.colorIcon)}
+                      ></Info>
                     </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Nueva Fecha
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.direccion}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          type="date"
-                          id="fechaEntrega"
-                          name="fechaEntrega"
-                          color="primary"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            className: classes.colorLabel,
-                            shrink: true,
-                          }}
-                          FormHelperTextProps={{ className: classes.colorText }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("fechaEntrega")}
-                        ></TextFiled>
-                      </Grid>
-
-                      <Grid item xs={6}>
-                        <Typography variant="h7" color="primary">
-                          Nueva Hora
-                        </Typography>
-                        <Typography className={classes.root}>
-                          {pedido.piso}
-                        </Typography>
-                        <TextFiled
-                          variant="filled"
-                          margin="dense"
-                          required
-                          fullWidth
-                          type="time"
-                          id="horaEntrega"
-                          name="horaEntrega"
-                          color="primary"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            className: classes.colorLabel,
-                            shrink: true,
-                          }}
-                          inputProps={{ className: classes.colorText }}
-                          onChangeCapture={handleInputChange}
-                          {...register("horaEntrega")}
-                        ></TextFiled>
-                      </Grid>
+                    <Grid item xs={10}>
+                      <small className={(classes.props, classes.colorOption)}>
+                        Una vez que se envien los datos para reprogramar el
+                        envío, se notificará¡ automáticamente al repartidor y le
+                        llegará¡ a su cuenta de mail el comprobante con el
+                        detalle y costo adicional del enví­o.
+                      </small>
                     </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={1}>
-                        <Info
-                          className={(classes.props, classes.colorIcon)}
-                        ></Info>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <small className={(classes.props, classes.colorOption)}>
-                          Una vez que se envien los datos para reprogramar el
-                          envío, se notificará¡ automáticamente al repartidor y
-                          le llegará¡ a su cuenta de mail el comprobante con el
-                          detalle y costo adicional del enví­o.
-                        </small>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={25} align="center">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={(e) => {
-                          setTimeout(() => {
-                            sendMailReprogramar(e);
-                          }, 2000);
-                        }}
-                      >
-                        Enviar
-                      </Button>
-                    </Grid>
-                  </p>
+                  </Grid>
+                  <Grid item xs={12} align="center">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={(e) => {
+                        setTimeout(() => {
+                          sendMailReprogramar(e);
+                        }, 2000);
+                      }}
+                    >
+                      Enviar
+                    </Button>
+                  </Grid>
                 </div>
               </form>
             </Modal>
