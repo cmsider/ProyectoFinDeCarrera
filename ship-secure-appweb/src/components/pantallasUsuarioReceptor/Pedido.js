@@ -18,10 +18,13 @@ import { Info } from "@material-ui/icons";
 import emailjs from "emailjs-com";
 import Modal from "@material-ui/core/Modal";
 import { Icon } from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
+import ForumIcon from '@material-ui/icons/Forum';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(7),
+    marginLeft: theme.spacing(50),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -32,6 +35,18 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+  },
+  paper3: {
+    position: "absolute",
+    width: 500,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(2, 4, 3),
+  },
+  colorTitle: {
+    color: "#FFFFFF",
+    marginTop: 10,
+    marginBlockEnd: 10,
   },
   root: {
     color: "#7FA3B5",
@@ -46,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
     color: "#E07D7E",
     marginTop: "5px",
     marginLeft: "20px",
+  },
+  colorIconCheck: {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.background.default,
+    width: 100,
+    height: 100,
+    borderRadius: 150,
+    marginBlockEnd: 30,
+    marginTop: 10,
   },
   submit: {
     margin: theme.spacing(3, 0, -1),
@@ -91,6 +115,12 @@ const Pedido = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [openChat, setOpenChat] = useState(false);
+
+  const [progCheckbox, setProgCheckbox] = useState(false);
+  const [progCheckbox2, setProgCheckbox2] = useState(false);
+
 
   const redirect = (view) => {
     history.push(view);
@@ -106,12 +136,22 @@ const Pedido = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    setOpen2(false);
 
     redirect("/pedido");
   };
 
+  const handleOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleOpenChat = () => {
+    setOpenChat(true);
+  };
+
+
   const listItems = pedido.map((pedido, index) => (
-    <li key={index}>
+    <ul key={index}>
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.props} color="primary">
@@ -129,21 +169,21 @@ const Pedido = (props) => {
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Dirección
           </Typography>
           <Typography className={classes.root}>{pedido.direccion}</Typography>
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Piso/Depto
           </Typography>
           <Typography className={classes.root}>{pedido.piso}</Typography>
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Observaciones
           </Typography>
           <Typography className={classes.root}>
@@ -152,7 +192,7 @@ const Pedido = (props) => {
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Fecha de entrega
           </Typography>
           <Typography className={classes.root}>
@@ -161,14 +201,14 @@ const Pedido = (props) => {
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Hora estimada
           </Typography>
           <Typography className={classes.root}>{pedido.horaEntrega}</Typography>
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Temperatura
           </Typography>
           <Typography className={classes.root}>
@@ -177,26 +217,37 @@ const Pedido = (props) => {
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h5" color="primary">
+          <Typography variant="h6" color="primary">
             Peso
           </Typography>
           <Typography className={classes.root}>{pedido.peso} Kg</Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Button
             type="button"
             variant="contained"
             color="primary"
             className={classes.submit}
-            fullWidth
             onClick={handleOpen}
           >
             <EditLocationIcon />
             Reprogramar
           </Button>
-        </Grid>
+          </Grid>
+          <Grid item xs={6}>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleOpenChat}
+          >
+            <ForumIcon />
+            Chatear con el repartidor
+          </Button>
+          </Grid>
       </Grid>
-    </li>
+    </ul>
   ));
 
   useEffect(() => {
@@ -279,7 +330,7 @@ const Pedido = (props) => {
       datos.email = pedido[0].email;
 
       updateEnvio();
-      handleOpen();
+      handleOpen2();
       e.target.reset();
     }
   };
@@ -311,11 +362,11 @@ const Pedido = (props) => {
 
   return (
     <div>
-      <Container component="main" maxWidth="sm">
+      <Container component="main" maxWidth="md">
         <CssBaseline />
         <div className={classes.paper}>
           <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-            <ul>{listItems}</ul>
+            <p>{listItems}</p>
 
             <Modal
               open={open}
@@ -344,10 +395,17 @@ const Pedido = (props) => {
                     <Grid item xs={1}>
                       <Checkbox
                         color="primary"
+                        id="progCheckbox"
+                        checked={progCheckbox}
                         inputProps={{ "aria-label": "primary checkbox" }}
+                        value="1"
+                        className={(classes.props, classes.checkbox)}
+                        onClick={() => setProgCheckbox(!progCheckbox)}
                       />
                     </Grid>
                   </Grid>
+                  {progCheckbox && (
+                <div>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Typography variant="body2" color="primary">
@@ -460,7 +518,7 @@ const Pedido = (props) => {
                       {...register("observaciones")}
                     ></TextFiled>
                   </Grid>
-
+                </div>)}
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Typography
@@ -473,10 +531,17 @@ const Pedido = (props) => {
                     <Grid item xs={1}>
                       <Checkbox
                         color="primary"
+                        id="progCheckbox2"
+                        checked={progCheckbox2}
                         inputProps={{ "aria-label": "primary checkbox" }}
+                        value="1"
+                        className={(classes.props, classes.checkbox)}
+                        onClick={() => setProgCheckbox2(!progCheckbox2)}
                       />
                     </Grid>
                   </Grid>
+                {progCheckbox2 && (
+                <div>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Typography variant="body2" color="primary">
@@ -528,6 +593,7 @@ const Pedido = (props) => {
                       ></TextFiled>
                     </Grid>
                   </Grid>
+                  </div>)}
                   <Grid container spacing={2}>
                     <Grid item xs={1}>
                       <Info
@@ -537,27 +603,74 @@ const Pedido = (props) => {
                     <Grid item xs={10}>
                       <small className={(classes.props, classes.colorOption)}>
                         Una vez que se envien los datos para reprogramar el
-                        envío, se notificará¡ automáticamente al repartidor y le
-                        llegará¡ a su cuenta de mail el comprobante con el
+                        envío, se notificará automáticamente al repartidor y le
+                        llegará a su cuenta de mail el comprobante con el
                         detalle y costo adicional del enví­o.
                       </small>
                     </Grid>
                   </Grid>
+                 
                   <Grid item xs={12} align="center">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                      onClick={(e) => {
-                        setTimeout(() => {
-                          sendMailReprogramar(e);
-                        }, 2000);
-                      }}
+                  <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  
+                >
+                  Enviar
+                </Button>
+                </Grid>
+                <Modal
+              open={open2}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              <div style={modalStyle} className={classes.paper3}>
+                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+                <CheckIcon
+                    className={(classes.props, classes.colorIconCheck)}
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                  ></CheckIcon>
+
+                  <h4
+                    id="simple-modal-title"
+                    className={(classes.props, classes.colorTitle)}
+                  >
+                    ENVÍO REPROGRAMADO
+                  </h4>
+
+                  <Divider
+                    className={classes.colorDivider}
+                    style={{ marginTop: 30 }}
+                  />
+
+                  <p style={{ marginTop: 30, marginBlockEnd: 40 }}>
+                    <Typography
+                      variant="body2"
+                      className={(classes.props, classes.colorText)}
                     >
-                      Enviar
-                    </Button>
-                  </Grid>
+                      Ya le avisamos al repartidor! 
+                      En unos instantes te llegará un correo con el comprobante para que puedas abonarlo.
+                    </Typography>
+                  </p>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => {
+                      handleClose();
+                    }}
+                  >
+                    Aceptar
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+
+             
                 </div>
               </form>
             </Modal>
