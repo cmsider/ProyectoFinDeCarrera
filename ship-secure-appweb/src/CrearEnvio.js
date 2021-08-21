@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import { Alert } from "react-bootstrap";
 import CheckIcon from "@material-ui/icons/Check";
+import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -221,6 +222,7 @@ const CrearEnvio = () => {
 
   return (
     <div>
+      <ContenedorCYR/>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>

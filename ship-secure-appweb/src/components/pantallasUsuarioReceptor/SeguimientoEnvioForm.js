@@ -12,6 +12,7 @@ import Container from "@material-ui/core/Container";
 import "firebase/firestore";
 import "firebase/auth";
 import { useForm } from "react-hook-form";
+import Contenedor from "../menuNavegacion/Contenedor";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -66,6 +67,7 @@ const SeguimientoEnvioForm = (props) => {
 
   return (
     <div>
+      <Contenedor/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
 

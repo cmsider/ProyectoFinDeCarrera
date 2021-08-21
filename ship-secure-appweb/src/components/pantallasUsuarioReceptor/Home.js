@@ -1,21 +1,32 @@
-import React, { Fragment } from "react";
-import { useForm } from "react-hook-form";
+import React , { useState } from "react";
+import { Fragment } from "react";
 import TextFiled from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onsubmit = (data, eventDeleteCamp) => {
-    console.log(data);
-    eventDeleteCamp.target.reset(); //con esto borramos los campos una vez guardados
+  const history = useHistory();
+  const redirect = (view) => {
+    history.push(view);
   };
+
+  const handleClose = () => {
+    redirect("/seguimientoEnvio");
+  };
+
+  const handleCloseCreador = () => {
+    redirect("/crearEnvio");
+  };
+
+  const handleCloseRepartidor = () => {
+    redirect("/listaEnvios");
+  };
+
   return (
+
     <Fragment>
-      <h2>Hello react form hook</h2>
-      <form onSubmit={handleSubmit(onsubmit)}>
+      <h2>HOMEEEEE HAY Q EDITARLO</h2>
+      <form>
         <TextFiled
           variant="filled"
           margin="normal"
@@ -24,22 +35,38 @@ const Home = () => {
           type="string"
           id="nombres"
           name="nombres"
-          error={!!errors.nombres}
-          {...register("nombres", {
-            required: { value: true, message: "Campo requerido" },
-            minLength: {
-              value: 2,
-              message: "El nombre ingresado es demasiado corto",
-            },
-          })}
         ></TextFiled>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          Crearlo
+        </Button>
 
-        <span className="text-danger text-small d-block mb-2">
-          {errors?.nombres?.message}
-          {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
-        </span>
-
-        <button className="btn btn-primary">Send</button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleCloseCreador();
+          }}
+        >
+          Seguirlo
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleCloseRepartidor();
+          }}
+        >
+          Entregarlo
+        </Button>
       </form>
     </Fragment>
   );
