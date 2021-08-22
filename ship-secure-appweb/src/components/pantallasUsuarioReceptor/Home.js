@@ -44,7 +44,7 @@ const Home = () => {
             handleClose();
           }}
         >
-          Crearlo
+          Seguirlo
         </Button>
 
         <Button
@@ -55,7 +55,7 @@ const Home = () => {
             handleCloseCreador();
           }}
         >
-          Seguirlo
+          Crearlo
         </Button>
         <Button
           type="submit"
