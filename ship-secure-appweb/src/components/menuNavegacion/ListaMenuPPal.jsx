@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Divider,
+  ButtonBase,
 } from "@material-ui/core";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -13,13 +14,14 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import LabelIcon from "@material-ui/icons/Label";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink, Nav } from "./stylesNavLink";
-import EditLocationIcon from "@material-ui/icons/EditLocation";
 
 const ListaMenuPPal = () => {
+
   return (
     <div>
       <List component="nav">
-        <ListItem button>
+        <ListItem button
+        >
           <ListItemIcon>
             <AccountBoxIcon />
           </ListItemIcon>
@@ -30,7 +32,8 @@ const ListaMenuPPal = () => {
 
         <Nav>
           <NavLink to="/home">
-            <ListItem button>
+            <ListItem button
+            >
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -40,8 +43,9 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/perfilUsuario">
-            <ListItem button>
+          <NavLink to="/editarPerfil">
+            <ListItem button
+            >
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
@@ -51,8 +55,10 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/seguimientoEnvio">
-            <ListItem button>
+          <NavLink to="/seguimientoEnvio"
+          aria-current= "true" >
+            <ListItem button
+            >
               <ListItemIcon>
                 <LocationOnIcon />
               </ListItemIcon>
@@ -63,7 +69,8 @@ const ListaMenuPPal = () => {
 
         <Nav>
           <NavLink to="/historialEnvios">
-            <ListItem button>
+            <ListItem button
+            >
               <ListItemIcon>
                 <AssignmentIcon />
               </ListItemIcon>
@@ -73,8 +80,9 @@ const ListaMenuPPal = () => {
         </Nav>
 
         <Nav>
-          <NavLink to="/beneficios">
-            <ListItem button>
+          <NavLink to="/misBeneficios">
+            <ListItem button
+            >
               <ListItemIcon>
                 <LabelIcon />
               </ListItemIcon>
@@ -85,13 +93,18 @@ const ListaMenuPPal = () => {
 
         <Divider />
 
-        <ListItem button>
+        <ListItem button
+        >
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Cerrar sesión" />
         </ListItem>
+        
+
       </List>
+
+      
     </div>
   );
 };
