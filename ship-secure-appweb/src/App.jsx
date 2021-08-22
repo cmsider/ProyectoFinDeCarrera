@@ -13,6 +13,7 @@ import HistorialEnvios from "./components/pantallasUsuarioReceptor/HistorialEnvi
 import PerfilUsuario from "./components/pantallasUsuarioReceptor/PerfilUsuario";
 import Beneficios from "./components/pantallasUsuarioReceptor/Beneficios";
 import ListaEnvios from "./components/pantallasRepartidor/ListaEnvios";
+import Pedido from "./components/pantallasUsuarioReceptor/Pedido";
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -68,6 +69,11 @@ const App = () => {
               <NavLink exact to="/ListaEnvios"></NavLink>
             </span>
           </div>
+          <div className="routing-settings">
+            <span key="pedido">
+              <NavLink exact to="/Pedido"></NavLink>
+            </span>
+          </div>
           <>
             <Route exact path="/" component={Login} />
             <Route exact path="/Home" component={Home} />
@@ -79,6 +85,7 @@ const App = () => {
             <Route exact path="/EditarPerfil" component={PerfilUsuario} />
             <Route exact path="/MisBeneficios" component={Beneficios} />
             <Route exact path="/ListaEnvios" component={ListaEnvios} />
+            <Route exact path="/Pedido" component={Pedido} />
           </>
         </div>
       </HashRouter>

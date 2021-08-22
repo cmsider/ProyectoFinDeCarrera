@@ -13,6 +13,7 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useForm } from "react-hook-form";
 import Contenedor from "../menuNavegacion/Contenedor";
+import Pedido from "./Pedido";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -131,7 +132,7 @@ const SeguimientoEnvioForm = (props) => {
         </div>
         {buttonClicked && entradas.nroSeg !== ""
           ? props.history.push({
-              pathname: "/pedido",
+              pathname: "/Pedido",
               state: entradas.nroSeg, // your data array of objects
             })
           : null}
