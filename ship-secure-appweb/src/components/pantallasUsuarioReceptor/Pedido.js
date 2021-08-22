@@ -20,6 +20,7 @@ import Modal from "@material-ui/core/Modal";
 import { Icon } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ForumIcon from '@material-ui/icons/Forum';
+import Contenedor from "../menuNavegacion/Contenedor";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -362,6 +363,7 @@ const Pedido = (props) => {
 
   return (
     <div>
+      <Contenedor/>
       <Container component="main" maxWidth="md">
         <CssBaseline />
         <div className={classes.paper}>
