@@ -1,6 +1,7 @@
 import React , { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import MapView from "../geoLocalizacion/MapView";
 
 export const Login = () => {
   const history = useHistory();
@@ -14,6 +15,7 @@ export const Login = () => {
 
   return (
     <div>
+
       <Button
         type="submit"
         variant="contained"
