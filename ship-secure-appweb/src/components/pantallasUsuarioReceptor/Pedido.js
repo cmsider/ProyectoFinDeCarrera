@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextFiled from "@material-ui/core/TextField";
 import { useForm } from "react-hook-form";
-import { Info, Timeline } from "@material-ui/icons";
+import { Info } from "@material-ui/icons";
 import emailjs from "emailjs-com";
 import Modal from "@material-ui/core/Modal";
 import CheckIcon from "@material-ui/icons/Check";
@@ -167,6 +167,8 @@ const Pedido = (props) => {
 
   const handleOpenChat = () => {
     setOpenChat(true);
+    redirect("/chatRepartidor");
+    
   };
 
 
@@ -291,7 +293,7 @@ const Pedido = (props) => {
             latitude: documentSnapshot.get("latitude"),
             longitude: documentSnapshot.get("longitude"),
           }
-          if (!actualizar && pedidoID != "undefined") {
+          if (!actualizar && pedidoID !== "undefined") {
             setmapRegion2(mr.latitude,mr.longitude);
           }
         console.log(mr);
@@ -314,7 +316,7 @@ const Pedido = (props) => {
             ...querySnapshot.data(),
             key: querySnapshot.id,
           });
-          if (!actualizar && pedidoID != "undefined") {
+          if (!actualizar && pedidoID !== "undefined") {
             setPedido(pedidos);
             pedidoTomado();
           }
@@ -429,7 +431,7 @@ const Pedido = (props) => {
         <CssBaseline />
         <div className={classes.paper}>
           <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-            <p>{listItems}</p>
+            {listItems}
 
             <Modal
               open={open}
@@ -569,7 +571,6 @@ const Pedido = (props) => {
                       margin="dense"
                       required
                       fullWidth
-                      label=""
                       type="observaciones"
                       id="observaciones"
                       label="Ingrese observaciones"

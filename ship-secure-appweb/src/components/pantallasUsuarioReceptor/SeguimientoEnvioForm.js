@@ -61,7 +61,9 @@ const SeguimientoEnvioForm = (props) => {
   //Utiliza el hook useState
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (event) => {
+    console.log(localStorage.getItem('usuarios'));
+
     setButtonClicked(true);
   };
 

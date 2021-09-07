@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup,MapConsumer, useMap } from 'react-leaflet';
+import React from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import './MapView.css';
-import { db } from "../firebase";
 import "firebase/firestore";
-import { map } from "leaflet";
-
 
 export const MapView = (props) => {
   

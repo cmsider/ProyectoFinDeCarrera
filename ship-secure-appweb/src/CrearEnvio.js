@@ -14,7 +14,6 @@ import { db } from "./components/firebase";
 import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
-import { Alert } from "react-bootstrap";
 import CheckIcon from "@material-ui/icons/Check";
 import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 
@@ -125,9 +124,9 @@ const CrearEnvio = () => {
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
   });
 
-  const [validacionTrue, setValidacionTrue] = useState(false);
+  //const [validacionTrue, setValidacionTrue] = useState(false);
 
-  const [isLoading, setLoading] = useState(false);
+ // const [isLoading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -136,10 +135,10 @@ const CrearEnvio = () => {
     });
     console.log(event.target.value);
   };
-  const enviarDatos = (event) => {
+  //const enviarDatos = (event) => {
     //  event.preventDefault();
     //event.target.reset();
-  };
+  //};
 
   const addEnvio = () => {
     db.collection("envios").doc(datos.codEnvio).set({
