@@ -13,7 +13,6 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useForm } from "react-hook-form";
 import Contenedor from "../menuNavegacion/Contenedor";
-import Pedido from "./Pedido";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -62,7 +61,9 @@ const SeguimientoEnvioForm = (props) => {
   //Utiliza el hook useState
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (event) => {
+    console.log(localStorage.getItem('usuarios'));
+
     setButtonClicked(true);
   };
 

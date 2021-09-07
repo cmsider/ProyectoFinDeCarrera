@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SeguimientoEnvioForm from "../pantallasUsuarioReceptor/SeguimientoEnvioForm";
 import Pedido from "../pantallasUsuarioReceptor/Pedido";
 import Beneficios from "../pantallasUsuarioReceptor/Beneficios";
@@ -7,6 +7,7 @@ import HistorialEnvios from "../pantallasUsuarioReceptor/HistorialEnvios";
 import Home from "../pantallasUsuarioReceptor/Home";
 import PerfilUsuario from "../pantallasUsuarioReceptor/PerfilUsuario";
 import Login from "../pantallasRegistro/Login";
+import Canal from "../chatRepartidor/Canal";
 
 function NavLinks() {
  
@@ -30,6 +31,7 @@ function NavLinks() {
             <Route path="/beneficios" component={Beneficios} />
             <Route path="/editarPerfil" component={PerfilUsuario} />
             <Route path="/misBeneficios" component={Beneficios} />
+            <Route path="/chatRepartidor" component={Canal} />
         </Switch>
 
       </Router>

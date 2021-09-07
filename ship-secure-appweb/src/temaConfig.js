@@ -36,7 +36,7 @@ const theme = createMuiTheme({
           subtitle1: "h2",
           subtitle2: "h3",
           body1: "span",
-          body2: "span",
+          body2: "h6",
         },
       },
     },

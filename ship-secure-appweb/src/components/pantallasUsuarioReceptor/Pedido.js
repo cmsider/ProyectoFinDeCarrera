@@ -17,18 +17,27 @@ import { useForm } from "react-hook-form";
 import { Info } from "@material-ui/icons";
 import emailjs from "emailjs-com";
 import Modal from "@material-ui/core/Modal";
-import { Icon } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ForumIcon from '@material-ui/icons/Forum';
+//import MapView from "../geoLocalizacion/MapView";
 import Contenedor from "../menuNavegacion/Contenedor";
+import { Suspense, lazy } from "react";
+const MapView = lazy(()=>import('../geoLocalizacion/MapView'));
+
+//import { Timeline, TimelineConnector, TimelineDot, TimelineItem, TimelineSeparator, TimelineOppositeContent } from '@material-ui/core';
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(7),
-    marginLeft: theme.spacing(50),
+    marginTop: theme.spacing(-95),
+    marginLeft: theme.spacing(80),
+    marginRight: theme.spacing(-50),
+    
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    alignContent: "right",
   },
   paper2: {
     position: "absolute",
@@ -43,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+  },
+  paper4: {
+    marginTop: theme.spacing(7),
+    marginLeft: theme.spacing(-90),
+    marginRight: theme.spacing(0),
+    
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    alignContent: "right",
   },
   colorTitle: {
     color: "#FFFFFF",
@@ -108,7 +127,7 @@ const Pedido = (props) => {
 
   const { state } = props.location;
   const pedidoID = state;
-  console.log(pedido);
+  //console.log(pedido);
 
   // console.log(props.location);
 
@@ -148,16 +167,20 @@ const Pedido = (props) => {
 
   const handleOpenChat = () => {
     setOpenChat(true);
+    redirect("/chatRepartidor");
+    
   };
 
 
   const listItems = pedido.map((pedido, index) => (
     <ul key={index}>
       <Grid container spacing={4}>
+
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.props} color="primary">
             Código de envio
           </Typography>
+          
           <Typography
             variant="h4"
             className={classes.colorTitulo}
@@ -247,11 +270,42 @@ const Pedido = (props) => {
             Chatear con el repartidor
           </Button>
           </Grid>
+
       </Grid>
     </ul>
   ));
 
+  const [mapRegion, setmapRegion] = useState({
+    latitude: 22,
+    longitude: 22,
+  });
+
+  const setmapRegion2 = (latitude,longitude) => {
+    mapRegion.latitude = latitude;
+    mapRegion.longitude = longitude;
+  };
   useEffect(() => {
+    const consultaAPI = async () => {
+    db.collection("track")
+      .doc(pedidoID)
+      .onSnapshot((documentSnapshot) => {
+          const mr = {
+            latitude: documentSnapshot.get("latitude"),
+            longitude: documentSnapshot.get("longitude"),
+          }
+          if (!actualizar && pedidoID !== "undefined") {
+            setmapRegion2(mr.latitude,mr.longitude);
+          }
+        console.log(mr);
+        
+        console.log(mapRegion);
+
+      })}
+      consultaAPI();
+  }, [pedidoID]);
+
+  useEffect(() => {
+    const consultaAPI = async () => {
     db.collection("envios")
       .doc(pedidoID)
       .get()
@@ -262,12 +316,13 @@ const Pedido = (props) => {
             ...querySnapshot.data(),
             key: querySnapshot.id,
           });
-          if (!actualizar && pedidoID != "undefined") {
+          if (!actualizar && pedidoID !== "undefined") {
             setPedido(pedidos);
             pedidoTomado();
           }
         }
-      });
+      })};
+      consultaAPI();
   }, []);
 
   const handleInputChange = (event) => {
@@ -275,7 +330,7 @@ const Pedido = (props) => {
       ...datos,
       [event.target.name]: event.target.value,
     });
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
   const [datos, setDatos] = useState({
@@ -300,7 +355,7 @@ const Pedido = (props) => {
   } = useForm();
 
   const sendMailReprogramar = (e) => {
-    console.log(datos);
+    //console.log(datos);
     emailjs
       .send(
         "shipSecure_service",
@@ -324,7 +379,7 @@ const Pedido = (props) => {
     if (!isFormValid()) {
       //message of error in the screen, maybe sweet alerts
       alert("Faltan campos por llenar");
-      console.log("falta algo");
+      //console.log("falta algo");
     } else {
       datos.nombres = pedido[0].nombres;
       datos.apellidos = pedido[0].apellidos;
@@ -363,12 +418,20 @@ const Pedido = (props) => {
 
   return (
     <div>
-      <Contenedor/>
-      <Container component="main" maxWidth="md">
+
+    <Contenedor/>
+    <div className={classes.paper4}>
+    <Suspense fallback={<h1>Loading profile...</h1>}>
+    <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
+    </Suspense>
+
+    </div>
+      <Container  component="main" maxWidth="md">
+      
         <CssBaseline />
         <div className={classes.paper}>
           <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-            <p>{listItems}</p>
+            {listItems}
 
             <Modal
               open={open}
@@ -508,7 +571,6 @@ const Pedido = (props) => {
                       margin="dense"
                       required
                       fullWidth
-                      label=""
                       type="observaciones"
                       id="observaciones"
                       label="Ingrese observaciones"

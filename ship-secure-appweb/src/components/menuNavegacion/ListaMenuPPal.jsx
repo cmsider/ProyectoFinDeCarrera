@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Divider,
-  ButtonBase,
 } from "@material-ui/core";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
