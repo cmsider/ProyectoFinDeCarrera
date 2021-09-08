@@ -4,7 +4,6 @@ import firebase from "firebase/app";
 import TextFiled from "@material-ui/core/TextField";
 import Contenedor from "../menuNavegacion/Contenedor";
 import { db, auth } from "../firebase";
-import ChatBubble from "react-chat-bubble";
 import GifChat from "./GifChat";
 import { Input } from "react-chat-elements";
 import { ChatItem } from "react-chat-elements";
