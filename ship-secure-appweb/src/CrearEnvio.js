@@ -19,7 +19,7 @@ import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

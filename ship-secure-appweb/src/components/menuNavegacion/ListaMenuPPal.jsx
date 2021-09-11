@@ -13,6 +13,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import LabelIcon from "@material-ui/icons/Label";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink, Nav } from "./stylesNavLink";
+import avatar from '../imagenes/avatar.png'
 
 const ListaMenuPPal = () => {
 
@@ -22,9 +23,9 @@ const ListaMenuPPal = () => {
         <ListItem button
         >
           <ListItemIcon>
-            <AccountBoxIcon />
+          <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="Usuario" />
+          <ListItemText primary="@Usuario" />
         </ListItem>
 
         <Divider />

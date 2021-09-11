@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
+import avatar from '../imagenes/avatar.png'
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
-    margin: theme.spacing(3),
-    backgroundColor: theme.palette.primary.main,
-  },
   colorTitulo: {
     color: "#FFFFFF",
+  },
+  colorSaludo: {
+    color: "#FFFFFF",
+    margin: theme.spacing(5,0,7),
   },
   colorTextField: {
     color: "#FFFFFF",
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+ 
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -74,15 +75,13 @@ const SeguimientoEnvioForm = (props) => {
         <CssBaseline />
 
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+        <img src={avatar} width="150" height="150"/>
           <Typography
             component="h2"
             variant="h4"
-            className={classes.colorTitulo}
+            className={classes.colorSaludo}
           >
-            Hola Usuario
+            ¡Hola @Usuario!
           </Typography>
           <form
             className={classes.form}

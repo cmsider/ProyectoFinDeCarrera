@@ -7,6 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import avatar from '../imagenes/avatar.png'
 
 import HomeIcon from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -19,7 +20,7 @@ const ListaMenuPPalCYR = () => {
       <List component="nav">
         <ListItem button>
           <ListItemIcon>
-            <AccountBoxIcon />
+          <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
           <ListItemText primary="Usuario" />
         </ListItem>

@@ -17,12 +17,7 @@ import { CenterFocusStrong } from "@material-ui/icons";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(5),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
+
   colorTitle: {
     color: "#FFFFFF",
     marginTop: 50,

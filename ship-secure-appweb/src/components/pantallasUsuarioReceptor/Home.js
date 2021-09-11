@@ -14,37 +14,34 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import "firebase/firestore";
 import "firebase/auth";
-import { useForm } from "react-hook-form";
 import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import avatar from '../imagenes/avatar.png'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(10),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
-    
-    backgroundColor: theme.palette.background.default,
-    color: "#FFFFFF",
-    width: 100,
-    height: 100,
-    borderRadius: 150,
-    marginBlockEnd: 30,
-    marginTop: 10,
+  paperBotones: {
+    marginTop: theme.spacing(4),
     alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
   },
   boton: {
-    backgroundColor: "#08AFA5",
+    //backgroundColor: "#08AFA5",
     color: "#FFFFFF",
     width: 100,
     height: 100,
-    borderRadius: 50,
     alignItems: "center",
+    textAlign: "center",
+    textShadow: "initial",
+    margin: theme.spacing(1,1,0),
   },
   colorTitulo: {
     color: "#FFFFFF",
@@ -53,26 +50,13 @@ const useStyles = makeStyles((theme) => ({
     color: "#E07D7E",
     width: 500,
     height: 100,
-    marginTop: 20,
-    marginRight:-100,
-    alignItems: "center",
+    marginTop: 110,
+    textAlign: "center",
   },
   colorHipervinculo: {
     color: "#08AFA5",
     alignItems: "center",
-  },
-  colorTextField: {
-    color: "#FFFFFF",
-    background: "#2F4A5B",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    marginRight:-100,
-    alignItems: "center",
-    margin: theme.spacing(1, 0, 2)
+    marginTop: theme.spacing(2)
   },
 }));
 
@@ -104,13 +88,10 @@ const Home = () => {
       <CssBaseline />
 
       <div className={classes.paper}>
-        <AccountCircleIcon className={(classes.avatar)} style={{ textAlign: "center", verticalAlign: "middle" }}>
-          
-        </AccountCircleIcon>
+          <img src={avatar} width="150" height="150"/>
        
         <Link to={'/misBeneficios'}>
         <Typography
-          component="h2"
           variant="h6"
           className={classes.colorHipervinculo}
         >
@@ -133,7 +114,7 @@ const Home = () => {
       </Container>
       <Container component="main" maxWidth="md">
         <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={10} className={classes.paperBotones}>
         <Grid item xs={4}>
 
         <Button
