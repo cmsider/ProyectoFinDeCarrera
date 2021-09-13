@@ -238,7 +238,7 @@ useEffect(() => {
               <TextValidator
                 variant="outlined"
                 fullWidth
-                label="Password"
+                label="Contraseña"
                 onChange={handlePassword}
                 name="password"
                 type="password"

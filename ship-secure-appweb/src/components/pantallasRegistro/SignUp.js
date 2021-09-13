@@ -8,18 +8,21 @@ import {
   Grid,
   Link,
   makeStyles,
+  FormControlLabel,
   Card,
   CardContent,
 } from "@material-ui/core";
 import { LockRounded } from "@material-ui/icons";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-
+import Checkbox from "@material-ui/core/Checkbox";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { db, auth } from "../firebase";
+import {ScaleLoader} from 'react-spinners';
+
 
 const SignUp = (props) => {
   const classes = useStyles();
@@ -32,6 +35,7 @@ const SignUp = (props) => {
   const [fechaNacimiento, setAFechaNacimiento] = useState("");
   const entityRef = db.collection('usuarios')
 
+  const [loading, setLoading] = useState(false);
 
   const handleEmail = (event) => {
     setEmail(event.target.value);
@@ -56,6 +60,7 @@ const SignUp = (props) => {
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
+    
       if (value !== password) {
         return false;
       }
@@ -64,9 +69,16 @@ const SignUp = (props) => {
     return () => {
       ValidatorForm.removeValidationRule("isPasswordMatch");
     };
+   
   }, [password]);
 
+  const [checkbox, setCheckBox] = useState(false);
+
+  const handleCheck = (event) => {
+    setCheckBox(event.target.checked);
+  };
   const register = () => {
+    setLoading(true);
 
         if(password === confirmPassword){
 
@@ -98,44 +110,67 @@ const SignUp = (props) => {
                 }).catch((error) => {
                     // An error happened.
                 });
+                setLoading(false);
             })
             .catch((error) => {
 
                 var errorMessage = error.message;
-                alert(errorMessage)
+                alert(errorMessage);
+                setLoading(false);
             });
 
+            
+           
         }
         else{
             alert('Las passwords no coinciden')
+            setLoading(false);
         }
     
 }
 
   return (
-    <Container component="main" maxWidth="sm" className ={classes.contenedor}>
-      <Card className={classes.card}>
-        <CardContent>
-          <ToastContainer />
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockRounded />
-            </Avatar>
-            <Typography component="h1" variant="h6">
-              Complete los datos de registro
-            </Typography>
+    <Container  component="main" maxWidth="md">
+   
+       <CssBaseline />
+          
+    
+          <div className={classes.paper2}>
+          <h4
+                    id="simple-modal-title"
+                    className={(classes.props, classes.colorTitle)}
+                  >
+                    ¡Bienvenido!
+                  </h4>
+                  <h6
+                    id="simple-modal-title"
+                    className={(classes.props, classes.colorSubtitulo)}
+                  >
+                     Registrate en ShipSecure:
+                  </h6>
+                 
 
             <ValidatorForm className={classes.form}>
               <Grid container spacing={1}>
                 <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Nombres
+                </Typography>
                   <TextValidator
                     variant="outlined"
                     fullWidth
-                    label="Nombre"
+                    label="Ingrese Nombres"
                     onChange={handleNombre}
+                    margin="dense"
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     name="nombre"
                     type="text"
+                    required
                     value={nombre}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
@@ -143,14 +178,25 @@ const SignUp = (props) => {
                   />
                 </Grid>
                 <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Apellidos
+                </Typography>
                   <TextValidator
                     variant="outlined"
                     fullWidth
-                    label="Apellido"
+                    label="Ingrese Apellidos"
+                    margin="dense"
                     onChange={handleApellido}
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     name="apellido"
                     type="text"
                     value={apellido}
+                    required
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                     autoComplete="off"
@@ -158,14 +204,24 @@ const SignUp = (props) => {
                 </Grid>
 
                 <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Fecha de nacimiento
+                </Typography>
                   <TextValidator
                     variant="outlined"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     type = "date"
                     onChange={handleFechaNac}
                     name="fechaNacimiento"
+                    required
                     value={fechaNacimiento}
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     validators={["required", "isDate"]}
                     errorMessages={[
                       "this field is required",
@@ -176,14 +232,23 @@ const SignUp = (props) => {
                 </Grid>
 
                 <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Email
+                </Typography>
                   <TextValidator
                     variant="outlined"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     label="Email"
                     onChange={handleEmail}
                     name="email"
                     value={email}
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     validators={["required", "isEmail"]}
                     errorMessages={[
                       "this field is required",
@@ -194,13 +259,23 @@ const SignUp = (props) => {
                 </Grid>
 
                 <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Contraseña
+                </Typography>
                   <TextValidator
                     variant="outlined"
                     fullWidth
-                    label="Password"
+                    label="Ingrese Contraseña"
                     onChange={handlePassword}
                     name="password"
                     type="password"
+                    margin="dense"
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     value={password}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
@@ -209,13 +284,23 @@ const SignUp = (props) => {
                 </Grid>
 
                 <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Repita Contraseña
+                </Typography>
                   <TextValidator
                     variant="outlined"
-                    label="Confirm password"
+                    label="Repita su contraseña"
                     fullWidth
                     onChange={handleConfirmPassowerd}
                     name="confirmPassword"
                     type="password"
+                    margin="dense"
+                    InputLabelProps={{ className: classes.colorLabel }}
+                    inputProps={{ className: classes.colorTextLabel }}
                     validators={["isPasswordMatch", "required"]}
                     errorMessages={[
                       "password mismatch",
@@ -224,32 +309,62 @@ const SignUp = (props) => {
                     value={confirmPassword}
                     autoComplete="off"
                   />
+                  </Grid>
+                 <Grid item xs={12}>
+                <FormControlLabel
+                control={
+                  <Checkbox
+                  className= {classes.checkbox}
+                  onChange={(e) => handleCheck(e)}
+                  backgourdColor="#E07D7E"
+                  />
+                 
+                }
+                required
+                label="Acepto Terminos del Servicio y Politicas de Privacidad."
+                className={classes.checkbox}
+                />
                 </Grid>
-              </Grid>
+                </Grid>
+                <Grid  >
+              {loading ? (
+                            <ScaleLoader
+                            size={150}
+                            alignItems={"center"}
+                            alignContent={"center"}
+                            justifyContent={"center"}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
+                        ) : (
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 className={classes.submit}
                 onClick={register}
+
               >
                 Registrarme
               </Button>
-              <Grid container>
-                <Grid item>
-                  <Link
+              )}
+        
+           
+              <p textAlign="center" className={classes.pointer}>Ya tienes cuenta?
+                <Link
                     onClick={props.toggle}
-                    className={classes.pointer}
+                    className={classes.link}
                     variant="body2"
-                  >
-                    {"Ya tenes una cuenta? Ingresa!"}
-                  </Link>
-                </Grid>
-              </Grid>
+                    textAlign="center"
+                    >
+                    { " Ingresa"}
+                  </Link> 
+                  </p> 
+                  </Grid> 
+                 
             </ValidatorForm>
-          </div>
-        </CardContent>
-      </Card>
+           
+          </div> 
     </Container>
   );
 };
@@ -261,33 +376,67 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  contenedor: {
+  paper2: {
+    position: "absolute",
+    width: 700,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(4, 4, 3),
     display: "flex",
     flexDirection: "column",
+    
+  },
+  colorTitle: {
+    color: "#FFFFFF",
+    margin: theme.spacing(1, 0, 1),
+    textAlign: "center"
+  },
+  colorSubtitulo: {
+    color: "#FFFFFF",
+    margin: theme.spacing(4, 0, 1),
+  },
+  contenedor: {
+    display: "flex",
+
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
 
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  pointer: {
+    cursor: "pointer",
+    textAlign: "center",
+    color: "#FFFFFF",
+  },
+  link: {
+    cursor: "pointer",
+    textAlign: "center",
+    color: "#E07D7E",
+  },
+  checkbox: {
+    color: "#E07D7E",
+    textAlign: "left",
+    justifyContent: "left",
+    alignItems: "left",
+    alignContent: "left",
+    margin: theme.spacing(2, 0, 2),
+    
+  },
+  colorLabel: {
+    color: "#7FA3B5",
+  },
+  colorTextLabel: {
+    color: "#FFFFFF",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    background: "linear-gradient(45deg, #003648 50%, #08AFA5 90%)",
-    margin: theme.spacing(3, 0, 2),
+    background: "linear-gradient(45deg, #08AFA5 50%, #003648  90%)",
+    margin: theme.spacing(1, 0, 2),
     color: "#FFFFFF",
   },
-  card: {
-    marginTop: "60px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    paddingBottom: "20px",
-  },
-  pointer: {
-    cursor: "pointer",
-    color: "#FFFFFF",
-  },
+
 }));
 export default SignUp;
