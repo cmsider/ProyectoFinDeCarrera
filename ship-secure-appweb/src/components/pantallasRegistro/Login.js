@@ -30,7 +30,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+  
     marginTop: theme.spacing(10),
+    marginLeft: theme.spacing(-10),
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
@@ -267,10 +269,13 @@ useEffect(() => {
                 <Grid> 
               {loading ? (
                             <ScaleLoader
-                            css={override}
                             size={150}
+                            alignItems={"center"}
+                            alignContent={"center"}
+                            justifyContent={"center"}
                             color={"#7FA3B5"}
-                            loading={loading}/>
+                            loading={loading}
+                            />
                         ) : (
                              <Button
                              type="submit"
