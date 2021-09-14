@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-chat-elements";
 import firebase from "firebase/app";
-import TextFiled from "@material-ui/core/TextField";
-import Contenedor from "../menuNavegacion/Contenedor";
+
 import { db, auth } from "../firebase";
-import GifChat from "./GifChat";
 import { Input } from "react-chat-elements";
 import { ChatItem } from "react-chat-elements";
 import { MessageList } from 'react-chat-elements';
 
-import { SideBar } from 'react-chat-elements'
 
 
 import {
@@ -43,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   contenedor: {
-    marginTop : "80px",
-    width:  "650px",
+    
+    width:  "600px",
     display: "block",
 
   },
@@ -122,7 +119,6 @@ const Canal = () => {
   return (
     <>
    
-<Contenedor/>
       <Container component="main" maxWidth="lg" className={classes.contenedor}>
  
         <CssBaseline />
@@ -141,7 +137,7 @@ const Canal = () => {
         />
 
 
-  <Box   overflow="auto" bgcolor="#08AFA5"  height = "600px"
+  <Box   overflow="auto" bgcolor="#003648"  height = "550px"
 >
 
         <ul>
@@ -187,7 +183,7 @@ const Canal = () => {
                   <Button
                     type="submit"
                     color="#FFFFFF"
-                    backgroundColor="#003648"
+                    backgroundColor="#08AFA5"
                     text="Enviar"
                     disabled={!newMessage}
                   />

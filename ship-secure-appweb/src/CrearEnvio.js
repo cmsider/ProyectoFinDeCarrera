@@ -87,7 +87,7 @@ function getModalStyle() {
   };
 }
 
-const CrearEnvio = () => {
+const CrearEnvio = (props) => {
   /*BASE DE DATOS */
   const history = useHistory();
 
@@ -221,7 +221,7 @@ const CrearEnvio = () => {
 
   return (
     <div>
-      <ContenedorCYR/>
+      <ContenedorCYR setUserState={() => props.setUserState(null)}/>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>

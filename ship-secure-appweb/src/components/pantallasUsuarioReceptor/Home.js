@@ -18,6 +18,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import {auth } from "../firebase";
 import avatar from '../imagenes/avatar.png'
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Home = () => {
+const Home = (props) => {
+
   const classes = useStyles();
   const history = useHistory();
   const redirect = (view) => {
@@ -78,8 +80,10 @@ const Home = () => {
   };
 
   const handleCloseRepartidor = () => {
+
     redirect("/listaEnvios");
   };
+
 
   return (
 

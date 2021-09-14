@@ -16,6 +16,7 @@ import ListaEnvios from "./components/pantallasRepartidor/ListaEnvios";
 import Pedido from "./components/pantallasUsuarioReceptor/Pedido";
 import SignUp from "./components/pantallasRegistro/SignUp";
 import Canal from "./components/chatRepartidor/Canal";
+import ListaMenuPPal from "./components/menuNavegacion/ListaMenuPPal";
 const App = () => {
   const [user, setUser] = useState('');
   const [toggleForm, setToggleForm] = useState(true);
@@ -24,7 +25,7 @@ const App = () => {
   }
  
   const userState = () => {
-    const data = localStorage.getItem('user');
+    const data = localStorage.getItem('usuarios');
     const us = data !== null ? JSON.parse(data) : null;
     setUser(us);
   }
@@ -100,22 +101,43 @@ const App = () => {
               <NavLink exact to="/ChatRepartidor"></NavLink>
             </span>
           </div>
+          <div className="routing-settings">
+            <span key="list">
+              <NavLink exact to="/List"></NavLink>
+            </span>
+          </div>
 
           <>
       {user !== null ? (
         <>
-            <Route exact path="/Home" component={Home} setUserState={() => setUser(null)} />
-            <Route exact path="/Nav" component={NavLinks} setUserState={() => setUser(null)} />
-            <Route exact path="/CrearEnvio" component={CrearEnvio} setUserState={() => setUser(null)} />
-            <Route exact path="/NavCreador" component={NavLinksCYR} setUserState={() => setUser(null)} />
-            <Route exact path="/SeguimientoEnvio" component={SeguimientoEnvioForm} />
-            <Route exact path="/HistorialEnvios" component={HistorialEnvios} />
-            <Route exact path="/EditarPerfil" component={PerfilUsuario} />
-            <Route exact path="/MisBeneficios" component={Beneficios} />
-            <Route exact path="/ListaEnvios" component={ListaEnvios} />
+            <Route exact path="/Home">
+              <Home setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/Nav" component={NavLinks}  />
+            <Route exact path="/CrearEnvio" >
+              <CrearEnvio setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/NavCreador" component={NavLinksCYR}  />
+            <Route exact path="/SeguimientoEnvio" >
+              <SeguimientoEnvioForm setUserState={() => setUser(null)}/>
+            </Route>
+            <Route exact path="/HistorialEnvios">
+              <HistorialEnvios setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/EditarPerfil" >
+              <PerfilUsuario setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/MisBeneficios" >
+              <Beneficios setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/ListaEnvios" >
+              <ListaEnvios setUserState={() => setUser(null)}/>
+              </Route>
             <Route exact path="/Pedido" component={Pedido} />
             <Route exact path="/SignUp" component={SignUp} />
             <Route exact path="/ChatRepartidor" component={Canal} />
+            <Route exact path="/List" component={ListaMenuPPal}  />
+
         </>
       ) : (
          <>
@@ -136,27 +158,3 @@ const App = () => {
 
 export default App;
 
-/*
-
-<Route exact path="/" component={Login} />
- return (
-    <ThemeProvider theme={theme}>
-      <Contenedor />
-    </ThemeProvider>
-  );
- */
-/*
-            <span key="seguimiento-envio-form">
-              <NavLink exact to="/seguimientoEnvioForm"></NavLink>
-            </span>
-            <span key="pedido">
-              <NavLink exact to="/Pedido"></NavLink>
-            </span>
-
-              <Route
-              exact
-              path="/seguimientoEnvioForm"
-              component={SeguimientoEnvioForm}
-            />
-            <Route exact path="/pedido" component={Pedido} />
-            */

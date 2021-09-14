@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import avatar from '../imagenes/avatar.png'
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -13,7 +14,7 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useForm } from "react-hook-form";
 import Contenedor from "../menuNavegacion/Contenedor";
-
+import { db } from "../firebase";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(7),
@@ -61,16 +62,59 @@ const SeguimientoEnvioForm = (props) => {
   };
   //Utiliza el hook useState
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [validarNroSeg, setValidarNroSeg] = useState(false);
+
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
 
   const handleButtonClick = (event) => {
-    console.log(localStorage.getItem('usuarios'));
-
-    setButtonClicked(true);
+          setValidarNroSeg(true);
   };
 
+    
+  useEffect(() => {
+          if(validarNroSeg){
+
+    const consultaAPI = async () => {
+      var pedido = [{
+    email: "",
+
+  }];
+
+      db.collection("envios")
+        .where("id", "==", entradas.nroSeg)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((documentSnapshot) => {
+            const ped = [];
+            ped.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+              });
+            pedido.email = ped[0].email;
+
+          });
+
+      
+        if(pedido.email === myJson["email"]) {setButtonClicked(true); }
+  
+ else{                    alert('Pedido invalido, porfavor ingrese su codigo de envio');
+           setValidarNroSeg(false);
+
+
+;}
+        });
+
+    };
+    consultaAPI();
+  
+          }
+  }, [entradas.nroSeg]);
+
+
+  
   return (
     <div>
-      <Contenedor/>
+      <Contenedor setUserState={() => props.setUserState(null)} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
 
@@ -142,13 +186,3 @@ const SeguimientoEnvioForm = (props) => {
   );
 };
 export default SeguimientoEnvioForm;
-/*           
-{buttonClicked ? <Pedido entradas={entradas} /> : null}
-         this.props.history.push({
-                pathname: "/pedido",
-                state: entradas, // your data array of objects
-              })
-{buttonClicked
-            ? redirect("/pedido", (entradas = { entradas }))
-            : null}
- */

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const PerfilUsuario = () => {
+export const PerfilUsuario = (props) => {
 
   const classes = useStyles();
   const {
@@ -70,35 +70,10 @@ export const PerfilUsuario = () => {
     setButtonClicked(true);
   };
   const [progCheckbox, setProgCheckbox] = useState(false);
- /* const handleInputChange = (event) => {
-    setDatos({
-      ...datos,
-      [event.target.name]: event.target.value,
-    });
-    console.log(event.target.value);
-  };
-
-  const [datos, setDatos] = useState({
-    nombres: "",
-    apellidos: "",
-    fechaNacimiento: "",
-    email: ""
-  });
-
-  const addUpdate = () => {
-    db.collection("update").doc(datos.codEnvio).set({
-      id: datos.codEnvio,
-      nombres: datos.nombres,
-      apellidos: datos.apellidos,
-      fechaNacimiento: datos.fechaNacimiento,
-      email: datos.email,
-    });
-    console.log(datos.codEnvio);
-  };
-*/
+ 
   return (
     <div>
-      <Contenedor/>
+      <Contenedor setUserState={() => props.setUserState(null)}/>
       <Container component="main" maxWidth="lg">
         <CssBaseline />
       
