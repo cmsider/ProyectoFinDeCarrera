@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import avatar from '../imagenes/avatar.png'
-import Avatar from "@material-ui/core/Avatar";
+import avatar from "../imagenes/avatar.png";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -15,6 +14,8 @@ import "firebase/auth";
 import { useForm } from "react-hook-form";
 import Contenedor from "../menuNavegacion/Contenedor";
 import { db } from "../firebase";
+import { useHistory } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(7),
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   colorSaludo: {
     color: "#FFFFFF",
-    margin: theme.spacing(5,0,7),
+    margin: theme.spacing(5, 0, 7),
   },
   colorTextField: {
     color: "#FFFFFF",
@@ -36,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
- 
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SeguimientoEnvioForm = (props) => {
+  const history = useHistory();
+
   const classes = useStyles();
   const {
     register,
@@ -67,51 +69,44 @@ const SeguimientoEnvioForm = (props) => {
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
 
   const handleButtonClick = (event) => {
-          setValidarNroSeg(true);
+    setValidarNroSeg(true);
   };
 
-    
   useEffect(() => {
-          if(validarNroSeg){
+    if (validarNroSeg) {
+      const consultaAPI = async () => {
+        var pedido = [
+          {
+            email: "",
+          },
+        ];
 
-    const consultaAPI = async () => {
-      var pedido = [{
-    email: "",
-
-  }];
-
-      db.collection("envios")
-        .where("id", "==", entradas.nroSeg)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((documentSnapshot) => {
-            const ped = [];
-            ped.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.id,
+        db.collection("envios")
+          .where("id", "==", entradas.nroSeg)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((documentSnapshot) => {
+              const ped = [];
+              ped.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
               });
-            pedido.email = ped[0].email;
+              pedido.email = ped[0].email;
+            });
 
+            if (pedido.email === myJson["email"]) {
+              console.log(props.history);
+              setButtonClicked(true);
+            } else {
+              alert("Pedido invalido, porfavor ingrese su codigo de envio");
+              setValidarNroSeg(false);
+            }
           });
-
-      
-        if(pedido.email === myJson["email"]) {setButtonClicked(true); }
-  
- else{                    alert('Pedido invalido, porfavor ingrese su codigo de envio');
-           setValidarNroSeg(false);
-
-
-;}
-        });
-
-    };
-    consultaAPI();
-  
-          }
+      };
+      consultaAPI();
+    }
   }, [entradas.nroSeg]);
 
-
-  
   return (
     <div>
       <Contenedor setUserState={() => props.setUserState(null)} />
@@ -119,7 +114,7 @@ const SeguimientoEnvioForm = (props) => {
         <CssBaseline />
 
         <div className={classes.paper}>
-        <img src={avatar} width="150" height="150"/>
+          <img src={avatar} width="150" height="150" />
           <Typography
             component="h2"
             variant="h4"
@@ -175,7 +170,7 @@ const SeguimientoEnvioForm = (props) => {
           </form>
         </div>
         {buttonClicked && entradas.nroSeg !== ""
-          ? props.history.push({
+          ? history.push({
               pathname: "/Pedido",
               state: entradas.nroSeg, // your data array of objects
             })
