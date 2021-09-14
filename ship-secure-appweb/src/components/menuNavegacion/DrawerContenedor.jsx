@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Divider, Drawer, makeStyles } from "@material-ui/core";
 import ListaMenuPPal from "./ListaMenuPPal";
 
@@ -27,7 +27,7 @@ const DrawerContenedor = (props) => {
     >
       <div className={classes.toolbar}></div>
       <Divider />
-      <ListaMenuPPal />
+      <ListaMenuPPal setUserState={() => props.setUserState(null)} />
     </Drawer>
   );
 };

@@ -129,7 +129,7 @@ export const Login = (props) => {
                 setLoading(false);
                 handleClose();
             }).catch(error => {
-                toast.error(error.message);
+                toast.error(error.message)
                 setLoading(false);
             });
   };

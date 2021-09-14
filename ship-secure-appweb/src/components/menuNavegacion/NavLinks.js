@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, NavLink } from "react-router-dom";
 import SeguimientoEnvioForm from "../pantallasUsuarioReceptor/SeguimientoEnvioForm";
 import Pedido from "../pantallasUsuarioReceptor/Pedido";
 import Beneficios from "../pantallasUsuarioReceptor/Beneficios";
@@ -14,7 +14,11 @@ function NavLinks() {
   return (
     <div>
       <Router>
-
+      <div className="routing-settings">
+            <span key="login">
+              <NavLink exact to="/"></NavLink>
+            </span>
+          </div>
     
         
         <Switch>
@@ -24,7 +28,7 @@ function NavLinks() {
               exact
               component={SeguimientoEnvioForm}
             />
-            <Route path="/login" component={Login} />
+            <Route path="/" component={Login} />
             <Route path="/pedido" component={Pedido} />
             <Route path="/historialEnvios" component={HistorialEnvios} />
             <Route path="/home" component={Home} />

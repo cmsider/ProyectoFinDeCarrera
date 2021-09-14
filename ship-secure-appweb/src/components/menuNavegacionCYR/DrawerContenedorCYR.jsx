@@ -27,7 +27,7 @@ const DrawerContenedorCYR = (props) => {
     >
       <div className={classes.toolbar}></div>
       <Divider />
-      <ListaMenuPPalCYR />
+      <ListaMenuPPalCYR setUserState={() => props.setUserState(null)}/>
     </Drawer>
   );
 };

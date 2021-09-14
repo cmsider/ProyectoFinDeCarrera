@@ -18,7 +18,7 @@ const estilos = makeStyles((theme) => ({
   },
 }));
 
-const ContenedorCYR = () => {
+const ContenedorCYR = (props) => {
   const classes = estilos();
   const [abrir, setAbrir] = React.useState(false);
   const accionAbrir = () => {
@@ -34,6 +34,7 @@ const ContenedorCYR = () => {
           variant="temporary"
           open={abrir}
           onClose={accionAbrir}
+          setUserState={() => props.setUserState(null)}
         />
       </Hidden>
 
@@ -42,6 +43,7 @@ const ContenedorCYR = () => {
           variant="temporary"
           open={abrir}
           onClose={accionAbrir}
+          setUserState={() => props.setUserState(null)}
         />
       </Hidden>
 

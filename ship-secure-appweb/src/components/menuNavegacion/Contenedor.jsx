@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Hidden } from "@material-ui/core";
 import Navbar from "./Navbar";
 import DrawerContenedor from "./DrawerContenedor";
@@ -18,7 +18,7 @@ const estilos = makeStyles((theme) => ({
   },
 }));
 
-const Contenedor = () => {
+const Contenedor = (props) => {
   const classes = estilos();
   const [abrir, setAbrir] = React.useState(false);
   const accionAbrir = () => {
@@ -27,13 +27,14 @@ const Contenedor = () => {
 
   return (
     <div className={classes.root}>
-      <Navbar accionAbrir={accionAbrir} />
+      <Navbar accionAbrir={accionAbrir}  />
 
       <Hidden lgDown>
         <DrawerContenedor
           variant="temporary"
           open={abrir}
           onClose={accionAbrir}
+          setUserState={() => props.setUserState(null)}
         />
       </Hidden>
 
@@ -42,6 +43,7 @@ const Contenedor = () => {
           variant="temporary"
           open={abrir}
           onClose={accionAbrir}
+          setUserState={() => props.setUserState(null)}
         />
       </Hidden>
 
