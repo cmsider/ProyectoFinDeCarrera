@@ -43,9 +43,7 @@ const NavbarCYR = (props) => {
         <Typography variant="h6" className={classes.title}>
           ShipSecure
         </Typography>
-        <Button variant="text" color="inherit">
-          Logout
-        </Button>
+
       </Toolbar>
     </AppBar>
   );

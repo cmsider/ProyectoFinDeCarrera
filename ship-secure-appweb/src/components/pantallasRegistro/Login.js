@@ -121,6 +121,7 @@ export const Login = (props) => {
                     email: user.email,
                     fechaNacimiento: user.fechaNacimiento,      
                     nombre:user.nombre,
+                    username: user.username,
                 }
                 localStorage.setItem('usuarios', JSON.stringify(data));
                 const storage = localStorage.getItem('usuarios');

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   List,
   ListItem,
@@ -16,8 +16,14 @@ import { NavLink, Nav } from "./stylesNavLink";
 import {auth } from "../firebase";
 import { useHistory } from "react-router-dom";
 import avatar from '../imagenes/avatar.png';
+import { db } from "../firebase";
+
 const ListaMenuPPal = (props) => {
 
+
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  console.log(myJson);
+  
 
    const history = useHistory();
 const redirect = (view) => {
@@ -39,6 +45,34 @@ const logout = async () =>{
 });
 
 }
+const [username, setUsername] = useState([]);
+
+
+useEffect(() => {
+
+const consultaAPI = async () => {
+
+db.collection("usuarios")
+.where("email", "==", myJson["email"])
+.get()
+.then((querySnapshot) => {
+  querySnapshot.forEach((documentSnapshot) => {
+    const us = [];
+    us.push({
+      ...documentSnapshot.data(),
+      key: documentSnapshot.id,
+      });
+      setUsername(us[0].username);
+  });
+});
+
+};
+consultaAPI();
+
+  
+}, [username]);
+
+
 
   return (
     <div>
@@ -48,7 +82,7 @@ const logout = async () =>{
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="@Usuario" />
+          <ListItemText primary={username} />
         </ListItem>
 
         <Divider />

@@ -95,7 +95,9 @@ const SignUp = (props) => {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
-                        fechaNacimiento: fechaNacimiento
+                        fechaNacimiento: fechaNacimiento,
+                        puntos: 0,
+                        username: nombre,
                     })
 
                 }).catch(function (error) {

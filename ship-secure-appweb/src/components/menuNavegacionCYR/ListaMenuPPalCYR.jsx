@@ -44,7 +44,7 @@ const logout = async () =>{
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="Usuario" />
+          <ListItemText primary="@Usuario" />
         </ListItem>
 
         <Divider />

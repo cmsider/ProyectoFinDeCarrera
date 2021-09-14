@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,6 +15,7 @@ import avatar from '../imagenes/avatar.png'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CenterFocusStrong } from "@material-ui/icons";
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import { db } from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -75,7 +76,35 @@ const useStyles = makeStyles((theme) => ({
 
 export const Beneficios = (props) => {
   const classes = useStyles();
-  var puntos= 65;
+  const [puntos, setPuntos] = useState([]);
+
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  
+  
+  useEffect(() => {
+
+const consultaAPI = async () => {
+
+db.collection("usuarios")
+  .where("email", "==", myJson["email"])
+  .get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((documentSnapshot) => {
+      const us = [];
+      us.push({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        });
+        setPuntos(us[0].puntos);
+    });
+  });
+
+};
+consultaAPI();
+
+    
+}, [puntos]);
+
   return (
 
    
