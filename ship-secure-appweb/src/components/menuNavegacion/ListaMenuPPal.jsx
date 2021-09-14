@@ -13,8 +13,31 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import LabelIcon from "@material-ui/icons/Label";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink, Nav } from "./stylesNavLink";
+import {auth } from "../firebase";
+import { useHistory } from "react-router-dom";
+const ListaMenuPPal = (props) => {
 
-const ListaMenuPPal = () => {
+
+   const history = useHistory();
+const redirect = (view) => {
+  history.push(view);
+};
+
+const handleClose =() => {
+  localStorage.removeItem('usuarios');
+  props.setUserState();
+  logout();
+}
+
+const logout = async () =>{
+  await auth.signOut().then(() => {
+    redirect("/");
+    console.log("LLegga");
+  }).catch((error) => {
+    // An error happened.
+});
+
+}
 
   return (
     <div>
@@ -92,14 +115,15 @@ const ListaMenuPPal = () => {
 
         <Divider />
 
-        <ListItem button
+        <ListItem button onClick = {handleClose}
         >
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Cerrar sesión" />
         </ListItem>
-        
+
+
 
       </List>
 

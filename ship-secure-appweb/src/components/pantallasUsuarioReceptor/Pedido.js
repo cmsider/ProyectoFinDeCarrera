@@ -22,6 +22,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 //import MapView from "../geoLocalizacion/MapView";
 import Contenedor from "../menuNavegacion/Contenedor";
 import { Suspense, lazy } from "react";
+import Canal from "../chatRepartidor/Canal";
 const MapView = lazy(()=>import('../geoLocalizacion/MapView'));
 
 //import { Timeline, TimelineConnector, TimelineDot, TimelineItem, TimelineSeparator, TimelineOppositeContent } from '@material-ui/core';
@@ -45,6 +46,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+    
+  },
+   paperChat: {
+    position: "absolute",
+    width: 0,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(0, 0, 0),
+    marginLeft: theme.spacing(-45),
+
+    
   },
   paper3: {
     position: "absolute",
@@ -137,6 +149,8 @@ const Pedido = (props) => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [openChat, setOpenChat] = useState(false);
+  const [updatePantalla, setUpdatePantalla] = useState(false);
+
 
   const [progCheckbox, setProgCheckbox] = useState(false);
   const [progCheckbox2, setProgCheckbox2] = useState(false);
@@ -157,19 +171,21 @@ const Pedido = (props) => {
   const handleClose = () => {
     setOpen(false);
     setOpen2(false);
-
     redirect("/pedido");
   };
 
   const handleOpen2 = () => {
     setOpen2(true);
   };
+  const handleCloseChat = () => {
+    setOpenChat(false);
+  };
 
   const handleOpenChat = () => {
     setOpenChat(true);
-    redirect("/chatRepartidor");
-    
+    //redirect("/chatRepartidor");
   };
+
 
 
   const listItems = pedido.map((pedido, index) => (
@@ -287,22 +303,22 @@ const Pedido = (props) => {
   useEffect(() => {
     const consultaAPI = async () => {
     db.collection("track")
-      .doc(pedidoID)
+      .doc(datos.codEnvio)
       .onSnapshot((documentSnapshot) => {
           const mr = {
             latitude: documentSnapshot.get("latitude"),
             longitude: documentSnapshot.get("longitude"),
           }
-          if (!actualizar && pedidoID !== "undefined") {
+ 
             setmapRegion2(mr.latitude,mr.longitude);
-          }
+            setmapRegion(mr);
         console.log(mr);
         
         console.log(mapRegion);
 
       })}
       consultaAPI();
-  }, [pedidoID]);
+  }, []);
 
   useEffect(() => {
     const consultaAPI = async () => {
@@ -316,14 +332,14 @@ const Pedido = (props) => {
             ...querySnapshot.data(),
             key: querySnapshot.id,
           });
-          if (!actualizar && pedidoID !== "undefined") {
+         
             setPedido(pedidos);
-            pedidoTomado();
-          }
+            //pedidoTomado();
+          
         }
       })};
       consultaAPI();
-  }, []);
+  }, [updatePantalla]);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -373,6 +389,7 @@ const Pedido = (props) => {
       );
   };
 
+
   const handleSubmit = (e) => {
     // HERE: you always want to prevent default, so do this first
     e.preventDefault();
@@ -384,17 +401,36 @@ const Pedido = (props) => {
       datos.nombres = pedido[0].nombres;
       datos.apellidos = pedido[0].apellidos;
       datos.email = pedido[0].email;
-
-      updateEnvio();
+      if (progCheckbox2 && progCheckbox){
+        updateEnvio();
+      }else if (progCheckbox && !progCheckbox2){
+        updateEnviPrimerCheck();
+      }else if (progCheckbox2 && !progCheckbox){
+        updateEnvioSegundoCheck();
+      }
+      setUpdatePantalla(true);
       handleOpen2();
+      sendMailReprogramar(e);
       e.target.reset();
     }
   };
 
   const isFormValid = () => {
-    if (!datos.direccion) {
+    if (progCheckbox && !progCheckbox2) {
+      if(!datos.direccion || !datos.piso || !datos.localidad || !datos.codigoPostal){
       return false;
-    } else {
+    }
+    } if (progCheckbox2 && !progCheckbox) {
+      if(!datos.fechaEntrega || !datos.horaEntrega ){
+      return false;
+    }
+    } 
+    if (!progCheckbox2 && !progCheckbox) {
+      if(!datos.direccion || !datos.piso || !datos.localidad || !datos.codigoPostal || !datos.fechaEntrega || !datos.horaEntrega ){
+      return false;
+    }
+    } 
+    else {
       return true;
     }
   };
@@ -415,13 +451,40 @@ const Pedido = (props) => {
         console.log("Actualizacion correcta!");
       });
   };
+  const updateEnviPrimerCheck = () => {
+    db.collection("envios")
+      .doc(pedidoID)
+      .update({
+        direccion: datos.direccion,
+        piso: datos.piso,
+        localidad: datos.localidad,
+        codigoPostal: datos.codigoPostal,
+        observaciones: datos.observaciones,
+      })
+      .then(() => {
+        console.log("Actualizacion correcta!");
+      });
+  };
+
+  const updateEnvioSegundoCheck = () => {
+    db.collection("envios")
+      .doc(pedidoID)
+      .update({
+        fechaEntrega: datos.fechaEntrega,
+        horaEntrega: datos.horaEntrega,
+      })
+      .then(() => {
+        console.log("Actualizacion correcta!");
+      });
+  };
+
 
   return (
     <div>
 
     <Contenedor/>
     <div className={classes.paper4}>
-    <Suspense fallback={<h1>Loading profile...</h1>}>
+    <Suspense fallback={<h1>Cargando Mapa...</h1>}>
     <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
     </Suspense>
 
@@ -730,6 +793,8 @@ const Pedido = (props) => {
                   >
                     Aceptar
                   </Button>
+                  
+ 
                 </div>
               </div>
             </Modal>
@@ -739,6 +804,16 @@ const Pedido = (props) => {
               </form>
             </Modal>
           </form>
+          <Modal
+    open={openChat}
+    onClose={handleCloseChat}
+    aria-labelledby="simple-modal-title"
+    aria-describedby="simple-modal-description"
+  >
+    <div style={modalStyle} className={classes.paperChat}>
+    <Canal/>
+    </div>
+  </Modal>
         </div>
         <Box mt={8}></Box>
       </Container>
