@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 import {
   Container,
   CssBaseline,
-  Avatar,
   Typography,
   FormControlLabel,
   Grid,
@@ -28,52 +27,67 @@ import {ScaleLoader} from 'react-spinners';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(3),
-    display: "flex",
-    flexDirection: "column",
+  
+    marginTop: theme.spacing(10),
+    marginLeft: theme.spacing(-10),
+    justifyContent: "center",
     alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  colorText: {
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginTop: theme.spacing(3),
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    colorText: "#FFFFFF",
   },
   submit: {
-    background: "linear-gradient(45deg, #003648 50%, #08AFA5 90%)",
+    background: "linear-gradient(45deg, #08AFA5 50%, #003648  90%)",
     margin: theme.spacing(3, 0, 2),
     color: "#FFFFFF",
   },
   card: {
-    marginTop: "60px",
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingBottom: "20px",
+    backgroundColor: "#003648",
+ 
   },
   pointer: {
     cursor: "pointer",
+    textAlign: "center",
     color: "#FFFFFF",
-    paddingLeft: "80px",
+  },
+  link: {
+    cursor: "pointer",
+    textAlign: "center",
+    color: "#E07D7E",
   },
   contenedor: {
-    display: "flex",
+    display: "grid",
     flexDirection: "column",
-    marginTop: "-630px",
-    paddingLeft: "850px",
-    paddingRight: "-120px",
-    paddingBottom: "20px",
+    //margin: theme.spacing(1, 0, 1),
   },
-  posImg: {
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "70px",
-    paddingLeft: "120px",
-    paddingRight: "20px",
-    paddingBottom: "20px",
+  colorLabel: {
+    color: "#7FA3B5",
+  },
+  colorTextLabel: {
+    color: "#FFFFFF",
+  },
+  checkbox: {
+    color: "#7FA3B5",
+    textAlign: "left",
+    justifyContent: "left",
+    alignItems: "left",
+    alignContent: "left",
   },
 }));
 
@@ -169,24 +183,29 @@ useEffect(() => {
   ///FIN DE LO MIO DEL CHAT///
 
   return (
-
-
   
-      <div   className ={classes.posImg} >
-      <img src={logo} width="700" height="650"/>
+      <div className={classes.paper}>
 
+          <Grid container spacing={2} className={classes.paper}>
+          <Grid item xs={6} justifyContent= "center"
+    alignItems= "center"
+    textAlign= "center"
+    alignContent= "center"
+    display= "grid" >
+       
+      <img src={logo} width="450" height="350"/>
       
-    <Container component="main" maxWidth="lg" className ={classes.contenedor} >
-      <Card className={classes.card}>
-        <CardContent>
+      </Grid>
+  
+    <Grid item xs={4}>
+
         <ToastContainer/>
           <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Bienvenido a ShipSecure!
+          <div display="grid">
+            <Typography component="h5" variant="h5"  className={classes.colorText}>
+              ¡Bienvenido a ShipSecure!
             </Typography>
+            
             <ValidatorForm
               onSubmit={handlerLogin}
               onError={(errors) => {
@@ -196,11 +215,15 @@ useEffect(() => {
               }}
               className={classes.form}
               >
+                <Grid>
               <TextValidator
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label="Email"
+                label= "Email"
+                color= "primary"
+                InputLabelProps={{ className: classes.colorLabel }}
+                inputProps={{ className: classes.colorTextLabel }}
                 onChange={handleEmail}
                 name="email"
                 value={email}
@@ -211,6 +234,7 @@ useEffect(() => {
                 ]}
                 autoComplete="off"
                 />
+                 
               <TextValidator
                 variant="outlined"
                 fullWidth
@@ -218,55 +242,68 @@ useEffect(() => {
                 onChange={handlePassword}
                 name="password"
                 type="password"
+                color= "primary"
+                InputLabelProps={{ className: classes.colorLabel }}
+                inputProps={{ className: classes.colorTextLabel }}
                 value={password}
                 validators={["required"]}
                 errorMessages={["El password es un campo requerido"]}
                 autoComplete="off"
                 />
+                </Grid>
+                <Grid item xs={4} className={classes.checkbox}> 
               <FormControlLabel
                 control={
                   <Checkbox
                   value={rememberme}
+                  className= {classes.checkbox}
                   onChange={(e) => handleCheck(e)}
-                  color="secondary"
+                  backgourdColor="#E07D7E"
                   />
+                 
                 }
                 label="Recordarme"
+                className={classes.colorText}
                 />
+                </Grid>
+                <Grid> 
               {loading ? (
                             <ScaleLoader
-                            css={override}
                             size={150}
-                            color={"#eb4034"}
-                            loading={loading}/>
+                            alignItems={"center"}
+                            alignContent={"center"}
+                            justifyContent={"center"}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
                         ) : (
                              <Button
                              type="submit"
                              fullWidth
                              variant="contained"
                              className={classes.submit}
-                             
                          >
                              Ingresar
                          </Button>
                         )}
-              <Grid container>
-                <Grid item>
-
-                  <Link
+                       </Grid>
+                        <p textAlign="center" className={classes.pointer}>No tienes cuenta?
+                <Link
                     onClick={props.toggle}
-                    className={classes.pointer}
+                    className={classes.link}
                     variant="body2"
+                    textAlign="center"
                     >
-                    {"No tienes cuenta? Registrate"}
-                  </Link>
-                </Grid>
-              </Grid>
+                    { " Registrate"}
+                  </Link> 
+                  </p>        
+              
+           
             </ValidatorForm>
           </div>
-        </CardContent>
-      </Card>
-    </Container>
+      </Grid>
+    </Grid>
+  
     </div>
   );
 };

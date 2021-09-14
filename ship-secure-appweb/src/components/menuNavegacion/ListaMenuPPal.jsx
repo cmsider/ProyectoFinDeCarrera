@@ -16,6 +16,7 @@ import { NavLink, Nav } from "./stylesNavLink";
 import {auth } from "../firebase";
 import { useHistory } from "react-router-dom";
 const ListaMenuPPal = (props) => {
+import avatar from '../imagenes/avatar.png'
 
 
    const history = useHistory();
@@ -45,9 +46,9 @@ const logout = async () =>{
         <ListItem button
         >
           <ListItemIcon>
-            <AccountBoxIcon />
+          <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="Usuario" />
+          <ListItemText primary="@Usuario" />
         </ListItem>
 
         <Divider />
