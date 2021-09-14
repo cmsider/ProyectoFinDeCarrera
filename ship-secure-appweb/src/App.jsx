@@ -121,9 +121,15 @@ const App = () => {
             <Route exact path="/SeguimientoEnvio" >
               <SeguimientoEnvioForm setUserState={() => setUser(null)}/>
             </Route>
-            <Route exact path="/HistorialEnvios" component={HistorialEnvios} />
-            <Route exact path="/EditarPerfil" component={PerfilUsuario} />
-            <Route exact path="/MisBeneficios" component={Beneficios}/>
+            <Route exact path="/HistorialEnvios">
+              <HistorialEnvios setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/EditarPerfil" >
+              <PerfilUsuario setUserState={() => setUser(null)}/>
+              </Route>
+            <Route exact path="/MisBeneficios" >
+              <Beneficios setUserState={() => setUser(null)}/>
+              </Route>
             <Route exact path="/ListaEnvios" >
               <ListaEnvios setUserState={() => setUser(null)}/>
               </Route>
@@ -152,27 +158,3 @@ const App = () => {
 
 export default App;
 
-/*
-
-<Route exact path="/" component={Login} />
- return (
-    <ThemeProvider theme={theme}>
-      <Contenedor />
-    </ThemeProvider>
-  );
- */
-/*
-            <span key="seguimiento-envio-form">
-              <NavLink exact to="/seguimientoEnvioForm"></NavLink>
-            </span>
-            <span key="pedido">
-              <NavLink exact to="/Pedido"></NavLink>
-            </span>
-
-              <Route
-              exact
-              path="/seguimientoEnvioForm"
-              component={SeguimientoEnvioForm}
-            />
-            <Route exact path="/pedido" component={Pedido} />
-            */

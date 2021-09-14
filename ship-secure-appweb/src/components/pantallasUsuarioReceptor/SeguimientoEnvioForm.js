@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import avatar from '../imagenes/avatar.png'
-import React, { useState , useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -187,13 +186,3 @@ const SeguimientoEnvioForm = (props) => {
   );
 };
 export default SeguimientoEnvioForm;
-/*           
-{buttonClicked ? <Pedido entradas={entradas} /> : null}
-         this.props.history.push({
-                pathname: "/pedido",
-                state: entradas, // your data array of objects
-              })
-{buttonClicked
-            ? redirect("/pedido", (entradas = { entradas }))
-            : null}
- */

@@ -15,8 +15,8 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink, Nav } from "./stylesNavLink";
 import {auth } from "../firebase";
 import { useHistory } from "react-router-dom";
+import avatar from '../imagenes/avatar.png';
 const ListaMenuPPal = (props) => {
-import avatar from '../imagenes/avatar.png'
 
 
    const history = useHistory();

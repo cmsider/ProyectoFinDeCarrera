@@ -73,14 +73,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const Beneficios = () => {
+export const Beneficios = (props) => {
   const classes = useStyles();
   var puntos= 65;
   return (
 
    
     <div>  
-    <Contenedor/>
+    <Contenedor setUserState={() => props.setUserState(null)}/>
     <Container component="main" maxWidth="lg">
       <CssBaseline />
       <Grid item xs={12}>

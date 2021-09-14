@@ -7,7 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import avatar from '../imagenes/avatar.png'
+import avatar from '../imagenes/avatar.png';
 
 import HomeIcon from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
