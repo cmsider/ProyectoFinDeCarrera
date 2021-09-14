@@ -95,7 +95,6 @@ const SeguimientoEnvioForm = (props) => {
             });
 
             if (pedido.email === myJson["email"]) {
-              console.log(props.history);
               setButtonClicked(true);
             } else {
               alert("Pedido invalido, porfavor ingrese su codigo de envio");
@@ -172,7 +171,8 @@ const SeguimientoEnvioForm = (props) => {
         {buttonClicked && entradas.nroSeg !== ""
           ? history.push({
               pathname: "/Pedido",
-              state: entradas.nroSeg, // your data array of objects
+              state: entradas.nroSeg,// your data array of objects
+              setUserState: () =>props.setUserState(null),
             })
           : null}
         <Box mt={8}></Box>

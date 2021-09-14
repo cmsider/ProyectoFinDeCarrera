@@ -482,7 +482,7 @@ const Pedido = (props) => {
   return (
     <div>
 
-    <Contenedor/>
+    <Contenedor setUserState={() => props.location.setUserState(null)} />
     <div className={classes.paper4}>
     <Suspense fallback={<h1>Cargando Mapa...</h1>}>
     <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
