@@ -31,12 +31,9 @@ const MapView = lazy(()=>import('../geoLocalizacion/MapView'));
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(-95),
-    marginLeft: theme.spacing(80),
-    marginRight: theme.spacing(-50),
-    
+    marginTop: theme.spacing(10),
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "right",
     alignItems: "center",
     alignContent: "right",
   },
@@ -483,15 +480,20 @@ const Pedido = (props) => {
     <div>
 
     <Contenedor setUserState={() => props.location.setUserState(null)} />
-    <div className={classes.paper4}>
-    <Suspense fallback={<h1>Cargando Mapa...</h1>}>
-    <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
-    </Suspense>
-
-    </div>
-      <Container  component="main" maxWidth="md">
+  
+      <Container  component="main" maxWidth="xl">
       
         <CssBaseline />
+    <Grid container spacing={2}>
+    <Grid item xs={6}>
+    <div className={classes.paper}>
+    <Suspense fallback={<h1>Cargando Mapa...</h1>}>
+    <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
+    </Suspense> 
+    </div> 
+    </Grid>
+    
+    <Grid item xs={6}>
         <div className={classes.paper}>
           <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
             {listItems}
@@ -814,7 +816,10 @@ const Pedido = (props) => {
     <Canal/>
     </div>
   </Modal>
+  
         </div>
+        </Grid>
+        </Grid>
         <Box mt={8}></Box>
       </Container>
     </div>
