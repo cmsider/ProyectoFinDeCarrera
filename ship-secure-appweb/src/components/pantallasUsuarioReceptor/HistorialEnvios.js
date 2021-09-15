@@ -29,6 +29,8 @@ export const HistorialEnvios = (props) => {
 
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
   const [pedidos, setPedidos] = useState([]);
+  const [hayPedidos, setHayPedidos] = useState(false);
+
   useEffect(() => {
 
 const consultaAPI = async () => {
@@ -44,7 +46,6 @@ db.collection("envios")
         ...documentSnapshot.data(),
         key: documentSnapshot.id,
         });
-        console.log(ped);
         
         var pedidoElement = {
           email : ped[0].email,
@@ -52,48 +53,54 @@ db.collection("envios")
           localidad : ped[0].localidad,
           fechaEntrega : ped[0].fechaEntrega
         };
-        if(pedidoElement!= 'undefined')
+        if(pedidoElement!= 'undefined'){
         pedidos.push(pedidoElement);
+
+        }
     });
-    console.log(pedidos);
+        if(pedidos){
+          setHayPedidos(true);
+        }
   });
 
 };
 consultaAPI();
 
     
-}, []);
+}, [pedidos]);
 
+const historicoEnvios =  pedidos.map((pedido) => (
+  <ListItem key={pedido}>
+        <ListItemText >
+        {pedido.email}
+          </ListItemText>
+          <ListItemText >
+        {pedido.direccion}
+          </ListItemText>
+          <ListItemText >
+        {pedido.localidad}
+          </ListItemText>
+          <ListItemText >
+        {pedido.fechaEntrega}
+          </ListItemText>
+      </ListItem>
+  ));
 
   return (
     <div>
+     
       <Contenedor setUserState={() => props.setUserState(null)}/>
       <List className={classes.root} subheader={<li/>}>
-        
-        {pedidos.map((pedido) => (
-          <ListItem key={pedido}>
-                <ListItemText >
-                {pedido.email}
-                  </ListItemText>
-                  <ListItemText >
-                {pedido.direccion}
-                  </ListItemText>
-                  <ListItemText >
-                {pedido.localidad}
-                  </ListItemText>
-                  <ListItemText >
-                {pedido.fechaEntrega}
-                  </ListItemText>
-              </ListItem>
-          ))}
+        {hayPedidos ? (<> {historicoEnvios} </>):( <div>NO HAY HISTORICOS, ESTO NO LO TOMA TODAVIA CREO</div>)}   
 </List>
+
+
+
+ 
     </div>
   );
 };
 export default HistorialEnvios;
-
-
-
 
 
 
