@@ -121,6 +121,8 @@ const CrearEnvio = (props) => {
     horaEntrega: "",
     peso: "",
     temperatura: "",
+    codigoPostal: "",
+    localidad: "",
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
   });
 
@@ -528,7 +530,7 @@ const CrearEnvio = (props) => {
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
-                  {...register("direccion", {
+                  {...register("codigoPostal", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
                       value: 1,
