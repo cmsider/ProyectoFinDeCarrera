@@ -48,10 +48,11 @@ db.collection("envios")
         });
         
         var pedidoElement = {
+          id : ped[0].id,
           email : ped[0].email,
           direccion : ped[0].direccion,
           localidad : ped[0].localidad,
-          fechaEntrega : ped[0].fechaEntrega
+          fechaEntrega : ped[0].fechaEntrega,
         };
         if(pedidoElement!= 'undefined'){
         pedidos.push(pedidoElement);
@@ -71,6 +72,9 @@ consultaAPI();
 
 const historicoEnvios =  pedidos.map((pedido) => (
   <ListItem key={pedido}>
+     <ListItemText >
+        {pedido.id}
+          </ListItemText>
         <ListItemText >
         {pedido.email}
           </ListItemText>
