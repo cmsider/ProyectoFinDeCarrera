@@ -8,15 +8,18 @@ import {
 } from "@material-ui/core";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import avatar from '../imagenes/avatar.png';
-
+import { useEffect, useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import { NavLink, Nav } from "./stylesNavLinkCYR";
 import {auth } from "../firebase";
 import { useHistory } from "react-router-dom";
+import { db } from "../firebase";
 
 const ListaMenuPPalCYR = (props) => {
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  console.log(myJson);
   const history = useHistory();
   const redirect = (view) => {
     history.push(view);
@@ -28,6 +31,32 @@ const handleClose =() => {
   logout();
 }
 
+useEffect(() => {
+
+  const consultaAPI = async () => {
+  
+  db.collection("usuarios")
+  .where("email", "==", myJson["email"])
+  .get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((documentSnapshot) => {
+      const us = [];
+      us.push({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        });
+        setUsername(us[0].username);
+    });
+  });
+  
+  };
+  consultaAPI();
+  
+    
+  }, [username]);
+
+  const [username, setUsername] = useState([]);
+
 const logout = async () =>{
   await auth.signOut().then(() => {
     redirect("/");
@@ -35,6 +64,7 @@ const logout = async () =>{
   }).catch((error) => {
     // An error happened.
 });
+
 
 }
   return (
@@ -44,7 +74,7 @@ const logout = async () =>{
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="@Usuario" />
+          <ListItemText primary={username} />
         </ListItem>
 
         <Divider />

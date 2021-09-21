@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import Contenedor from "../menuNavegacion/Contenedor";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
+import {ScaleLoader} from 'react-spinners';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,11 +43,21 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  loadingButton:{
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
+  }
 }));
 
 
 
 const SeguimientoEnvioForm = (props) => {
+
+  
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const classes = useStyles();
@@ -110,6 +122,7 @@ const SeguimientoEnvioForm = (props) => {
   useEffect(() => {
     if (validarNroSeg) {
       const consultaAPI = async () => {
+        setLoading(true);
         var pedido = [
           {
             email: "",
@@ -131,9 +144,11 @@ const SeguimientoEnvioForm = (props) => {
 
             if (pedido.email === myJson["email"]) {
               setButtonClicked(true);
+              setLoading(false);
             } else {
               alert("Pedido invalido, porfavor ingrese su codigo de envio");
               setValidarNroSeg(false);
+              setLoading(false);
             }
           });
       };
@@ -187,20 +202,28 @@ const SeguimientoEnvioForm = (props) => {
               {errors?.nroSeg?.message}
               {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
             </span>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleButtonClick}
-            >
-              Consultar envio
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item></Grid>
-            </Grid>
+            <div className={classes.loadingButton}>
+            {loading ? (
+                            <ScaleLoader
+                            size={150}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
+                        ) : (
+                          <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                          onClick={handleButtonClick}
+                        >
+                          Consultar envio
+                        </Button>
+                        )}
+           
+               </div>
+        
           </form>
         </div>
         {buttonClicked && entradas.nroSeg !== ""
