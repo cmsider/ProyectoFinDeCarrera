@@ -115,11 +115,12 @@ const actualizarBeneficios = () =>{
     setDesc(10);
   }else if (puntos >= 30 && puntos < 50){
     setDesc(15);
-
   }else if (puntos >= 50 && puntos < 70){
     setDesc(20);
-  }else if (puntos >= 70){
+  }else if (puntos >= 70 && puntos <90){
     setDesc(30);
+  }else if (puntos >= 90){
+    setDesc(50);
   }
 }
 
@@ -177,7 +178,7 @@ const actualizarBeneficios = () =>{
                   variant="h6"
                   className={classes.colorText}
                 >
-                  Beneficios alcanzados
+                  Beneficio alcanzado
                 </Typography>
               </Grid>
        </Grid>
