@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import CheckIcon from "@material-ui/icons/Check";
 import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
+import {ScaleLoader} from 'react-spinners';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 150,
     marginBlockEnd: 30,
     marginTop: 10,
+  },
+  loadingButton:{
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
   },
   colorTitle: {
     color: "#FFFFFF",
@@ -98,9 +106,13 @@ const CrearEnvio = (props) => {
     history.push(view);
   };
 
+  const [loading, setLoading] = useState(false);
+	
+
   const [progCheckbox, setProgCheckbox] = useState(false);
 
   const handleOpen = () => {
+    setLoading(false);
     setOpen(true);
   };
 
@@ -166,6 +178,7 @@ const CrearEnvio = (props) => {
       idRepartidor: "",
     });
     console.log(datos.codEnvio);
+     
   };
 
   const classes = useStyles();
@@ -179,15 +192,21 @@ const CrearEnvio = (props) => {
 
   const handleSubmit = (e) => {
     // HERE: you always want to prevent default, so do this first
+    
     e.preventDefault();
+    setLoading(true);
     if (!isFormValid()) {
       //message of error in the screen, maybe sweet alerts
       alert("Faltan campos por llenar");
       console.log("falta algo");
+    
     } else {
+   
       addEnvio();
-      handleOpen();
+      
       sendEmail(e);
+
+      //handleOpen();
     }
   };
 
@@ -212,11 +231,16 @@ const CrearEnvio = (props) => {
       .then(
         (result) => {
           console.log(result.text);
+          setLoading(false); 
+      handleOpen();  
         },
         (error) => {
           console.log(error.text);
+          setLoading(false); 
+          alert("Error al enviar el correo");
         }
       );
+      
     //e.target.reset();
   };
   /* */
@@ -454,7 +478,6 @@ const CrearEnvio = (props) => {
                   id="piso"
                   name="piso"
                   color="primary"
-                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -563,7 +586,6 @@ const CrearEnvio = (props) => {
                   id="observaciones"
                   name="observaciones"
                   color="primary"
-                  required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
                   onChangeCapture={handleInputChange}
@@ -720,7 +742,7 @@ const CrearEnvio = (props) => {
                   variant="filled"
                   margin="dense"
                   fullWidth
-                  label="Ingrese peso"
+                  label="Ingrese peso en gramos(g)"
                   type="peso"
                   id="peso"
                   name="peso"
@@ -756,7 +778,7 @@ const CrearEnvio = (props) => {
                   variant="filled"
                   margin="dense"
                   fullWidth
-                  label="Ingrese temperatura "
+                  label="Ingrese temperatura en C°"
                   type="temperatura"
                   id="temperatura"
                   name="temperatura"
@@ -769,7 +791,7 @@ const CrearEnvio = (props) => {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
                       value: 1,
-                      message: "El piso ingresado no es valido",
+                      message: "La temperatura ingresada no es valida",
                     },
                   })}
                 ></TextFiled>
@@ -790,19 +812,26 @@ const CrearEnvio = (props) => {
                 />
               </Grid>
 
-              <Grid item xs={4}>
-                <Button
+              <Grid item xs={4} className={classes.loadingButton}>
+              {loading ? (
+                            <ScaleLoader
+                            size={150}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
+                        ) : (
+                          <Button
                   type="submit"
                   variant="contained"
                   color="primary"
                   className={classes.submit}
                   onClick={() => {
-                    console.log("onclick");
                     setValue("codEnvio", datos.codEnvio);
                   }}
                 >
                   Confirmar envío
                 </Button>
+                        )} 
               </Grid>
             </Grid>
 
@@ -863,17 +892,3 @@ const CrearEnvio = (props) => {
 };
 export default CrearEnvio;
 
-/*
-              onClick={addEnvio}
-
-      .sendForm(
-        "shipSecure_service",
-        "template_x2s995n",
-        e.target,
-        "user_JYv6ZEZaGzGODUvHJ9tRm"
-      )
-onSubmit={(e) => {
-              sendEmail(e);
-              handleSubmit(enviarDatos);
-            }}*/
-/*  onSubmit={(e) => handleSubmit(e)} */

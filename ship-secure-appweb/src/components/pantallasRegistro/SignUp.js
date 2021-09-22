@@ -72,14 +72,13 @@ const SignUp = (props) => {
    
   }, [password]);
 
-  const [checkbox, setCheckBox] = useState(false);
+  
+  const [progCheckbox, setProgCheckbox] = useState(false);
 
-  const handleCheck = (event) => {
-    setCheckBox(event.target.checked);
-  };
+
   const register = () => {
     setLoading(true);
-
+      if(progCheckbox){
         if(password === confirmPassword){
 
             auth.createUserWithEmailAndPassword(email, password)
@@ -128,7 +127,12 @@ const SignUp = (props) => {
             alert('Las passwords no coinciden')
             setLoading(false);
         }
-    
+      }
+      else{
+        alert('Debe aceptar los terminos y condiciones para registrarse')
+            setLoading(false);
+
+      }
 }
 
   return (
@@ -317,8 +321,9 @@ const SignUp = (props) => {
                 control={
                   <Checkbox
                   className= {classes.checkbox}
-                  onChange={(e) => handleCheck(e)}
+                  id="progCheckbox"
                   backgourdColor="#E07D7E"
+                  onClick={() => setProgCheckbox(!progCheckbox)}
                   />
                  
                 }
@@ -328,7 +333,7 @@ const SignUp = (props) => {
                 />
                 </Grid>
                 </Grid>
-                <Grid  >
+                <div className={classes.loadingButton} >
               {loading ? (
                             <ScaleLoader
                             size={150}
@@ -350,8 +355,8 @@ const SignUp = (props) => {
                 Registrarme
               </Button>
               )}
-        
-           
+            </div>
+           <Grid>
               <p textAlign="center" className={classes.pointer}>Ya tienes cuenta?
                 <Link
                     onClick={props.toggle}
@@ -372,21 +377,13 @@ const SignUp = (props) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
   paper2: {
-    position: "absolute",
-    width: 700,
+    width: "100%",
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(4, 4, 3),
     display: "flex",
     flexDirection: "column",
-    
   },
   colorTitle: {
     color: "#FFFFFF",
@@ -396,14 +393,6 @@ const useStyles = makeStyles((theme) => ({
   colorSubtitulo: {
     color: "#FFFFFF",
     margin: theme.spacing(4, 0, 1),
-  },
-  contenedor: {
-    display: "flex",
-
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
-
   },
   pointer: {
     cursor: "pointer",
@@ -422,7 +411,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "left",
     alignContent: "left",
     margin: theme.spacing(2, 0, 2),
-    
+  },
+  loadingButton:{
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
   },
   colorLabel: {
     color: "#7FA3B5",

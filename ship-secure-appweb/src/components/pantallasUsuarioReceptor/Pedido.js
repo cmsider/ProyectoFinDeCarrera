@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import "firebase/firestore";
+import { ScaleLoader } from 'react-spinners';
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -24,6 +25,7 @@ import Contenedor from "../menuNavegacion/Contenedor";
 import { Suspense, lazy } from "react";
 import Canal from "../chatRepartidor/Canal";
 const MapView = lazy(()=>import('../geoLocalizacion/MapView'));
+
 
 //import { Timeline, TimelineConnector, TimelineDot, TimelineItem, TimelineSeparator, TimelineOppositeContent } from '@material-ui/core';
 
@@ -72,6 +74,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     alignContent: "right",
   },
+  loadingButton:{
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
+  },
   colorTitle: {
     color: "#FFFFFF",
     marginTop: 10,
@@ -102,6 +111,8 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, -1),
+    marginTop: theme.spacing(5),
+
   },
   colorText: {
     color: "#FFFFFF",
@@ -152,6 +163,7 @@ const Pedido = (props) => {
   const [progCheckbox, setProgCheckbox] = useState(false);
   const [progCheckbox2, setProgCheckbox2] = useState(false);
 
+  const [loading, setLoading] = useState(false);
 
   const redirect = (view) => {
     history.push(view);
@@ -164,6 +176,10 @@ const Pedido = (props) => {
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleOpen2 = () => {
+    setLoading(false);
+    setOpen2(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -171,9 +187,6 @@ const Pedido = (props) => {
     redirect("/pedido");
   };
 
-  const handleOpen2 = () => {
-    setOpen2(true);
-  };
   const handleCloseChat = () => {
     setOpenChat(false);
   };
@@ -259,11 +272,14 @@ const Pedido = (props) => {
           </Typography>
           <Typography className={classes.root}>{pedido.peso} Kg</Typography>
         </Grid>
+      
+        <Grid container spacing={4}>
         <Grid item xs={6}>
           <Button
             type="button"
             variant="contained"
             color="primary"
+            fullWidth
             className={classes.submit}
             onClick={handleOpen}
           >
@@ -271,17 +287,21 @@ const Pedido = (props) => {
             Reprogramar
           </Button>
           </Grid>
+
           <Grid item xs={6}>
           <Button
             type="button"
             variant="contained"
             color="primary"
+            fullWidth
             className={classes.submit}
             onClick={handleOpenChat}
+           
           >
             <ForumIcon />
             Chatear con el repartidor
           </Button>
+          </Grid>
           </Grid>
 
       </Grid>
@@ -389,10 +409,13 @@ const Pedido = (props) => {
 
   const handleSubmit = (e) => {
     // HERE: you always want to prevent default, so do this first
+
     e.preventDefault();
+    setLoading(true);
     if (!isFormValid()) {
       //message of error in the screen, maybe sweet alerts
       alert("Faltan campos por llenar");
+  
       //console.log("falta algo");
     } else {
       datos.nombres = pedido[0].nombres;
@@ -405,16 +428,24 @@ const Pedido = (props) => {
       }else if (progCheckbox2 && !progCheckbox){
         updateEnvioSegundoCheck();
       }
+      
       setUpdatePantalla(true);
-      handleOpen2();
       sendMailReprogramar(e);
+   
       e.target.reset();
+      
+     
+   
+      
     }
+    
   };
 
+
   const isFormValid = () => {
+
     if (progCheckbox && !progCheckbox2) {
-      if(!datos.direccion || !datos.piso || !datos.localidad || !datos.codigoPostal){
+      if(!datos.direccion || !datos.localidad || !datos.codigoPostal){
       return false;
     }
     } if (progCheckbox2 && !progCheckbox) {
@@ -423,7 +454,7 @@ const Pedido = (props) => {
     }
     } 
     if (!progCheckbox2 && !progCheckbox) {
-      if(!datos.direccion || !datos.piso || !datos.localidad || !datos.codigoPostal || !datos.fechaEntrega || !datos.horaEntrega ){
+      if(!datos.direccion|| !datos.localidad || !datos.codigoPostal || !datos.fechaEntrega || !datos.horaEntrega ){
       return false;
     }
     } 
@@ -433,6 +464,8 @@ const Pedido = (props) => {
   };
 
   const updateEnvio = () => {
+
+  
     db.collection("envios")
       .doc(pedidoID)
       .update({
@@ -446,9 +479,12 @@ const Pedido = (props) => {
       })
       .then(() => {
         console.log("Actualizacion correcta!");
+        setLoading(false); 
+        handleOpen2();    
       });
   };
   const updateEnviPrimerCheck = () => {
+  
     db.collection("envios")
       .doc(pedidoID)
       .update({
@@ -459,11 +495,15 @@ const Pedido = (props) => {
         observaciones: datos.observaciones,
       })
       .then(() => {
-        console.log("Actualizacion correcta!");
+        console.log("Actualizacion correcta!"); 
+        setLoading(false);
+        handleOpen2();     
       });
   };
 
   const updateEnvioSegundoCheck = () => {
+  
+
     db.collection("envios")
       .doc(pedidoID)
       .update({
@@ -472,9 +512,10 @@ const Pedido = (props) => {
       })
       .then(() => {
         console.log("Actualizacion correcta!");
+        setLoading(false);
+        handleOpen2();  
       });
   };
-
 
   return (
     <div>
@@ -487,7 +528,7 @@ const Pedido = (props) => {
     <Grid container spacing={2}>
     <Grid item xs={6}>
     <div className={classes.paper}>
-    <Suspense fallback={<h1>Cargando Mapa...</h1>}>
+    <Suspense fallback={<h1 className={classes.colorText}>Cargando...</h1>}>
     <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
     </Suspense> 
     </div> 
@@ -495,7 +536,7 @@ const Pedido = (props) => {
     
     <Grid item xs={6}>
         <div className={classes.paper}>
-          <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
+         
             {listItems}
 
             <Modal
@@ -567,7 +608,6 @@ const Pedido = (props) => {
                       <TextFiled
                         variant="filled"
                         margin="dense"
-                        required
                         fullWidth
                         label="Ingrese piso/departamento"
                         type="piso"
@@ -634,7 +674,6 @@ const Pedido = (props) => {
                     <TextFiled
                       variant="filled"
                       margin="dense"
-                      required
                       fullWidth
                       type="observaciones"
                       id="observaciones"
@@ -739,74 +778,83 @@ const Pedido = (props) => {
                     </Grid>
                   </Grid>
                  
-                  <Grid item xs={12} align="center">
-                  <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  
-                >
-                  Enviar
-                </Button>
+                  <Grid item xs={12} className={classes.loadingButton}>
+                  {loading ? (
+                            <ScaleLoader
+                            size={150}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
+                        ) : (
+                          <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                        >
+                          Enviar
+                        </Button>
+                        )}
+                
                 </Grid>
-                <Modal
-              open={open2}
-              onClose={handleClose}
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-            >
-              <div style={modalStyle} className={classes.paper3}>
-                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
-                <CheckIcon
-                    className={(classes.props, classes.colorIconCheck)}
-                    style={{ textAlign: "center", verticalAlign: "middle" }}
-                  ></CheckIcon>
-
-                  <h4
-                    id="simple-modal-title"
-                    className={(classes.props, classes.colorTitle)}
-                  >
-                    ENVÍO REPROGRAMADO
-                  </h4>
-
-                  <Divider
-                    className={classes.colorDivider}
-                    style={{ marginTop: 30 }}
-                  />
-
-                  <p style={{ marginTop: 30, marginBlockEnd: 40 }}>
-                    <Typography
-                      variant="body2"
-                      className={(classes.props, classes.colorText)}
-                    >
-                      Ya le avisamos al repartidor! 
-                      En unos instantes te llegará un correo con el comprobante para que puedas abonarlo.
-                    </Typography>
-                  </p>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={() => {
-                      handleClose();
-                    }}
-                  >
-                    Aceptar
-                  </Button>
-                  
- 
-                </div>
-              </div>
-            </Modal>
-
-             
                 </div>
               </form>
-            </Modal>
-          </form>
-          <Modal
+              </Modal>   
+  
+
+                     <Modal
+    open={open2}
+    close={handleClose}
+    aria-labelledby="simple-modal-title"
+    aria-describedby="simple-modal-description"
+  >
+   
+    <div style={modalStyle} className={classes.paper3}>
+      <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+      <CheckIcon
+          className={(classes.props, classes.colorIconCheck)}
+          style={{ textAlign: "center", verticalAlign: "middle" }}
+        ></CheckIcon>
+
+        <h4
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+          ENVÍO REPROGRAMADO
+        </h4>
+
+        <Divider
+          className={classes.colorDivider}
+          style={{ marginTop: 30 }}
+        />
+
+        <p style={{ marginTop: 30, marginBlockEnd: 40 }}>
+          <Typography
+            variant="body2"
+            className={(classes.props, classes.colorText)}
+          >
+            Ya le avisamos al repartidor! 
+            En unos instantes te llegará un correo con el comprobante para que puedas abonarlo.
+          </Typography>
+        </p>
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          Aceptar
+        </Button>
+      
+
+      </div>
+    </div>           
+            </Modal>      
+        
+   <Modal
     open={openChat}
     onClose={handleCloseChat}
     aria-labelledby="simple-modal-title"

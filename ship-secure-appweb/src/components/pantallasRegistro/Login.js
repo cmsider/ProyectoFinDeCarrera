@@ -43,23 +43,19 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     textAlign: "center",
     marginTop: theme.spacing(3),
+    marginBlockEnd: theme.spacing(5),
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
     colorText: "#FFFFFF",
+    display: "grid",
   },
   submit: {
     background: "linear-gradient(45deg, #08AFA5 50%, #003648  90%)",
     margin: theme.spacing(3, 0, 2),
     color: "#FFFFFF",
-  },
-  card: {
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    paddingBottom: "20px",
-    backgroundColor: "#003648",
- 
+    marginTop: theme.spacing(7),
   },
   pointer: {
     cursor: "pointer",
@@ -81,13 +77,6 @@ const useStyles = makeStyles((theme) => ({
   },
   colorTextLabel: {
     color: "#FFFFFF",
-  },
-  checkbox: {
-    color: "#7FA3B5",
-    textAlign: "left",
-    justifyContent: "left",
-    alignItems: "left",
-    alignContent: "left",
   },
 }));
 
@@ -279,21 +268,6 @@ useEffect(() => {
                 autoComplete="off"
                 />
                 </Grid>
-                <Grid item xs={4} className={classes.checkbox}> 
-              <FormControlLabel
-                control={
-                  <Checkbox
-                  value={rememberme}
-                  className= {classes.checkbox}
-                  onChange={(e) => handleCheck(e)}
-                  backgourdColor="#E07D7E"
-                  />
-                 
-                }
-                label="Recordarme"
-                className={classes.colorText}
-                />
-                </Grid>
                 <Grid> 
               {loading ? (
                             <ScaleLoader
@@ -301,7 +275,8 @@ useEffect(() => {
                             alignItems={"center"}
                             alignContent={"center"}
                             justifyContent={"center"}
-                            color={"#7FA3B5"}
+                            color={"#7FA3B25"}
+                            marginTop={"7"}
                             loading={loading}
                             />
                         ) : (
