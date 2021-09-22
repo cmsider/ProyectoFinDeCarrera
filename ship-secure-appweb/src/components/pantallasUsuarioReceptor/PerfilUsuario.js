@@ -13,7 +13,6 @@ import { Divider } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import avatar from "../imagenes/avatar.png";
 import { db, auth } from "../firebase";
-import * as firebase from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,10 +57,13 @@ const useStyles = makeStyles((theme) => ({
 export const PerfilUsuario = (props) => {
   const [user, setUser] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
+
   const onSubmit = (data) => {
+    console.log(data.alias);
+    if(data.alias){
     myJson["username"] = data.alias;
-    console.log(JSON.stringify(myJson));
     localStorage.setItem("usuarios", JSON.stringify(myJson));
+    }
 
     const updateAlias = () => {
       db.collection("usuarios")
@@ -75,12 +77,36 @@ export const PerfilUsuario = (props) => {
     };
 
     if (progCheckbox) {
-      updateAlias();
+      const userAuth = auth.currentUser;
       const newPassword = data.contraseña;
+      if(data.alias){
+        
+        userAuth
+        .updatePassword(newPassword)
+        .then(() => {
+          console.log("Actualizacion correcta!");
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
+        });
+        updateAlias();
+      }else {
+        userAuth
+        .updatePassword(newPassword)
+        .then(() => {
+          console.log("Actualizacion correcta!123");
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
+        });
+      }
 
-      console.log(newPassword);
     } else {
-      updateAlias();
+      if(data.alias){
+        updateAlias();
+      }
     }
   };
 
@@ -90,25 +116,6 @@ export const PerfilUsuario = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  /*
-  const updateEnvio = () => {
-    db.collection("usuarios")
-      .doc(usuario.key)
-      .update({
-        direccion: datos.direccion,
-        piso: datos.piso,
-        localidad: datos.localidad,
-        codigoPostal: datos.codigoPostal,
-        observaciones: datos.observaciones,
-        fechaEntrega: datos.fechaEntrega,
-        horaEntrega: datos.horaEntrega,
-      })
-      .then(() => {
-        console.log("Actualizacion correcta!");
-      });
-  };
-*/
 
   const [buttonClicked, setButtonClicked] = useState(false);
   const handleButtonClick = (event) => {
@@ -150,7 +157,6 @@ export const PerfilUsuario = (props) => {
                     variant="filled"
                     margin="dense"
                     fullWidth
-                    label="Nombres"
                     value={myJson["nombre"]}
                     type="string"
                     id="nombres"
@@ -179,7 +185,6 @@ export const PerfilUsuario = (props) => {
                     variant="filled"
                     margin="dense"
                     fullWidth
-                    label="Apellidos"
                     type="apellidos"
                     id="apellidos"
                     value={myJson["apellido"]}
@@ -212,7 +217,6 @@ export const PerfilUsuario = (props) => {
                     name="alias"
                     color="primary"
                     defaultValue={myJson["username"]}
-                    required
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
@@ -220,7 +224,6 @@ export const PerfilUsuario = (props) => {
                     }}
                     inputProps={{ className: classes.colorText }}
                     {...register("alias", {
-                      required: { value: true, message: "Campo requerido" },
                       minLength: {
                         value: 1,
                         message: "El alias ingresado no es valido",
@@ -242,7 +245,6 @@ export const PerfilUsuario = (props) => {
                     variant="filled"
                     margin="dense"
                     fullWidth
-                    label="Correo electrónico"
                     type="email"
                     value={myJson["email"]}
                     id="email"
@@ -300,7 +302,7 @@ export const PerfilUsuario = (props) => {
                           margin="dense"
                           fullWidth
                           label="Nueva Contraseña"
-                          type="string"
+                          type="text"
                           id="contraseña"
                           name="contraseña"
                           required
@@ -339,7 +341,7 @@ export const PerfilUsuario = (props) => {
                           margin="dense"
                           fullWidth
                           label="Repita contraseña"
-                          type="contraseña2"
+                          type="text"
                           id="contraseña2"
                           name="contraseña2"
                           color="primary"

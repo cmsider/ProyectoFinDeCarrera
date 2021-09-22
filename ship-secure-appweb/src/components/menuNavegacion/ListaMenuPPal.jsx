@@ -39,7 +39,6 @@ const handleClose =() => {
 const logout = async () =>{
   await auth.signOut().then(() => {
     redirect("/");
-    console.log("LLegga");
   }).catch((error) => {
     // An error happened.
 });
