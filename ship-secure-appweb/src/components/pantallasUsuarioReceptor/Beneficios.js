@@ -77,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
 export const Beneficios = (props) => {
   const classes = useStyles();
   const [puntos, setPuntos] = useState([]);
+  const [desc, setDesc] = useState([]);
+
 
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
   
@@ -101,9 +103,25 @@ db.collection("usuarios")
 
 };
 consultaAPI();
+actualizarBeneficios();
 
     
 }, [puntos]);
+
+const actualizarBeneficios = () =>{
+  if( puntos < 10 ){
+    setDesc(5);
+  }else if (puntos >= 10 && puntos < 30){
+    setDesc(10);
+  }else if (puntos >= 30 && puntos < 50){
+    setDesc(15);
+
+  }else if (puntos >= 50 && puntos < 70){
+    setDesc(20);
+  }else if (puntos >= 70){
+    setDesc(30);
+  }
+}
 
   return (
 
@@ -188,15 +206,9 @@ consultaAPI();
                   className={classes.submit}
                 >
                    <LoyaltyIcon className={classes.colorLabel}/>
-                  Envío programado con 10% de descuento
+                  {desc}% de descuento en tu envio con ShipSecure
                 </Typography>
-                <Typography
-               
-                  className={classes.submit}
-                >
-                   <LoyaltyIcon className={classes.colorLabel}/>
-                  $100.- pesos de descuento en tu próximo envío
-                </Typography>
+                
               </Grid>
        </Grid>
     </div>

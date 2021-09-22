@@ -115,20 +115,47 @@ export const Login = (props) => {
             .signInWithEmailAndPassword(email, password)
             .then(response => {
                 const {user} =  response;
-                const data = {
+                var data = {
                     _id: user.uid,
                     apellido: user.apellido,
                     email: user.email,
                     fechaNacimiento: user.fechaNacimiento,      
                     nombre:user.nombre,
                     username: user.username,
+                    idUs: user.idUs,
+                    
                 }
-                localStorage.setItem('usuarios', JSON.stringify(data));
-                const storage = localStorage.getItem('usuarios');
-                const loggedInUser = storage !== null ? JSON.parse(storage) : null;
-                props.loggedIn(loggedInUser);
-                setLoading(false);
-                handleClose();
+
+                const consultaAPI = async () => {
+                  db.collection("usuarios")
+                    .where("email", "==", data.email)
+                    .get()
+                    .then((querySnapshot) => {
+                      querySnapshot.forEach((documentSnapshot) => {
+                        const usuario = [];
+                        usuario.push({
+                          ...documentSnapshot.data(),
+                          key: documentSnapshot.id,
+                        });
+                        console.log(usuario);
+                        data.apellido = usuario[0].apellido;
+                        data.fechaNacimiento = usuario[0].fechaNacimiento;
+                        data.nombre = usuario[0].nombre;
+                        data.username = usuario[0].username;
+                        data.idUs = usuario[0].key;
+
+                        localStorage.setItem('usuarios', JSON.stringify(data));
+                        const storage = localStorage.getItem('usuarios');
+                        const loggedInUser = storage !== null ? JSON.parse(storage) : null;
+                        props.loggedIn(loggedInUser);
+                        setLoading(false);
+                        handleClose();
+                      });
+                    });
+                };
+                consultaAPI();
+
+                
             }).catch(error => {
                 toast.error(error.message)
                 setLoading(false);

@@ -45,32 +45,6 @@ const logout = async () =>{
 });
 
 }
-const [username, setUsername] = useState([]);
-
-
-useEffect(() => {
-
-const consultaAPI = async () => {
-
-db.collection("usuarios")
-.where("email", "==", myJson["email"])
-.get()
-.then((querySnapshot) => {
-  querySnapshot.forEach((documentSnapshot) => {
-    const us = [];
-    us.push({
-      ...documentSnapshot.data(),
-      key: documentSnapshot.id,
-      });
-      setUsername(us[0].username);
-  });
-});
-
-};
-consultaAPI();
-
-  
-}, [username]);
 
 
 
@@ -82,7 +56,7 @@ consultaAPI();
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary={username} />
+          <ListItemText primary={ myJson["username"]} />
         </ListItem>
 
         <Divider />

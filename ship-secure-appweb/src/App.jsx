@@ -133,6 +133,9 @@ const App = () => {
             <Route exact path="/ListaEnvios" >
               <ListaEnvios setUserState={() => setUser(null)}/>
               </Route>
+              <Route exact path="/">
+              <Home setUserState={() => setUser(null)}/>
+              </Route>
             <Route exact path="/Pedido" component={Pedido} />
             <Route exact path="/SignUp" component={SignUp} />
             <Route exact path="/ChatRepartidor" component={Canal} />

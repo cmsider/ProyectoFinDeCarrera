@@ -18,6 +18,8 @@ import { useHistory } from "react-router-dom";
 
 const ListaMenuPPalCYR = (props) => {
   const history = useHistory();
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+
   const redirect = (view) => {
     history.push(view);
   };
@@ -44,7 +46,7 @@ const logout = async () =>{
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary="@Usuario" />
+          <ListItemText primary={myJson["username"]}/>
         </ListItem>
 
         <Divider />
