@@ -21,6 +21,8 @@ const ListaMenuPPalCYR = (props) => {
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
   console.log(myJson);
   const history = useHistory();
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+
   const redirect = (view) => {
     history.push(view);
   };
@@ -74,7 +76,7 @@ const logout = async () =>{
           <ListItemIcon>
           <img src={avatar} width="50" height="50"/>
           </ListItemIcon>
-          <ListItemText primary={username} />
+          <ListItemText primary={myJson["username"]}/>
         </ListItem>
 
         <Divider />

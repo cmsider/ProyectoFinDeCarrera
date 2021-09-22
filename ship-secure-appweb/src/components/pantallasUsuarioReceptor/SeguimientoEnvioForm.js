@@ -84,35 +84,6 @@ const SeguimientoEnvioForm = (props) => {
 
 
 
-  const [username, setUsername] = useState([]);
-
-
-  useEffect(() => {
-  
-  const consultaAPI = async () => {
-  
-  db.collection("usuarios")
-  .where("email", "==", myJson["email"])
-  .get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((documentSnapshot) => {
-      const us = [];
-      us.push({
-        ...documentSnapshot.data(),
-        key: documentSnapshot.id,
-        });
-        setUsername(us[0].username);
-    });
-  });
-  
-  };
-  consultaAPI();
-  
-    
-  }, [username]);
-
-
-
 
 
   const handleButtonClick = (event) => {
@@ -169,7 +140,7 @@ const SeguimientoEnvioForm = (props) => {
             variant="h4"
             className={classes.colorSaludo}
           >
-            ¡Hola {username}!
+            ¡Hola {myJson["username"]}!
           </Typography>
           <form
             className={classes.form}
