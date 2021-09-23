@@ -4,7 +4,7 @@ import { Route, NavLink, HashRouter } from "react-router-dom";
 import NavLinks from "./components/menuNavegacion/NavLinks";
 import CrearEnvio from "./CrearEnvio";
 import Home from "./components/pantallasUsuarioReceptor/Home";
-
+import { makeStyles } from "@material-ui/core/styles";
 import theme from "./temaConfig";
 import Login from "./components/pantallasRegistro/Login";
 import NavLinksCYR from "./components/menuNavegacionCYR/NavLinksCYR";
@@ -17,12 +17,38 @@ import Pedido from "./components/pantallasUsuarioReceptor/Pedido";
 import SignUp from "./components/pantallasRegistro/SignUp";
 import Canal from "./components/chatRepartidor/Canal";
 import ListaMenuPPal from "./components/menuNavegacion/ListaMenuPPal";
+import Modal from "@material-ui/core/Modal";
+
+const useStyles = makeStyles((theme) => ({
+  paperChat: {
+    position: "absolute",
+    boxShadow: theme.shadows[0],
+    padding: theme.spacing(0, 0, 0),
+    marginTop: theme.spacing(10),
+    marginLeft: theme.spacing(55),
+    
+  },
+}));
+
 const App = () => {
+
+  const classes = useStyles();
+
   const [user, setUser] = useState('');
   const [toggleForm, setToggleForm] = useState(true);
   const formMode = () => {
     setToggleForm(!toggleForm);
+    handleOpenChat();
   }
+  const [openChat, setOpenChat] = useState(false);
+  const handleCloseChat = () => {
+    setOpenChat(false);
+    setToggleForm(!toggleForm);
+  };
+  const handleOpenChat = () => {
+    setOpenChat(true);
+    //redirect("/chatRepartidor");
+  };
  
   const userState = () => {
     const data = localStorage.getItem('usuarios');
@@ -145,13 +171,21 @@ const App = () => {
       ) : (
          <>
          {toggleForm ? (<Login loggedIn={(user) => setUser(user)} toggle={() => formMode()}/>) 
-         : ( <SignUp toggle={() => formMode()}/>)}
+         : ( <Modal
+          open={openChat}
+          onClose={handleCloseChat}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div className={classes.paperChat} >
+          <SignUp toggle={() => formMode()}/>
+          </div>
+        </Modal> )}
         
      </>
       )} 
     </>
-    
- 
+   
          
         </div>
       </HashRouter>

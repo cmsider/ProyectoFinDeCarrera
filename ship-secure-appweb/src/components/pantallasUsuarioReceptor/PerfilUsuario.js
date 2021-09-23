@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,6 +13,8 @@ import { Divider } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import avatar from "../imagenes/avatar.png";
 import { db, auth } from "../firebase";
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,6 +60,33 @@ export const PerfilUsuario = (props) => {
   const [user, setUser] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
 
+  
+  const classes = useStyles();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch
+  } = useForm();
+
+
+  const contraseña = useRef({});
+  contraseña.current = watch("contraseña", "");
+
+  const history = useHistory();
+  const redirect = (view) => {
+    history.push(view);
+  };
+  
+  const logout = async () =>{
+    await auth.signOut().then(() => {
+      redirect("/");
+    }).catch((error) => {
+      // An error happened.
+  });
+  
+  }
+
   const onSubmit = (data) => {
     console.log(data.alias);
     if(data.alias){
@@ -84,7 +113,10 @@ export const PerfilUsuario = (props) => {
         userAuth
         .updatePassword(newPassword)
         .then(() => {
-          console.log("Actualizacion correcta!");
+          //ESTO IRIA CUANDO ACEPTAS LA VENTANA MODAL
+          localStorage.removeItem('usuarios');
+          props.setUserState();
+          logout();
         })
         .catch((error) => {
           // An error ocurred
@@ -95,7 +127,10 @@ export const PerfilUsuario = (props) => {
         userAuth
         .updatePassword(newPassword)
         .then(() => {
-          console.log("Actualizacion correcta!123");
+          //ESTO IRIA CUANDO ACEPTAS LA VENTANA MODAL
+          localStorage.removeItem('usuarios');
+          props.setUserState();
+          logout();
         })
         .catch((error) => {
           // An error ocurred
@@ -109,13 +144,6 @@ export const PerfilUsuario = (props) => {
       }
     }
   };
-
-  const classes = useStyles();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   const [buttonClicked, setButtonClicked] = useState(false);
   const handleButtonClick = (event) => {
@@ -302,7 +330,7 @@ export const PerfilUsuario = (props) => {
                           margin="dense"
                           fullWidth
                           label="Nueva Contraseña"
-                          type="text"
+                          type="password"
                           id="contraseña"
                           name="contraseña"
                           required
@@ -317,13 +345,13 @@ export const PerfilUsuario = (props) => {
                             },
                             minLength: {
                               value: 2,
-                              message: "La contraseña ingresada no es valida",
+                              message: "La contraseña debe tener mas de 2 caracteres",
                             },
                           })}
                         ></TextFiled>
 
                         <span className="text-danger text-small d-block mb-2">
-                          {errors?.nombres?.message}
+                          {errors?.contraseña?.message}
                           {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                         </span>
                       </Grid>
@@ -341,7 +369,7 @@ export const PerfilUsuario = (props) => {
                           margin="dense"
                           fullWidth
                           label="Repita contraseña"
-                          type="text"
+                          type="password"
                           id="contraseña2"
                           name="contraseña2"
                           color="primary"
@@ -355,15 +383,13 @@ export const PerfilUsuario = (props) => {
                               value: true,
                               message: "Campo requerido",
                             },
-                            minLength: {
-                              value: 2,
-                              message: "La contraseña ingresada no es valida",
-                            },
+                            validate: value =>
+                              value === contraseña.current || "Las contraseñas no coinciden"
                           })}
                         ></TextFiled>
 
                         <span className="text-danger text-small d-block mb-2">
-                          {errors?.apellidos?.message}
+                          {errors?.contraseña2?.message}
                           {/*si da error en el nombre muestra el mensaje de error en nombre*/}
                         </span>
                       </Grid>

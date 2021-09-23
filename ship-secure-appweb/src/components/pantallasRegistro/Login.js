@@ -87,6 +87,8 @@ export const Login = (props) => {
   const [rememberme, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
+
+
   const override = `
   display: block;
   margin-left: 140px;
@@ -99,7 +101,9 @@ export const Login = (props) => {
     setPassword(event.target.value);
   };
   const handlerLogin = () => {
+
     setLoading(true);
+
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(response => {
@@ -300,7 +304,7 @@ useEffect(() => {
                     { " Registrate"}
                   </Link> 
                   </p>        
-              
+
            
             </ValidatorForm>
           </div>
