@@ -20,7 +20,7 @@ import ListaMenuPPal from "./components/menuNavegacion/ListaMenuPPal";
 import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
-  paperChat: {
+  paper: {
     position: "absolute",
     boxShadow: theme.shadows[0],
     padding: theme.spacing(0, 0, 0),
@@ -38,16 +38,15 @@ const App = () => {
   const [toggleForm, setToggleForm] = useState(true);
   const formMode = () => {
     setToggleForm(!toggleForm);
-    handleOpenChat();
+    handleOpen();
   }
-  const [openChat, setOpenChat] = useState(false);
-  const handleCloseChat = () => {
-    setOpenChat(false);
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
     setToggleForm(!toggleForm);
   };
-  const handleOpenChat = () => {
-    setOpenChat(true);
-    //redirect("/chatRepartidor");
+  const handleOpen = () => {
+    setOpen(true);
   };
  
   const userState = () => {
@@ -172,12 +171,12 @@ const App = () => {
          <>
          {toggleForm ? (<Login loggedIn={(user) => setUser(user)} toggle={() => formMode()}/>) 
          : ( <Modal
-          open={openChat}
-          onClose={handleCloseChat}
+          open={open}
+          onClose={handleClose}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
-          <div className={classes.paperChat} >
+          <div className={classes.paper} >
           <SignUp toggle={() => formMode()}/>
           </div>
         </Modal> )}
