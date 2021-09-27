@@ -14,7 +14,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import avatar from "../imagenes/avatar.png";
 import { db, auth } from "../firebase";
 import { useHistory } from "react-router-dom";
-
+import {ScaleLoader} from 'react-spinners';
+import Modal from "@material-ui/core/Modal";
+import CheckIcon from "@material-ui/icons/Check";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  paper2: {
+    position: "absolute",
+    width: 500,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(2, 4, 3),
   },
   colorTitle: {
     color: "#FFFFFF",
@@ -31,6 +40,22 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+  },
+  loadingButton:{
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    alignContent: "center",
+    display: "flex",
+  },
+  colorIcon: {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.background.default,
+    width: 100,
+    height: 100,
+    borderRadius: 150,
+    marginBlockEnd: 30,
+    marginTop: 20,
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -56,11 +81,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 export const PerfilUsuario = (props) => {
   const [user, setUser] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
 
-  
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [modalStyle] = React.useState(getModalStyle);
+
   const classes = useStyles();
   const {
     register,
@@ -78,6 +118,17 @@ export const PerfilUsuario = (props) => {
     history.push(view);
   };
   
+  const handleOpen = () => {
+    setOpen(true);
+    setLoading(false);
+  };
+
+
+  const handleClose = () => {
+    setOpen(false);
+    redirect("/editarPerfil");
+  };
+
   const logout = async () =>{
     await auth.signOut().then(() => {
       redirect("/");
@@ -88,7 +139,11 @@ export const PerfilUsuario = (props) => {
   }
 
   const onSubmit = (data) => {
+
+    setLoading(true);
+   
     console.log(data.alias);
+ 
     if(data.alias){
     myJson["username"] = data.alias;
     localStorage.setItem("usuarios", JSON.stringify(myJson));
@@ -103,6 +158,7 @@ export const PerfilUsuario = (props) => {
         .then(() => {
           console.log("Actualizacion correcta!");
         });
+       
     };
 
     if (progCheckbox) {
@@ -117,12 +173,14 @@ export const PerfilUsuario = (props) => {
           localStorage.removeItem('usuarios');
           props.setUserState();
           logout();
+
         })
         .catch((error) => {
           // An error ocurred
           // ...
         });
         updateAlias();
+     
       }else {
         userAuth
         .updatePassword(newPassword)
@@ -135,14 +193,19 @@ export const PerfilUsuario = (props) => {
         .catch((error) => {
           // An error ocurred
           // ...
+        
         });
       }
-
+      handleOpen();
+    
     } else {
       if(data.alias){
         updateAlias();
+    
       }
+      handleOpen();
     }
+ 
   };
 
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -181,25 +244,14 @@ export const PerfilUsuario = (props) => {
                   >
                     Nombres
                   </Typography>
-                  <TextFiled
-                    variant="filled"
-                    margin="dense"
-                    fullWidth
-                    value={myJson["nombre"]}
-                    type="string"
-                    id="nombres"
-                    disabled="true"
-                    name="nombres"
-                    required
-                    InputLabelProps={{ className: classes.colorLabel }}
-                    inputProps={{ className: classes.colorLabel }}
-                    //onChangeCapture={handleInputChange}
-                  ></TextFiled>
-
-                  <span className="text-danger text-small d-block mb-2">
-                    {errors?.nombres?.message}
-                    {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
-                  </span>
+                  <Typography
+                    variant="h6"
+                    className={classes.colorLabel}
+                    color="primary"
+                  >
+                    {myJson["nombre"]}
+                  </Typography>
+                  
                 </Grid>
                 <Grid item xs={6}>
                   <Typography
@@ -209,24 +261,30 @@ export const PerfilUsuario = (props) => {
                   >
                     Apellidos
                   </Typography>
-                  <TextFiled
-                    variant="filled"
-                    margin="dense"
-                    fullWidth
-                    type="apellidos"
-                    id="apellidos"
-                    value={myJson["apellido"]}
-                    name="apellidos"
+                  <Typography
+                    variant="h6"
+                    className={classes.colorLabel}
                     color="primary"
-                    disabled="true"
-                    required
-                    InputLabelProps={{ className: classes.colorLabel }}
-                    inputProps={{ className: classes.colorLabel }}
-                    SelectProps={{ className: classes.colorText }}
-                    //onChangeCapture={handleInputChange}
-                  ></TextFiled>
+                  >
+                    {myJson["apellido"]}
+                  </Typography>
                 </Grid>
-
+                <Grid item xs={6}>
+                  <Typography
+                    variant="body2"
+                    className={classes.props}
+                    color="primary"
+                  >
+                    Email
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    className={classes.colorLabel}
+                    color="primary"
+                  >
+                    {myJson["email"]}
+                  </Typography>
+                </Grid>
                 <Grid item xs={6}>
                   <Typography
                     variant="body2"
@@ -240,16 +298,13 @@ export const PerfilUsuario = (props) => {
                     margin="dense"
                     fullWidth
                     type="text"
-                    label="Alias"
                     id="alias"
                     name="alias"
                     color="primary"
+                    label="Actualizar alias:"
                     defaultValue={myJson["username"]}
                     className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                      className: classes.colorLabel,
-                    }}
+                    InputLabelProps={{ className: classes.colorLabel }}
                     inputProps={{ className: classes.colorText }}
                     {...register("alias", {
                       minLength: {
@@ -261,30 +316,6 @@ export const PerfilUsuario = (props) => {
                   ></TextFiled>
                 </Grid>
 
-                <Grid item xs={6}>
-                  <Typography
-                    variant="body2"
-                    className={classes.props}
-                    color="primary"
-                  >
-                    Email
-                  </Typography>
-                  <TextFiled
-                    variant="filled"
-                    margin="dense"
-                    fullWidth
-                    type="email"
-                    value={myJson["email"]}
-                    id="email"
-                    name="email"
-                    color="primary"
-                    disabled="true"
-                    required
-                    InputLabelProps={{ className: classes.colorLabel }}
-                    inputProps={{ className: classes.colorLabel }}
-                    //onChangeCapture={handleInputChange}
-                  ></TextFiled>
-                </Grid>
                 <Grid container spacing={1}>
                   <Grid item xs={3} style={{ padding: 18 }}>
                     <Typography
@@ -399,8 +430,15 @@ export const PerfilUsuario = (props) => {
               </Grid>
             </div>
 
-            <div className={classes.submit}>
-              <Button
+            <div className={classes.loadingButton}>
+            {loading ? (
+                            <ScaleLoader
+                            size={150}
+                            color={"#7FA3B5"}
+                            loading={loading}
+                            />
+                        ) : (
+                          <Button
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -408,9 +446,59 @@ export const PerfilUsuario = (props) => {
               >
                 Actualizar
               </Button>
+                        )} 
+              
             </div>
           </form>
-        </div>
+       
+        <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              <div style={modalStyle} className={classes.paper2}>
+                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+                  <CheckIcon
+                    className={(classes.props, classes.colorIcon)}
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                  ></CheckIcon>
+
+                  <h4
+                    id="simple-modal-title"
+                    className={(classes.props, classes.colorTitle)}
+                  >
+                    ACTUALIZADO
+                  </h4>
+
+                  <Divider
+                    className={classes.colorDivider}
+                    style={{ marginTop: 30 }}
+                  />
+
+                  <p style={{ marginTop: 30, marginBlockEnd: 40 }}>
+                    <Typography
+                      variant="body2"
+                      className={(classes.props, classes.colorText)}
+                    >
+                      Se actualizaron tus datos. Si modificaste tu contraseña, recordá que la próxima vez que ingreses al sistema tenés hacerlo con tu nueva clave.
+                    </Typography>
+                  </p>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => {
+                      handleClose();
+                    }}
+                  >
+                    Aceptar
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+            </div>
         <Box mt={8}></Box>
       </Container>
     </div>

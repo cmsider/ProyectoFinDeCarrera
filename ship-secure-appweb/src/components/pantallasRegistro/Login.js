@@ -100,6 +100,7 @@ export const Login = (props) => {
   const handlePassword = (event) => {
     setPassword(event.target.value);
   };
+
   const handlerLogin = () => {
 
     setLoading(true);
@@ -118,6 +119,7 @@ export const Login = (props) => {
                     idUs: user.idUs,
                     
                 }
+                
 
                 const consultaAPI = async () => {
                   db.collection("usuarios")
@@ -141,13 +143,14 @@ export const Login = (props) => {
                         const storage = localStorage.getItem('usuarios');
                         const loggedInUser = storage !== null ? JSON.parse(storage) : null;
                         props.loggedIn(loggedInUser);
-                        setLoading(false);
+                        
                         handleClose();
                       });
                     });
                 };
-                consultaAPI();
 
+                consultaAPI();
+                setLoading(false);
                 
             }).catch(error => {
                 toast.error(error.message)
@@ -158,7 +161,7 @@ export const Login = (props) => {
   const handleCheck = (event) => {
     setRememberMe(event.target.checked);
   };
-  ///MIO DEL CHAT///
+
 
   const history = useHistory();
   const redirect = (view) => {
@@ -169,39 +172,7 @@ export const Login = (props) => {
     redirect("/home");
   };
 
-  //const [user, setUser] = useState(() => auth.currentUser);
   const [initializing, setInitializing] = useState(true);
-/*
-  const signIn = () => {
-    auth.signInWithEmailAndPassword(email, password)
-        .catch((error) => {
-            var errorMessage = error.message;
-            alert(errorMessage)
-        });
-}
-
-useEffect(() => {
-  const unsubscribe = auth.onAuthStateChanged((userAuth) => {
-    if (userAuth!= '') {
-      console.log("Logueo");
-      setLoading(false);
-
-    } else {
-      setLoading(false);
-      console.log("NOLOGEO");
-
-    }
-    if (initializing) {
-      setInitializing(false);
-      setLoading(false);
-    }
-  });
-  return unsubscribe;
-}, []);
-*/
-
-
-  ///FIN DE LO MIO DEL CHAT///
 
   return (
   
@@ -271,17 +242,14 @@ useEffect(() => {
                 errorMessages={["El password es un campo requerido"]}
                 autoComplete="off"
                 />
-                </Grid>
-                <Grid> 
+                
+                
               {loading ? (
                             <ScaleLoader
                             size={150}
-                            alignItems={"center"}
-                            alignContent={"center"}
-                            justifyContent={"center"}
-                            color={"#7FA3B25"}
-                            marginTop={"7"}
+                            color={"#7FA3B5"}
                             loading={loading}
+                            marginTop={"7"}
                             />
                         ) : (
                              <Button
@@ -293,7 +261,7 @@ useEffect(() => {
                              Ingresar
                          </Button>
                         )}
-                       </Grid>
+                       
                         <p textAlign="center" className={classes.pointer}>No tienes cuenta?
                 <Link
                     onClick={props.toggle}
@@ -305,7 +273,7 @@ useEffect(() => {
                   </Link> 
                   </p>        
 
-           
+                  </Grid>
             </ValidatorForm>
           </div>
       </Grid>
@@ -316,138 +284,3 @@ useEffect(() => {
 };
 export default Login;
 
-/*
-
-
-
-export const Login = () => {
-  
-  const history = useHistory();
-  const redirect = (view) => {
-    history.push(view);
-  };
-
-  const handleClose = () => {
-    redirect("/home");
-  };
-
-  const [user,setUser] = useState(()=> auth.currentUser);
-  const [initializing, setInitializing] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user =>{
-      if (user){
-        setUser(user);
-      }else {
-        setUser(null);
-      }
-      if(initializing){
-        setInitializing(false);
-      }
-    });
-    return unsubscribe;
-  }, []);
-
-
-  const signInWithGoogle = async () => {
-    
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    auth.useDeviceLanguage();
-    try{
-      await auth.signInWithPopup(provider);
-    }catch(error){
-      console.error(error);
-    }
-
-};
-
-const signOut = async () => {
-    
-  try{
-    await firebase.auth().signOut()
-  }catch(error){
-    console.error(error.message);
-  }
-
-}
-
-if(initializing) return "Loading... ";
-
-  return (
-    <div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          handleClose();
-        }}
-      >
-        Ingresar al home
-      </Button>
-
-        {user ? (
-          <>
-          <Button onClick={signOut} variant="contained"
-        color="primary">Sign out</Button>
-          <p>'Bienvenidos al chat de ShipSecure'</p>
-          <Canal user= {user} db = {db}/>
-          </>
-          ) : (
-      <Button
-        onClick = {signInWithGoogle}
-        variant="contained"
-        color="primary"
-        
-      >
-        Ingresar al chat (por ahora solo para probarlo)
-      </Button>
-          )}
-
-    </div>
-  );
-};
-export default Login;
-
-*/
-
-
-/*
-
- useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-      if (initializing) {
-        setInitializing(false);
-      }
-    });
-    return unsubscribe;
-  }, []);
-
-  const signInWithGoogle = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    auth.useDeviceLanguage();
-    try {
-      await auth.signInWithPopup(provider);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const signOut = async () => {
-    try {
-      await firebase.auth().signOut();
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  if (initializing) return "Loading... ";
-
-  */
