@@ -30,9 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-  
-    marginTop: theme.spacing(10),
-    marginLeft: theme.spacing(-10),
+    marginTop: theme.spacing(7),
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
@@ -66,6 +64,12 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     textAlign: "center",
     color: "#E07D7E",
+  },
+  link1: {
+    cursor: "pointer",
+    textAlign: "right",
+    color: "#FFFFFF",
+    marginTop: theme.spacing(2),
   },
   contenedor: {
     display: "grid",
@@ -242,8 +246,17 @@ export const Login = (props) => {
                 errorMessages={["El password es un campo requerido"]}
                 autoComplete="off"
                 />
+                </Grid>
                 
-                
+                <Link
+                    onClick={props.toggle}
+                    className={classes.link1}
+                    variant="body2"
+                    textAlign="right"
+                    >
+                    { "¿Olvidaste tu contraseña?"}
+                  </Link>  
+              <Grid>
               {loading ? (
                             <ScaleLoader
                             size={150}
@@ -272,8 +285,8 @@ export const Login = (props) => {
                     { " Registrate"}
                   </Link> 
                   </p>        
-
                   </Grid>
+                  
             </ValidatorForm>
           </div>
       </Grid>

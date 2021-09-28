@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import { Link } from "@material-ui/core/";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -17,6 +18,7 @@ import Modal from "@material-ui/core/Modal";
 import CheckIcon from "@material-ui/icons/Check";
 import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 import {ScaleLoader} from 'react-spinners';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,6 +54,18 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     marginTop: 10,
     marginBlockEnd: 10,
+  },
+  link: {
+    cursor: "pointer",
+    marginTop: theme.spacing(2),
+    color: "#FFFFFF",
+    alingText: "Right"
+  },
+  icon: {
+    
+    marginRight: theme.spacing(1),
+    color: "#FFFFFF",
+    alingText: "Right"
   },
   avatar: {
     margin: theme.spacing(3),
@@ -801,6 +815,16 @@ const CrearEnvio = (props) => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
+              <Grid >
+              <MonetizationOnIcon className={classes.icon}/>
+              <Link
+                    onClick={props.toggle}
+                    className={classes.link}
+                    variant="body1"
+                    >
+                    { "Ver costo del envío"}
+                  </Link>
+              </Grid>
               <Grid item xs={4}>
                 <input
                   size="1"
@@ -811,8 +835,8 @@ const CrearEnvio = (props) => {
                   readOnly="readOnly"
                 />
               </Grid>
-
-              <Grid item xs={4} className={classes.loadingButton}>
+              </Grid>
+              <Grid className={classes.loadingButton}>
               {loading ? (
                             <ScaleLoader
                             size={150}
@@ -833,7 +857,7 @@ const CrearEnvio = (props) => {
                 </Button>
                         )} 
               </Grid>
-            </Grid>
+            
 
             <Modal
               open={open}
