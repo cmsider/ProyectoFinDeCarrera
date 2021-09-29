@@ -119,8 +119,7 @@ const SignUp = (props) => {
                 alert(errorMessage);
                 setLoading(false);
             });
-
-            
+          
            
         }
         else{
@@ -136,21 +135,20 @@ const SignUp = (props) => {
 }
 
   return (
-    <Container  component="main" maxWidth="md">
+    <div>
+    <Container component="main" maxWidth="md">
    
        <CssBaseline />
           
     
           <div className={classes.paper2}>
           <h4
-                    id="simple-modal-title"
-                    className={(classes.props, classes.colorTitle)}
+                    className={classes.colorTitle}
                   >
                     ¡Bienvenido!
                   </h4>
                   <h6
-                    id="simple-modal-title"
-                    className={(classes.props, classes.colorSubtitulo)}
+                    className={classes.props, classes.colorSubtitulo}
                   >
                      Registrate en ShipSecure:
                   </h6>
@@ -373,12 +371,12 @@ const SignUp = (props) => {
            
           </div> 
     </Container>
+    </div> 
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   paper2: {
-    width: "100%",
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(4, 4, 3),

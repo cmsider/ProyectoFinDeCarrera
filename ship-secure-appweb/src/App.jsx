@@ -21,11 +21,14 @@ import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: "absolute",
+  
     boxShadow: theme.shadows[0],
     padding: theme.spacing(0, 0, 0),
-    marginTop: theme.spacing(10),
-    marginLeft: theme.spacing(55),
+    marginTop: theme.spacing(5),
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    display: "flex",
     
   },
 }));
