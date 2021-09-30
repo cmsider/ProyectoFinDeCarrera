@@ -160,7 +160,7 @@ const historicoEnvios =  pedidos.map((pedido) => (
 
        <ListItem>
        <ListItemText>
-        {hayPedidos ? (<>{historicoEnvios}</>):( <div>NO HAY HISTORICOS, ESTO NO LO TOMA TODAVIA CREO</div>)}   
+        {hayPedidos ? (<>{historicoEnvios}</>):( <div></div>)}   
         </ListItemText>
       </ListItem>
 

@@ -21,11 +21,12 @@ import Modal from "@material-ui/core/Modal";
 import CheckIcon from "@material-ui/icons/Check";
 import ForumIcon from '@material-ui/icons/Forum';
 //import MapView from "../geoLocalizacion/MapView";
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import { Link } from "@material-ui/core/";
 import Contenedor from "../menuNavegacion/Contenedor";
 import { Suspense, lazy } from "react";
 import Canal from "../chatRepartidor/Canal";
 const MapView = lazy(()=>import('../geoLocalizacion/MapView'));
-
 
 //import { Timeline, TimelineConnector, TimelineDot, TimelineItem, TimelineSeparator, TimelineOppositeContent } from '@material-ui/core';
 
@@ -126,6 +127,18 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     margin: theme.spacing(1, 0, 1),
   },
+  link: {
+    cursor: "pointer",
+    marginTop: theme.spacing(2),
+    color: "#FFFFFF",
+    alingText: "Right"
+  },
+  icon: {
+    
+    marginRight: theme.spacing(1),
+    color: "#FFFFFF",
+    alingText: "Right"
+  },
 }));
 
 function getModalStyle() {
@@ -156,6 +169,7 @@ const Pedido = (props) => {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [openCosto, setOpenCosto] = useState(false);
   const [openChat, setOpenChat] = useState(false);
   const [updatePantalla, setUpdatePantalla] = useState(false);
 
@@ -181,10 +195,18 @@ const Pedido = (props) => {
     setOpen2(true);
   };
 
+  const handleOpenCosto = () => {
+    setOpenCosto(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
-    setOpen2(false);
+    setOpen2(false);    
     redirect("/pedido");
+  };
+  const handleCloseCosto = () => {
+    setOpenCosto(false);
+  
   };
 
   const handleCloseChat = () => {
@@ -379,6 +401,7 @@ const Pedido = (props) => {
     horaEntrega: "",
     temperatura: "",
     codEnvio: pedidoID,
+    costo:"200",
   });
 
   const {
@@ -434,9 +457,6 @@ const Pedido = (props) => {
    
       e.target.reset();
       
-     
-   
-      
     }
     
   };
@@ -465,7 +485,6 @@ const Pedido = (props) => {
 
   const updateEnvio = () => {
 
-  
     db.collection("envios")
       .doc(pedidoID)
       .update({
@@ -762,6 +781,16 @@ const Pedido = (props) => {
                     </Grid>
                   </Grid>
                   </div>)}
+                  <p style={{ marginTop: 20, marginBlockEnd: 20 }}>
+              <MonetizationOnIcon className={classes.icon} />
+              <Link
+                    onClick={handleOpenCosto}
+                    className={classes.link}
+                    variant="body2"
+                    >
+                    { "Ver costo del envío"}
+                  </Link>
+              </p>
                   <Grid container spacing={2}>
                     <Grid item xs={1}>
                       <Info
@@ -852,7 +881,52 @@ const Pedido = (props) => {
 
       </div>
     </div>           
-            </Modal>      
+            </Modal>
+            <Modal
+    open={openCosto}
+    close={handleCloseCosto}
+    aria-labelledby="simple-modal-title"
+    aria-describedby="simple-modal-description"
+  >
+   
+    <div style={modalStyle} className={classes.paper3}>
+      <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+      <MonetizationOnIcon
+          className={(classes.props, classes.colorIconCheck)}
+          style={{ textAlign: "center", verticalAlign: "middle" }}
+        ></MonetizationOnIcon>
+        <h6
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+          COSTO ENVÍO REPROGRAMADO
+        </h6>
+        <h4
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+          $200,00 ARS
+        </h4>
+        <Divider
+          className={classes.colorDivider}
+          style={{ marginTop: 30 }}
+        />
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={() => {
+            handleCloseCosto();
+          }}
+        >
+          Aceptar
+        </Button>
+      
+
+      </div>
+    </div>           
+            </Modal>            
         
    <Modal
     open={openChat}

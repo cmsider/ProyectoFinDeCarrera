@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
     
     color: "#FFFFFF",
   },
+  submit2: {
+    marginLeft: theme.spacing(15),
+    textAlign: "left",
+    marginTop:theme.spacing(3),
+    color: "#FFFFFF",
+  },
   colorLabel: {
     color: "#E07D7E",
     margin: theme.spacing(1),
@@ -169,7 +175,7 @@ const actualizarBeneficios = () =>{
                   variant="h6"
                   className={classes.colorText}
                 >
-                  Próximos beneficios
+                  ¡Sumá puntos!
                 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -194,10 +200,13 @@ const actualizarBeneficios = () =>{
         </Box>
         </Box>
       
-        <Typography className={classes.submit}>
-        <LoyaltyIcon className={classes.colorLabel}/>
-                  Envío programado con 20% de descuento
+        <Typography className={classes.submit2}>
+        
+                 Llegá a los 100 puntos para alcanzar el total de los beneficios de ShipSecure
+                 
+                  
                 </Typography>
+   
             </Grid>
           
               <Grid item xs={6}>
