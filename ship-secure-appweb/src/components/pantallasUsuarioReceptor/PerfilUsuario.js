@@ -95,6 +95,8 @@ function getModalStyle() {
 export const PerfilUsuario = (props) => {
   const [user, setUser] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  const [cambioPass, setCambioPass] = useState(false);
+
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -126,7 +128,14 @@ export const PerfilUsuario = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    if(cambioPass){
+    localStorage.removeItem('usuarios');
+    props.setUserState();
+    logout();
+    }
+    else{
     redirect("/editarPerfil");
+    }
   };
 
   const logout = async () =>{
@@ -170,9 +179,8 @@ export const PerfilUsuario = (props) => {
         .updatePassword(newPassword)
         .then(() => {
           //ESTO IRIA CUANDO ACEPTAS LA VENTANA MODAL
-          localStorage.removeItem('usuarios');
-          props.setUserState();
-          logout();
+          setCambioPass(true);
+          handleOpen();
 
         })
         .catch((error) => {
@@ -185,10 +193,11 @@ export const PerfilUsuario = (props) => {
         userAuth
         .updatePassword(newPassword)
         .then(() => {
+          handleOpen();
+          setCambioPass(true);
+
           //ESTO IRIA CUANDO ACEPTAS LA VENTANA MODAL
-          localStorage.removeItem('usuarios');
-          props.setUserState();
-          logout();
+ 
         })
         .catch((error) => {
           // An error ocurred
