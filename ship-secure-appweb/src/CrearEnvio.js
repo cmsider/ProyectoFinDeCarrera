@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import { db, rt } from "./components/firebase";
-
+import Select from "@material-ui/core/Select"
 import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
@@ -36,6 +36,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[10],
     padding: theme.spacing(2, 4, 3),
+  },
+  paper3: {
+    position: "absolute",
+    width: 500,
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(2, 4, 3),
+  },
+  colorIconCheck: {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.background.default,
+    width: 100,
+    height: 100,
+    borderRadius: 150,
+    marginBlockEnd: 30,
+    marginTop: 10,
+  },
+  colorOpciones: {
+    backgroundColor: theme.palette.background.default,
+    color: "#FFFFFF"
   },
   colorIcon: {
     backgroundColor: theme.palette.background.paper,
@@ -88,14 +108,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
   },
   colorCombo: {
-    color: "#7FA3B5",
-    backgroundColor: "#E07D7E",
-    marginLeft: 40,
-    marginRight: -35,
-
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    marginTop: theme.spacing(1),
   },
   checkbox: {
     color: "#7FA3B5",
@@ -129,15 +142,26 @@ const CrearEnvio = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [openCosto, setOpenCosto] = useState(false);
   const [costoTotal, setCostoTotal] = useState(700.00);
   const redirect = (view) => {
     history.push(view);
   };
 
+  const handleOpenCosto = () => {
+    setOpenCosto(true);
+  };
+
+
+  const handleCloseCosto = () => {
+    setOpenCosto(false);
+  
+  };
+
   const [date, setDate] = useState(new Date(Date.now() + (5 * 86400000)));
   const [desc, setDesc] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
-  
+
 
   const [loading, setLoading] = useState(false);
 	
@@ -153,7 +177,9 @@ const CrearEnvio = (props) => {
   const handleClose = () => {
     setOpen(false);
     redirect("/home");
-  };
+  };  
+
+
 
   const [datos, setDatos] = useState({
     nombres: "",
@@ -638,6 +664,57 @@ const onSubmitPuntos = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
+
+              <Grid item xs={6}>
+                <Typography
+                  variant="body2"
+                  className={classes.props}
+                  color="primary"
+                >
+                  Provincia
+                </Typography>
+
+              <div className = {classes.colorCombo}>
+  
+              
+<Select
+displayEmpty
+native
+variant="filled"
+margin="dense"
+fullWidth
+name = "provincia"
+nativeInput={{ className: classes.colorOpciones }}
+onChangeCapture={handleInputChange2}
+inputProps={{ className: classes.colorLabel }}
+required
+>
+<option selected value="">Seleccione provincia *</option>
+<option value="Buenos Aires">Buenos Aires</option>
+<option value="Catamarca">Catamarca</option>
+<option value="Chaco">Chaco</option>
+<option value="Chubut">Chubut</option>
+<option value="Córdoba">Córdoba</option>
+<option value="Corrientes">Corrientes</option>
+<option value="Entre Ríos">Entre Ríos</option>
+<option value="Formosa">Formosa</option>
+<option value="La Pampa">La Pampa</option>
+<option value="La Rioja">La Rioja</option>
+<option value="Mendoza">Mendoza</option>
+<option value="Misiones">Misiones</option>
+<option value="Neuquén">Neuquén</option>
+<option value="Río Negro">Río Negro</option>
+<option value="Salta">Salta</option>
+<option value="San Juan">San Juan</option>
+<option value="San Luis">San Luis</option>
+<option value="dumpling">Santa Cruz</option>
+<option value="Santa Fe">Santa Fe</option>
+<option value="Santiago del Estero">Santiago del Estero</option>
+<option value="Tierra del Fuego">Tierra del Fuego</option>
+<option value="Tucumán">Tucumán</option>
+</Select>
+</div>
+</Grid>
               <Grid item xs={6}>
                 <Typography
                   variant="body2"
@@ -710,7 +787,7 @@ const onSubmitPuntos = () => {
                   {/*si da error en el nombre muestra el mensaje de error en nobmre*/}
                 </span>
               </Grid>
-
+             
               <Grid item xs={12}>
                 <Typography
                   variant="body2"
@@ -768,42 +845,9 @@ const onSubmitPuntos = () => {
                   onClick={() => setProgCheckbox(!progCheckbox)}
                 />
                           
-                              <Grid item xs={6} >
-                              <div className = {classes.colorCombo}>
+                          
+       
 
-                              <select
-         className={(classes.colorCombo, "custom-select")}
-         name = "provincia"
-         onChangeCapture={handleInputChange2}
- 
-       >
-         <option value=""> </option>
-         <option value="Buenos Aires">Buenos Aires</option>
-         <option value="Catamarca">Catamarca</option>
-         <option value="Chaco">Chaco</option>
-         <option value="Chubut">Chubut</option>
-         <option value="Córdoba">Córdoba</option>
-         <option value="Corrientes">Corrientes</option>
-         <option value="Entre Ríos">Entre Ríos</option>
-         <option value="Formosa">Formosa</option>
-         <option value="La Pampa">La Pampa</option>
-         <option value="La Rioja">La Rioja</option>
-         <option value="Mendoza">Mendoza</option>
-         <option value="Misiones">Misiones</option>
-         <option value="Neuquén">Neuquén</option>
-         <option value="Río Negro">Río Negro</option>
-         <option value="Salta">Salta</option>
-         <option value="San Juan">San Juan</option>
-         <option value="San Luis">San Luis</option>
-         <option value="dumpling">Santa Cruz</option>
-         <option value="Santa Fe">Santa Fe</option>
-         <option value="Santiago del Estero">Santiago del Estero</option>
-         <option value="Tierra del Fuego">Tierra del Fuego</option>
-         <option value="Tucumán">Tucumán</option>
-       </select>
-     </div>
-
-</Grid>
 
               {progCheckbox && (
                 <div
@@ -985,7 +1029,7 @@ const onSubmitPuntos = () => {
               <Grid >
               <MonetizationOnIcon className={classes.icon}/>
               <Link
-                    onClick={props.toggle}
+                    onClick={handleOpenCosto}
                     className={classes.link}
                     variant="body1"
                     >
@@ -1086,6 +1130,60 @@ const onSubmitPuntos = () => {
                 </div>
               </div>
             </Modal>
+
+            <Modal
+    open={openCosto}
+    close={handleCloseCosto}
+    aria-labelledby="simple-modal-title"
+    aria-describedby="simple-modal-description"
+  >
+   
+    <div style={modalStyle} className={classes.paper3}>
+      <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+      <MonetizationOnIcon
+          className={(classes.props, classes.colorIconCheck)}
+          style={{ textAlign: "center", verticalAlign: "middle" }}
+        ></MonetizationOnIcon>
+        <h6
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+          COSTO DEL ENVÍO
+        </h6>
+        <h4
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+          ${costoTotal},00 ARS
+        </h4>
+        <Divider
+          className={classes.colorDivider}
+          style={{ marginTop: 30, marginBlockEnd: 20 }}
+        />
+         <body2
+          id="simple-modal-title"
+          className={(classes.props, classes.colorTitle)}
+        >
+        Este valor incluye descuentos
+        </body2>
+        <div>
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={() => {
+            handleCloseCosto();
+          }}
+        >
+          Aceptar
+        </Button>
+      
+        </div>
+
+      </div>
+    </div>           
+            </Modal>      
           </form>
         </div>
       </Container>
