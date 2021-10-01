@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db, rt } from "../firebase";
 import "firebase/firestore";
 import { ScaleLoader } from 'react-spinners';
 import Grid from "@material-ui/core/Grid";
@@ -333,23 +333,27 @@ const Pedido = (props) => {
   const [mapRegion, setmapRegion] = useState({
     latitude: 22,
     longitude: 22,
+    peso: 0,
+    temperatura: 0,
   });
 
-  const setmapRegion2 = (latitude,longitude) => {
+  const setmapRegion2 = (latitude, longitude, peso, temperatura) => {
     mapRegion.latitude = latitude;
     mapRegion.longitude = longitude;
+    mapRegion.peso = peso;
+    mapRegion.temperatura = temperatura;
   };
   useEffect(() => {
     const consultaAPI = async () => {
-    db.collection("track")
-      .doc(datos.codEnvio)
-      .onSnapshot((documentSnapshot) => {
-          const mr = {
-            latitude: documentSnapshot.get("latitude"),
-            longitude: documentSnapshot.get("longitude"),
+
+      rt.ref('/sensores').on('value', snapshot => {
+        const mr = {
+          latitude: snapshot.val().latitude,
+          longitude: snapshot.val().longitude, 
+          peso: snapshot.val().peso,
+          temperatura: snapshot.val().temperatura, 
           }
- 
-            setmapRegion2(mr.latitude,mr.longitude);
+            setmapRegion2(mr.latitude,mr.longitude,mr.peso, mr.temperatura);
             setmapRegion(mr);
         console.log(mr);
         

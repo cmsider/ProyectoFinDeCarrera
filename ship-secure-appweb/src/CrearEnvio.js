@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextFiled from "@material-ui/core/TextField";
@@ -11,7 +11,8 @@ import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
-import { db } from "./components/firebase";
+import { db, rt } from "./components/firebase";
+
 import "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
@@ -19,6 +20,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 import {ScaleLoader} from 'react-spinners';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import region from './components/pantallasUsuarioCreador/regiones.json';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -84,6 +87,16 @@ const useStyles = makeStyles((theme) => ({
   colorText: {
     color: "#FFFFFF",
   },
+  colorCombo: {
+    color: "#7FA3B5",
+    backgroundColor: "#E07D7E",
+    marginLeft: 40,
+    marginRight: -35,
+
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   checkbox: {
     color: "#7FA3B5",
     margin: theme.spacing(0, -5, 0),
@@ -112,16 +125,23 @@ function getModalStyle() {
 const CrearEnvio = (props) => {
   /*BASE DE DATOS */
   const history = useHistory();
+  var precio = 700.00;
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
-
+  const [costoTotal, setCostoTotal] = useState(700.00);
   const redirect = (view) => {
     history.push(view);
   };
 
+  const [date, setDate] = useState(new Date(Date.now() + (5 * 86400000)));
+  const [desc, setDesc] = useState([]);
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  
+
   const [loading, setLoading] = useState(false);
 	
+  //const [precio, setPrecio] = useState(0.00);
 
   const [progCheckbox, setProgCheckbox] = useState(false);
 
@@ -146,15 +166,14 @@ const CrearEnvio = (props) => {
     fechaEntrega: "",
     horaEntrega: "",
     peso: "",
+    provincia: "",
     temperatura: "",
     codigoPostal: "",
     localidad: "",
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
   });
 
-  //const [validacionTrue, setValidacionTrue] = useState(false);
 
- // const [isLoading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -163,12 +182,25 @@ const CrearEnvio = (props) => {
     });
     console.log(event.target.value);
   };
-  //const enviarDatos = (event) => {
-    //  event.preventDefault();
-    //event.target.reset();
-  //};
+  const handleInputChange2 = (event) => {
+    setDatos({
+      ...datos,
+      [event.target.name]: event.target.value,
+    });
+    calcularEnvio();
+    console.log(event.target.value);
+    console.log(precio);
+  };
+
 
   const addEnvio = () => {
+    var fechaEnvio;
+    if(progCheckbox){
+      fechaEnvio = datos.fechaEntrega;
+    }
+    else{
+      fechaEnvio =  date.getFullYear() + "-" + (date.getMonth()>9? date.getMonth() : "0" + date.getMonth()) + "-" + (date.getDate()>9? date.getDate() : "0" + date.getDate()) ;
+    }
     db.collection("envios").doc(datos.codEnvio).set({
       id: datos.codEnvio,
       nombres: datos.nombres,
@@ -179,18 +211,24 @@ const CrearEnvio = (props) => {
       piso: datos.piso,
       localidad: datos.localidad,
       codigoPostal: datos.codigoPostal,
-      provincia: "",
+      provincia: datos.provincia,
       observaciones: datos.observaciones,
-      fechaEntrega: datos.fechaEntrega,
+      fechaEntrega: fechaEnvio,
       horaEntrega: datos.horaEntrega,
       peso: datos.peso,
       temperatura: datos.temperatura,
+      costo: precio,
 
       //estos campos seran necesarios luego para asignar un repartidor, una smartbox
       usuarioCreado: false,
       idSmartBox: "",
       idRepartidor: "",
     });
+    rt.ref('/envio').update({
+      idQR: datos.codEnvio,
+      puerta: true,
+      temperatura: parseInt(datos.temperatura)
+  })
     console.log(datos.codEnvio);
      
   };
@@ -215,12 +253,14 @@ const CrearEnvio = (props) => {
       console.log("falta algo");
     
     } else {
-   
-      addEnvio();
-      
-      sendEmail(e);
+    
+    addEnvio();
+    
+    //sendEmail(e);
+    
+    onSubmitPuntos();
 
-      //handleOpen();
+    handleOpen();
     }
   };
 
@@ -228,6 +268,8 @@ const CrearEnvio = (props) => {
     if (!datos.nombres || !datos.email || !datos.direccion) {
       return false;
     } else {
+      calcularEnvio();
+      setCostoTotal(precio);
       return true;
     }
   };
@@ -257,7 +299,94 @@ const CrearEnvio = (props) => {
       
     //e.target.reset();
   };
-  /* */
+  /* CALCULO DE PUNTOS Y DESCUENTOS*/
+
+  const calcularEnvio = () => {
+        
+    var costoEnvio = 0.00;
+    if(datos.peso >= 30){
+      costoEnvio += 1000.00;
+    }else if(datos.peso >=15){
+      costoEnvio += 700.00;
+    }
+    else{
+      costoEnvio += 500.00;
+    }
+    if(region[datos.provincia] === "R1"){
+        costoEnvio = costoEnvio + 200.00;
+    }
+    else if(region[datos.provincia] === "R2"){
+        costoEnvio = costoEnvio + 350.00;
+    }
+    else if(region[datos.provincia] === "R3"){
+        costoEnvio = costoEnvio + 450.00;
+    }
+    else if(region[datos.provincia] === "R4"){
+        costoEnvio = costoEnvio + 600.00;
+    }
+    else{
+        costoEnvio = costoEnvio + 700.00;
+    }
+    if(progCheckbox){
+
+    costoEnvio = costoEnvio + 200.00;
+    }
+    //costo envio = costoRegion + costoCaja - desc + programado (si tiene)
+    precio = costoEnvio * (1-desc/100.00);
+    costoEnvio = costoEnvio * (1-desc/100.00);
+
+    setCostoTotal(costoEnvio);
+    console.log(precio);
+  }
+
+
+  
+  useEffect(() => {
+
+const consultaAPI = async () => {
+
+actualizarBeneficios();
+}
+consultaAPI();
+}, []);
+
+const actualizarBeneficios = () =>{
+  if(  myJson["puntos"] < 10 ){
+    setDesc(5);
+  }else if ( myJson["puntos"] >= 10 &&  myJson["puntos"] < 30){
+    setDesc(10);
+  }else if ( myJson["puntos"] >= 30 &&  myJson["puntos"] < 50){
+    setDesc(15);
+  }else if ( myJson["puntos"] >= 50 &&  myJson["puntos"] < 70){
+    setDesc(20);
+  }else if ( myJson["puntos"] >= 70 &&  myJson["puntos"] <90){
+    setDesc(30);
+  }else if ( myJson["puntos"] >= 90){
+    setDesc(50);
+  }
+}
+
+const onSubmitPuntos = () => {
+
+  myJson["puntos"] = myJson["puntos"] +5;
+  localStorage.setItem("usuarios", JSON.stringify(myJson));
+
+  const updatePuntos = () => {
+    db.collection("usuarios")
+      .doc(myJson["idUs"])
+      .update({
+        puntos: myJson["puntos"],
+      })
+      .then(() => {
+        console.log("Actualizacion correcta!");
+      });
+     
+  };
+  updatePuntos();
+}
+
+
+  /* FIN DE CALCULO DE PUNTOS Y DESCUENTOS */
 
   return (
     <div>
@@ -618,8 +747,9 @@ const CrearEnvio = (props) => {
                 </span>
               </Grid>
 
-              <Grid container spacing={2}>
-                <Grid item xs={5} style={{ padding: 18 }}>
+
+
+                <Grid item xs={6} style={{ padding: 18 }}>
                   <Typography
                     variant="body1"
                     className={(classes.props, classes.colorText)}
@@ -637,7 +767,44 @@ const CrearEnvio = (props) => {
                   className={(classes.props, classes.checkbox)}
                   onClick={() => setProgCheckbox(!progCheckbox)}
                 />
-              </Grid>
+                          
+                              <Grid item xs={6} >
+                              <div className = {classes.colorCombo}>
+
+                              <select
+         className={(classes.colorCombo, "custom-select")}
+         name = "provincia"
+         onChangeCapture={handleInputChange2}
+ 
+       >
+         <option value=""> </option>
+         <option value="Buenos Aires">Buenos Aires</option>
+         <option value="Catamarca">Catamarca</option>
+         <option value="Chaco">Chaco</option>
+         <option value="Chubut">Chubut</option>
+         <option value="Córdoba">Córdoba</option>
+         <option value="Corrientes">Corrientes</option>
+         <option value="Entre Ríos">Entre Ríos</option>
+         <option value="Formosa">Formosa</option>
+         <option value="La Pampa">La Pampa</option>
+         <option value="La Rioja">La Rioja</option>
+         <option value="Mendoza">Mendoza</option>
+         <option value="Misiones">Misiones</option>
+         <option value="Neuquén">Neuquén</option>
+         <option value="Río Negro">Río Negro</option>
+         <option value="Salta">Salta</option>
+         <option value="San Juan">San Juan</option>
+         <option value="San Luis">San Luis</option>
+         <option value="dumpling">Santa Cruz</option>
+         <option value="Santa Fe">Santa Fe</option>
+         <option value="Santiago del Estero">Santiago del Estero</option>
+         <option value="Tierra del Fuego">Tierra del Fuego</option>
+         <option value="Tucumán">Tucumán</option>
+       </select>
+     </div>
+
+</Grid>
+
               {progCheckbox && (
                 <div
                   style={{
@@ -764,7 +931,7 @@ const CrearEnvio = (props) => {
                   required
                   InputLabelProps={{ className: classes.colorLabel }}
                   inputProps={{ className: classes.colorText }}
-                  onChangeCapture={handleInputChange}
+                  onChangeCapture={handleInputChange2}
                   {...register("peso", {
                     required: { value: true, message: "Campo requerido" },
                     minLength: {
@@ -835,6 +1002,16 @@ const CrearEnvio = (props) => {
                   readOnly="readOnly"
                 />
               </Grid>
+              <Grid item xs={4}>
+                <input
+                  size="1"
+                  maxLength="1"
+                  type="hidden"
+                  className={classes.colorFondo}
+                  {...register("costo")}
+                  readOnly="readOnly"
+                />
+              </Grid>
               </Grid>
               <Grid className={classes.loadingButton}>
               {loading ? (
@@ -851,6 +1028,7 @@ const CrearEnvio = (props) => {
                   className={classes.submit}
                   onClick={() => {
                     setValue("codEnvio", datos.codEnvio);
+                    setValue("costo", costoTotal);
                   }}
                 >
                   Confirmar envío
@@ -913,6 +1091,12 @@ const CrearEnvio = (props) => {
       </Container>
     </div>
   );
+  
+  
+
 };
 export default CrearEnvio;
+
+
+
 
