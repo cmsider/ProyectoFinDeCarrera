@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
   colorOpciones: {
-    backgroundColor: theme.palette.background.default,
-    color: "#FFFFFF"
+    backgroundColor: "#003648",
+    color: "#FFFFFF",
   },
   colorIcon: {
     backgroundColor: theme.palette.background.paper,
@@ -690,35 +690,33 @@ variant="filled"
 margin="dense"
 fullWidth
 name = "provincia"
-
-nativeInput={{ className: classes.colorOpciones }}
 onChangeCapture={handleInputChange2}
 inputProps={{ className: classes.colorLabel }}
 required
 >
-<option selected value="">Seleccione provincia *</option>
-<option value="Buenos Aires">Buenos Aires</option>
-<option value="Catamarca">Catamarca</option>
-<option value="Chaco">Chaco</option>
-<option value="Chubut">Chubut</option>
-<option value="Córdoba">Córdoba</option>
-<option value="Corrientes">Corrientes</option>
-<option value="Entre Ríos">Entre Ríos</option>
-<option value="Formosa">Formosa</option>
-<option value="La Pampa">La Pampa</option>
-<option value="La Rioja">La Rioja</option>
-<option value="Mendoza">Mendoza</option>
-<option value="Misiones">Misiones</option>
-<option value="Neuquén">Neuquén</option>
-<option value="Río Negro">Río Negro</option>
-<option value="Salta">Salta</option>
-<option value="San Juan">San Juan</option>
-<option value="San Luis">San Luis</option>
-<option value="dumpling">Santa Cruz</option>
-<option value="Santa Fe">Santa Fe</option>
-<option value="Santiago del Estero">Santiago del Estero</option>
-<option value="Tierra del Fuego">Tierra del Fuego</option>
-<option value="Tucumán">Tucumán</option>
+<option selected disabled value="" >Seleccione provincia *</option>
+<option className={classes.colorOpciones} value="Buenos Aires">Buenos Aires</option>
+<option className={classes.colorOpciones} value="Catamarca">Catamarca</option>
+<option className={classes.colorOpciones} value="Chaco">Chaco</option>
+<option className={classes.colorOpciones} value="Chubut">Chubut</option>
+<option className={classes.colorOpciones} value="Córdoba">Córdoba</option>
+<option className={classes.colorOpciones} value="Corrientes">Corrientes</option>
+<option className={classes.colorOpciones} value="Entre Ríos">Entre Ríos</option>
+<option className={classes.colorOpciones} value="Formosa">Formosa</option>
+<option className={classes.colorOpciones} value="La Pampa">La Pampa</option>
+<option className={classes.colorOpciones} value="La Rioja">La Rioja</option>
+<option className={classes.colorOpciones} value="Mendoza">Mendoza</option>
+<option className={classes.colorOpciones} value="Misiones">Misiones</option>
+<option className={classes.colorOpciones} value="Neuquén">Neuquén</option>
+<option className={classes.colorOpciones} value="Río Negro">Río Negro</option>
+<option className={classes.colorOpciones} value="Salta">Salta</option>
+<option className={classes.colorOpciones} value="San Juan">San Juan</option>
+<option className={classes.colorOpciones} value="San Luis">San Luis</option>
+<option className={classes.colorOpciones} value="dumpling">Santa Cruz</option>
+<option className={classes.colorOpciones} value="Santa Fe">Santa Fe</option>
+<option className={classes.colorOpciones} value="Santiago del Estero">Santiago del Estero</option>
+<option className={classes.colorOpciones} value="Tierra del Fuego">Tierra del Fuego</option>
+<option className={classes.colorOpciones} value="Tucumán">Tucumán</option>
 </Select>
 </div>
 </Grid>
