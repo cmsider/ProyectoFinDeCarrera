@@ -121,6 +121,7 @@ export const Login = (props) => {
                     nombre:user.nombre,
                     username: user.username,
                     idUs: user.idUs,
+                    puntos: user.puntos,
                     
                 }
                 
@@ -142,6 +143,7 @@ export const Login = (props) => {
                         data.nombre = usuario[0].nombre;
                         data.username = usuario[0].username;
                         data.idUs = usuario[0].key;
+                        data.puntos = usuario[0].puntos;
 
                         localStorage.setItem('usuarios', JSON.stringify(data));
                         const storage = localStorage.getItem('usuarios');

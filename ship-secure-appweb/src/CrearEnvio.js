@@ -134,11 +134,11 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
+var precio = 700.00;
 
 const CrearEnvio = (props) => {
   /*BASE DE DATOS */
   const history = useHistory();
-  var precio = 700.00;
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = useState(false);
@@ -209,13 +209,16 @@ const CrearEnvio = (props) => {
     console.log(event.target.value);
   };
   const handleInputChange2 = (event) => {
-    setDatos({
-      ...datos,
-      [event.target.name]: event.target.value,
-    });
-    calcularEnvio();
-    console.log(event.target.value);
-    console.log(precio);
+    const actualizarInfo = async () => {
+      setDatos({
+        ...datos,
+        [event.target.name]: event.target.value,
+      });
+      console.log(event.target.value);
+    }
+    actualizarInfo();
+
+    //console.log(precio);
   };
 
 
@@ -281,10 +284,9 @@ const CrearEnvio = (props) => {
     } else {
     
     addEnvio();
-    
-    //sendEmail(e);
-    
+      
     onSubmitPuntos();
+    sendEmail(e);
 
     handleOpen();
     }
@@ -294,8 +296,9 @@ const CrearEnvio = (props) => {
     if (!datos.nombres || !datos.email || !datos.direccion) {
       return false;
     } else {
+
       calcularEnvio();
-      setCostoTotal(precio);
+      //setCostoTotal(precio);
       return true;
     }
   };
@@ -357,12 +360,16 @@ const CrearEnvio = (props) => {
 
     costoEnvio = costoEnvio + 200.00;
     }
+    console.log(costoEnvio);
+
     //costo envio = costoRegion + costoCaja - desc + programado (si tiene)
     precio = costoEnvio * (1-desc/100.00);
     costoEnvio = costoEnvio * (1-desc/100.00);
+    console.log(desc);
 
     setCostoTotal(costoEnvio);
-    console.log(precio);
+
+    //console.log(precio);
   }
 
 
@@ -370,11 +377,11 @@ const CrearEnvio = (props) => {
   useEffect(() => {
 
 const consultaAPI = async () => {
-
-actualizarBeneficios();
+  actualizarBeneficios();
+  calcularEnvio();
 }
 consultaAPI();
-}, []);
+}, [handleInputChange2]);
 
 const actualizarBeneficios = () =>{
   if(  myJson["puntos"] < 10 ){
@@ -393,7 +400,6 @@ const actualizarBeneficios = () =>{
 }
 
 const onSubmitPuntos = () => {
-
   myJson["puntos"] = myJson["puntos"] +5;
   localStorage.setItem("usuarios", JSON.stringify(myJson));
 
@@ -684,6 +690,7 @@ variant="filled"
 margin="dense"
 fullWidth
 name = "provincia"
+
 nativeInput={{ className: classes.colorOpciones }}
 onChangeCapture={handleInputChange2}
 inputProps={{ className: classes.colorLabel }}
