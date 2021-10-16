@@ -97,11 +97,13 @@ export const ListaEnvios = (props) => {
   const [pedidos, setPedidos] = useState([]);
   const [hayPedidos, setHayPedidos] = useState(false);
   const [openChat, setOpenChat] = useState(false);
+  const [pedidoID, setPedidoID] = useState([]);
 
 
 
-
-  const handleOpenChat = () => {
+  const handleOpenChat = (pedidoI) => {
+console.log(pedidoI);
+    setPedidoID(pedidoI);
     setOpenChat(true);
   };
 
@@ -126,10 +128,12 @@ export const ListaEnvios = (props) => {
   useEffect(() => {
 
 const consultaAPI = async () => {
+  var today = new Date(),
 
-
+  date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  
 db.collection("envios")
-  .where("email", "==", myJson["email"])
+  .where("mailRepartidor", "==", myJson["email"]).where("fechaEntrega", "==", date)
   .get()
   .then((querySnapshot) => {
     querySnapshot.forEach((documentSnapshot) => {
@@ -157,15 +161,15 @@ db.collection("envios")
           setHayPedidos(true);
         }
   });
-
+  
 };
 consultaAPI();
 
     
 }, [pedidos]);
 
-const listaEnvios =  pedidos.map((pedido) => (
-
+const listaEnvios =  pedidos.sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
+  <div>
   <Card className={classes.listSection}>
     
 
@@ -175,6 +179,7 @@ const listaEnvios =  pedidos.map((pedido) => (
 
      <ListItemText className={classes.colorTextFecha} >
         {pedido.id}
+        
       </ListItemText>
       <ListItemText className={classes.colorText} >
         {pedido.fechaEntrega}
@@ -190,7 +195,10 @@ const listaEnvios =  pedidos.map((pedido) => (
           </ListItemText>
           <ListItemText  className={classes.colorText}>
         {pedido.observaciones}
+        
           </ListItemText>
+ 
+
           <ListItemText>
           
           <Button
@@ -198,19 +206,21 @@ const listaEnvios =  pedidos.map((pedido) => (
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleOpenChat}
+            onClick={()=>handleOpenChat(pedido.id)}
            
           >
             <ForumIcon />
            Chatear
           </Button>
-        
           </ListItemText>  
-       
+
       </ListItem>
-      
+
       </Card>
-    
+ 
+
+
+</div>
   ));
 
   return (
@@ -239,7 +249,7 @@ const listaEnvios =  pedidos.map((pedido) => (
     aria-describedby="simple-modal-description"
   >
     <div style={modalStyle} className={classes.paperChat}>
-    <Canal/>
+    <Canal pedidoID = {pedidoID}/>
     </div>
   </Modal>
   

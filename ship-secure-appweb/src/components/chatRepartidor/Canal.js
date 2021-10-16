@@ -48,14 +48,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Canal = () => {
+const Canal = (props) => {
   const classes = useStyles();
-
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState([]);
   var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  const [userTitulo, setUserTitulo] = useState([]);
 
+/*
   useEffect(() => {
     const consultaAPI = async () => {
       db.collection("usuarios")
@@ -75,6 +76,7 @@ const Canal = () => {
     consultaAPI();
   }, []);
 
+  */
   useEffect(() => {
     if (db) {
       console.log("llega");
@@ -88,10 +90,20 @@ const Canal = () => {
             ...doc.data(),
             id: doc.id,
           }));
+          for (const mensaje in data) {
+            if(data[mensaje].pedidoID == props.pedidoID && data[mensaje].email != myJson["email"]){
+              setUserTitulo(data[mensaje].email);
+            }
+            if(data[mensaje].pedidoID != props.pedidoID){
+              delete data[mensaje];
+            }
+            
+            
+          }
           setMessages(data);
          // var myJson2 = JSON.parse(data);
           //console.log(myJson2["email"]);
-          console.log(data[0]);
+          console.log(data);
 
 
         });
@@ -111,7 +123,8 @@ const Canal = () => {
       db.collection("messages").add({
         text: newMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        user,
+        email: myJson["email"],
+        pedidoID: props.pedidoID,
       });
     }
   };
@@ -129,7 +142,7 @@ const Canal = () => {
             "https://i.ibb.co/jGwMwn4/Microsoft-Teams-image.png"
           }
           alt={"Reactjs"}
-          title={"Repartidor"}
+          title={userTitulo}
           subtitle={"Desde ShipSecure"}
           date={""}
           unread={0}
@@ -150,7 +163,7 @@ const Canal = () => {
 
             key={message.id}
             dataSource={[
-              message.user[0].email== myJson["email"]?
+              message.email== myJson["email"]?
               {
                 position: "right",
                 type: "text",

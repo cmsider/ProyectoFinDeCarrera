@@ -112,7 +112,7 @@ consultaAPI();
     
 }, [pedidos]);
 
-const historicoEnvios =  pedidos.map((pedido) => (
+const historicoEnvios =  pedidos.sort((c, d) => (c.fechaEntrega > d.fechaEntrega ? 1 : c.fechaEntrega < d.fechaEntrega ? -1 : 0)).sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
 
   <Card className={classes.listSection}>
     

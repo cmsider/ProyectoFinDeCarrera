@@ -552,7 +552,7 @@ const Pedido = (props) => {
     <Grid item xs={6}>
     <div className={classes.paper}>
     <Suspense fallback={<h1 className={classes.colorText}>Cargando...</h1>}>
-    <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude} />
+    <MapView latitude={mapRegion.latitude} longitude={mapRegion.longitude}/>
     </Suspense> 
     </div> 
     </Grid>
@@ -939,7 +939,7 @@ const Pedido = (props) => {
     aria-describedby="simple-modal-description"
   >
     <div style={modalStyle} className={classes.paperChat}>
-    <Canal/>
+    <Canal pedidoID = {pedidoID}/>
     </div>
   </Modal>
   
