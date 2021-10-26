@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import React, {useEffect, useState} from 'react';
+import firebase from "firebase/";
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import NavLinks from "./components/menuNavegacion/NavLinks";
 import CrearEnvio from "./CrearEnvio";
@@ -34,6 +35,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
+
+
+  React.useEffect(()=>{
+    const msg=firebase.messaging();
+    msg.requestPermission().then(()=>{
+      return msg.getToken();
+    }).then((data)=>{
+      console.warn("token",data)
+    })
+  })
 
   const classes = useStyles();
 
