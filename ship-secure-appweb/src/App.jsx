@@ -1,6 +1,8 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import React, {useEffect, useState} from 'react';
 import firebase from "firebase/";
+import { msg, rt } from "./components/firebase";
+import logo from './components/imagenes/avatar.png';
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import NavLinks from "./components/menuNavegacion/NavLinks";
 import CrearEnvio from "./CrearEnvio";
@@ -36,15 +38,58 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
+  const [cerr, setCerradura] = useState(false);
 
-  React.useEffect(()=>{
-    const msg=firebase.messaging();
+  useEffect(() => {
+    const consultaAPI = async () => {
+
+      rt.ref('/sensores').on('value', snapshot => {
+        const cerradura = {
+          puertaAbierta: snapshot.val().fueForzada,
+          }
+          setCerradura(cerradura.puertaAbierta);
+        
+
+      })}
+      consultaAPI();
+  }, []);
+
+  useEffect(()=>{
+    if(cerr){
     msg.requestPermission().then(()=>{
       return msg.getToken();
     }).then((data)=>{
       console.warn("token",data)
+      let body = {
+        to: data,
+        notification:{
+          title: "ATENCION!",
+          body: "LA CAJA ESTA SIENDO FORZADA",
+          icon: logo,
+        }
+      
+      }
+      let options ={
+        method: "POST",
+          
+        headers: {
+        "Authorization":"key=AAAAigDMkeo:APA91bGv1BPlSgQ-PfTgCT1IOqupeDbSWvnGpwAM1a8tiLgsbZ0v8myrHSKDybuuVhexrp3F5nHc8ERJVSVaJm4DHKHuFSXvRtP7nNnKlHlUY7rsmYCAFSuJT_9-LepNzZNwyodn-Qh9",
+        "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(body)
+      }
+      console.log(options);
+
+    fetch("https://fcm.googleapis.com/fcm/send",options).then(res=>{
+      console.log(res)
+      console.log('ENVIADA')
+    }).catch(e => console.log(e))
     })
-  })
+  
+    }
+  }, [cerr])
+
+
 
   const classes = useStyles();
 
