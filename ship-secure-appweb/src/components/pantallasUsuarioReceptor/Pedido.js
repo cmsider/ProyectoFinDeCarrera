@@ -218,6 +218,38 @@ const Pedido = (props) => {
     //redirect("/chatRepartidor");
   };
 
+  const [mapRegion, setmapRegion] = useState({
+    latitude: 22,
+    longitude: 22,
+    peso: 0,
+    temperatura: 0,
+  });
+
+  const setmapRegion2 = (latitude, longitude, peso, temperatura) => {
+    mapRegion.latitude = latitude;
+    mapRegion.longitude = longitude;
+    mapRegion.peso = peso;
+    mapRegion.temperatura = temperatura;
+  };
+  useEffect(() => {
+    const consultaAPI = async () => {
+
+      rt.ref('/sensores').on('value', snapshot => {
+        const mr = {
+          latitude: snapshot.val().latitude,
+          longitude: snapshot.val().longitude, 
+          peso: snapshot.val().peso,
+          temperatura: snapshot.val().temperatura, 
+          }
+            setmapRegion2(mr.latitude,mr.longitude,mr.peso, mr.temperatura);
+            setmapRegion(mr);
+        console.log(mr);
+        
+        console.log(mapRegion);
+
+      })}
+      consultaAPI();
+  }, []);
 
 
   const listItems = pedido.map((pedido, index) => (
@@ -284,7 +316,7 @@ const Pedido = (props) => {
             Temperatura
           </Typography>
           <Typography className={classes.root}>
-            {pedido.temperatura}ºC
+            {mapRegion.temperatura}ºC
           </Typography>
         </Grid>
 
@@ -292,7 +324,7 @@ const Pedido = (props) => {
           <Typography variant="h6" color="primary">
             Peso
           </Typography>
-          <Typography className={classes.root}>{pedido.peso} Kg</Typography>
+          <Typography className={classes.root}>{mapRegion.peso} Kg</Typography>
         </Grid>
       
         <Grid container spacing={4}>
@@ -330,39 +362,7 @@ const Pedido = (props) => {
     </ul>
   ));
 
-  const [mapRegion, setmapRegion] = useState({
-    latitude: 22,
-    longitude: 22,
-    peso: 0,
-    temperatura: 0,
-  });
-
-  const setmapRegion2 = (latitude, longitude, peso, temperatura) => {
-    mapRegion.latitude = latitude;
-    mapRegion.longitude = longitude;
-    mapRegion.peso = peso;
-    mapRegion.temperatura = temperatura;
-  };
-  useEffect(() => {
-    const consultaAPI = async () => {
-
-      rt.ref('/sensores').on('value', snapshot => {
-        const mr = {
-          latitude: snapshot.val().latitude,
-          longitude: snapshot.val().longitude, 
-          peso: snapshot.val().peso,
-          temperatura: snapshot.val().temperatura, 
-          }
-            setmapRegion2(mr.latitude,mr.longitude,mr.peso, mr.temperatura);
-            setmapRegion(mr);
-        console.log(mr);
-        
-        console.log(mapRegion);
-
-      })}
-      consultaAPI();
-  }, []);
-
+  
   useEffect(() => {
     const consultaAPI = async () => {
     db.collection("envios")
@@ -505,13 +505,17 @@ const Pedido = (props) => {
         setLoading(false); 
         handleOpen2();    
       });
+
+      rt.ref('/notificacion').update({
+        fueReprogramado: true,
+        
+    })
   };
   const updateEnviPrimerCheck = () => {
   
     db.collection("envios")
       .doc(pedidoID)
       .update({
-        direccion: datos.direccion,
         piso: datos.piso,
         localidad: datos.localidad,
         codigoPostal: datos.codigoPostal,
@@ -522,6 +526,11 @@ const Pedido = (props) => {
         setLoading(false);
         handleOpen2();     
       });
+
+      rt.ref('/notificacion').update({
+        fueReprogramado: true,
+
+    })
   };
 
   const updateEnvioSegundoCheck = () => {
@@ -538,6 +547,12 @@ const Pedido = (props) => {
         setLoading(false);
         handleOpen2();  
       });
+
+      rt.ref('/notificacion').update({
+
+      fueReprogramado: true,
+
+    })
   };
 
   return (

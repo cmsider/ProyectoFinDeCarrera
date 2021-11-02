@@ -197,6 +197,7 @@ const CrearEnvio = (props) => {
     codigoPostal: "",
     localidad: "",
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
+    emailRepartidor: "pepeargento@gmail.com",
   });
 
 
@@ -258,6 +259,11 @@ const CrearEnvio = (props) => {
       puerta: true,
       temperatura: parseInt(datos.temperatura)
   })
+  rt.ref('/notificacion').update({
+    idPedido: datos.codEnvio,
+    fueReprogramado: false,
+    emailRepartidor:"pepeargento@gmail.com" 
+})
     console.log(datos.codEnvio);
      
   };
@@ -972,7 +978,7 @@ required
                   variant="filled"
                   margin="dense"
                   fullWidth
-                  label="Ingrese peso en gramos(g)"
+                  label="Ingrese peso en kilogramos(kg)"
                   type="peso"
                   id="peso"
                   name="peso"

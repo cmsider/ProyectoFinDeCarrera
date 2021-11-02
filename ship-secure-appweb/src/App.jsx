@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import React, {useEffect, useState} from 'react';
 import firebase from "firebase/";
-import { msg, rt } from "./components/firebase";
-import logo from './components/imagenes/avatar.png';
+import { msg, db, rt } from "./components/firebase";
+import logo from './components/imagenes/icono.png';
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import NavLinks from "./components/menuNavegacion/NavLinks";
 import CrearEnvio from "./CrearEnvio";
@@ -21,6 +21,8 @@ import SignUp from "./components/pantallasRegistro/SignUp";
 import Canal from "./components/chatRepartidor/Canal";
 import ListaMenuPPal from "./components/menuNavegacion/ListaMenuPPal";
 import Modal from "@material-ui/core/Modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+toast.configure()
+
 const App = () => {
+  var myJson = JSON.parse(localStorage.getItem("usuarios"));
+  const [pedidos, setPedidos] = useState([]);
+  const [hayPedidos, setHayPedidos] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+
 
   const [cerr, setCerradura] = useState(false);
 
@@ -85,11 +94,66 @@ const App = () => {
       console.log('ENVIADA')
     }).catch(e => console.log(e))
     })
-  
     }
+    
   }, [cerr])
 
+  const [pedido, setPedido] = useState([]);
+  
 
+  useEffect(() => {
+    const consultaAPI = async () => {
+
+      rt.ref('/notificacion').on('value', snapshot => {
+        const envio = {
+          emailRepartidor: snapshot.val().emailRepartidor,
+          idPedido: snapshot.val().idPedido,
+          fueReprogramado: snapshot.val().fueReprogramado,
+          }
+          setPedido(envio);
+        
+
+      })}
+      consultaAPI();
+  }, []);
+
+  useEffect(()=>{
+    console.log(pedido.emailRepartidor);
+    
+    if(pedido.fueReprogramado && pedido.emailRepartidor && myJson && myJson["email"] == pedido.emailRepartidor){
+      toast("ATENCION! El envío "+ pedido.idPedido + " fue reprogramado, revisa tu lista de envios del día",{autoClose: false})
+    msg.requestPermission().then(()=>{
+      return msg.getToken();
+    }).then((data)=>{
+      console.warn("token",data)
+      let body = {
+        to: data,
+        notification:{
+          title: "ATENCION!",
+          body: "El envío "+ pedido.idPedido+" fue reprogramado, revisa tu lista de envios del día",
+          icon: logo,
+        }
+      
+      }
+      let options ={
+        method: "POST",
+          
+        headers: {
+        "Authorization":"key=AAAAigDMkeo:APA91bGv1BPlSgQ-PfTgCT1IOqupeDbSWvnGpwAM1a8tiLgsbZ0v8myrHSKDybuuVhexrp3F5nHc8ERJVSVaJm4DHKHuFSXvRtP7nNnKlHlUY7rsmYCAFSuJT_9-LepNzZNwyodn-Qh9",
+        "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(body)
+      }
+      console.log(options);
+
+    fetch("https://fcm.googleapis.com/fcm/send",options).then(res=>{
+      console.log(res)
+      console.log('ENVIADA')
+    }).catch(e => console.log(e))
+    })
+    }
+    
+  }, [pedido.fueReprogramado])
 
   const classes = useStyles();
 
@@ -105,6 +169,7 @@ const App = () => {
     setToggleForm(!toggleForm);
   };
   const handleOpen = () => {
+    
     setOpen(true);
   };
  
@@ -117,6 +182,7 @@ const App = () => {
     userState();
   }, []);
   return (
+      
     <ThemeProvider theme={theme}>
       <HashRouter>
         <div className="main">
@@ -191,6 +257,7 @@ const App = () => {
             </span>
           </div>
 
+
           <>
       {user !== null ? (
         <>
@@ -201,7 +268,7 @@ const App = () => {
             <Route exact path="/CrearEnvio" >
               <CrearEnvio setUserState={() => setUser(null)}/>
               </Route>
-            <Route exact path="/NavCreador" component={NavLinksCYR}  />
+            <Route exact path="/NavCreador" component={NavLinksCYR} />
             <Route exact path="/SeguimientoEnvio" >
               <SeguimientoEnvioForm setUserState={() => setUser(null)}/>
             </Route>
