@@ -133,7 +133,7 @@ const consultaAPI = async () => {
   date = today.getDate() + '/' + (today.getMonth() + 1) + '/' +  today.getFullYear();
   
 db.collection("envios")
-  .where("mailRepartidor", "==", myJson["email"]).where("fechaEntrega", "==", date)
+  .where("emailRepartidor", "==", myJson["email"]).where("fechaEntrega", "==", date)
   .get()
   .then((querySnapshot) => {
     querySnapshot.forEach((documentSnapshot) => {
