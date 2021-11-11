@@ -174,8 +174,11 @@ const Pedido = (props) => {
   const [updatePantalla, setUpdatePantalla] = useState(false);
 
   var hoy =  new Date().toISOString().slice(0,10);
-  var hora = new Date().toTimeString().slice(0,5);
-  
+ 
+  var fecha = new Date();
+  fecha.setHours(fecha.getHours()+1);
+  var hora = fecha.toTimeString().slice(0,5);
+
   console.log("Hoy " + hoy);
   console.log("Hora " + hora);
   const [progCheckbox, setProgCheckbox] = useState(false);
@@ -798,7 +801,7 @@ const Pedido = (props) => {
                           className: classes.colorLabel,
                           shrink: true,
                         }}
-                        inputProps={{ className: classes.colorText },{min:hora},{max:"20:00"}}
+                        inputProps={{ className: classes.colorText },{min:hora,max:"20:00"}}
                         onChangeCapture={handleInputChange}
                         {...register("horaEntrega")}
                       ></TextFiled>
