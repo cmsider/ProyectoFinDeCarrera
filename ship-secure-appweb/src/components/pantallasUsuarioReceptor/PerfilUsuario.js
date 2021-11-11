@@ -240,8 +240,7 @@ export const PerfilUsuario = (props) => {
         </Grid>
 
         <div className={classes.paper}>
-          <img src={avatar} width="150" height="150" />
-
+          <img src={avatar} width="170" height="170" />
           <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={classes.paper}>
               <Grid container spacing={2}>
