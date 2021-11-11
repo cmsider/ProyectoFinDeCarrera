@@ -173,7 +173,11 @@ const Pedido = (props) => {
   const [openChat, setOpenChat] = useState(false);
   const [updatePantalla, setUpdatePantalla] = useState(false);
 
-
+  var hoy =  new Date().toISOString().slice(0,10);
+  var hora = new Date().toTimeString().slice(0,5);
+  
+  console.log("Hoy " + hoy);
+  console.log("Hora " + hora);
   const [progCheckbox, setProgCheckbox] = useState(false);
   const [progCheckbox2, setProgCheckbox2] = useState(false);
 
@@ -324,7 +328,7 @@ const Pedido = (props) => {
           <Typography variant="h6" color="primary">
             Peso
           </Typography>
-          <Typography className={classes.root}>{mapRegion.peso} Kg</Typography>
+          <Typography className={classes.root}>{mapRegion.peso} g</Typography>
         </Grid>
       
         <Grid container spacing={4}>
@@ -761,6 +765,7 @@ const Pedido = (props) => {
                         fullWidth
                         type="date"
                         id="fechaEntrega"
+                        
                         name="fechaEntrega"
                         color="primary"
                         className={classes.textField}
@@ -769,7 +774,7 @@ const Pedido = (props) => {
                           shrink: true,
                         }}
                         FormHelperTextProps={{ className: classes.colorText }}
-                        inputProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText }, {min: hoy}}
                         onChangeCapture={handleInputChange}
                         {...register("fechaEntrega")}
                       ></TextFiled>
@@ -793,7 +798,7 @@ const Pedido = (props) => {
                           className: classes.colorLabel,
                           shrink: true,
                         }}
-                        inputProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText },{min:hora},{max:"20:00"}}
                         onChangeCapture={handleInputChange}
                         {...register("horaEntrega")}
                       ></TextFiled>

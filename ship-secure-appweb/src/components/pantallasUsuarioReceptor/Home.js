@@ -92,7 +92,7 @@ const Home = (props) => {
       <CssBaseline />
 
       <div className={classes.paper}>
-          <img src={avatar} width="150" height="150"/>
+          <img src={avatar} width="200" height="200"/>
        
         <Link to={'/misBeneficios'}>
         <Typography
