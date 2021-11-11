@@ -202,7 +202,8 @@ const CrearEnvio = (props) => {
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
   });
 
-
+  var hoy =  new Date().toISOString().slice(0,10);
+ 
 
   const handleInputChange = (event) => {
     setDatos({
@@ -912,7 +913,7 @@ required
                           shrink: true,
                         }}
                         FormHelperTextProps={{ className: classes.colorText }}
-                        inputProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText },{min: hoy}}
                         onChangeCapture={handleInputChange}
                         {...register("fechaEntrega", {
                           required: { value: true, message: "Campo requerido" },
@@ -951,7 +952,7 @@ required
                           className: classes.colorLabel,
                           shrink: true,
                         }}
-                        inputProps={{ className: classes.colorText }}
+                        inputProps={{ className: classes.colorText }, {min:"08:00", max:"20:00"}}
                         onChangeCapture={handleInputChange}
                         {...register("horaEntrega", {
                           required: { value: true, message: "Campo requerido" },
