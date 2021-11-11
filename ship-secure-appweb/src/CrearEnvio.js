@@ -21,6 +21,9 @@ import ContenedorCYR from "./components/menuNavegacionCYR/ContenedorCYR";
 import {ScaleLoader} from 'react-spinners';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import region from './components/pantallasUsuarioCreador/regiones.json';
+import moment from 'moment'
+import 'moment/locale/es'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -197,7 +200,6 @@ const CrearEnvio = (props) => {
     codigoPostal: "",
     localidad: "",
     codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
-    emailRepartidor: "pepeargento@gmail.com",
   });
 
 
@@ -223,19 +225,20 @@ const CrearEnvio = (props) => {
   };
 
 
+
   const addEnvio = () => {
     var fechaEnvio;
-    if(progCheckbox){
+    if(progCheckbox){      
       fechaEnvio = datos.fechaEntrega;
     }
     else{
-      fechaEnvio =  date.getFullYear() + "-" + (date.getMonth()>9? date.getMonth() : "0" + date.getMonth()) + "-" + (date.getDate()>9? date.getDate() : "0" + date.getDate()) ;
+      fechaEnvio =  (date.getDate()>9? date.getDate() : "0" + date.getDate()) + "/" + (date.getMonth()>9? date.getMonth() : "0" + date.getMonth()) + "/" + date.getFullYear() ;
     }
     db.collection("envios").doc(datos.codEnvio).set({
       id: datos.codEnvio,
       nombres: datos.nombres,
       apellidos: datos.apellidos,
-      fechaNacimiento: datos.fechaNacimiento,
+      fechaNacimiento: moment(datos.fechaNacimiento).locale('es').format('L'),
       email: datos.email,
       direccion: datos.direccion,
       piso: datos.piso,
@@ -243,7 +246,7 @@ const CrearEnvio = (props) => {
       codigoPostal: datos.codigoPostal,
       provincia: datos.provincia,
       observaciones: datos.observaciones,
-      fechaEntrega: fechaEnvio,
+      fechaEntrega: moment(fechaEnvio).locale('es').format('L'),
       horaEntrega: datos.horaEntrega,
       peso: datos.peso,
       temperatura: datos.temperatura,
@@ -253,6 +256,7 @@ const CrearEnvio = (props) => {
       usuarioCreado: false,
       idSmartBox: "",
       idRepartidor: "",
+      emailRepartidor: "juanmarivero@gmail.com",
     });
     rt.ref('/envio').update({
       idQR: datos.codEnvio,
@@ -262,7 +266,7 @@ const CrearEnvio = (props) => {
   rt.ref('/notificacion').update({
     idPedido: datos.codEnvio,
     fueReprogramado: false,
-    emailRepartidor:"pepeargento@gmail.com" 
+    emailRepartidor:"juanmarivero@gmail.com" 
 })
     console.log(datos.codEnvio);
      
@@ -288,9 +292,7 @@ const CrearEnvio = (props) => {
       console.log("falta algo");
     
     } else {
-    
     addEnvio();
-      
     onSubmitPuntos();
     sendEmail(e);
 
@@ -406,21 +408,37 @@ const actualizarBeneficios = () =>{
 }
 
 const onSubmitPuntos = () => {
+
   myJson["puntos"] = myJson["puntos"] +5;
+
   localStorage.setItem("usuarios", JSON.stringify(myJson));
 
+
+
   const updatePuntos = () => {
+
     db.collection("usuarios")
+
       .doc(myJson["idUs"])
+
       .update({
+
         puntos: myJson["puntos"],
+
       })
+
       .then(() => {
+
         console.log("Actualizacion correcta!");
+
       });
+
      
+
   };
+
   updatePuntos();
+
 }
 
 
@@ -978,7 +996,7 @@ required
                   variant="filled"
                   margin="dense"
                   fullWidth
-                  label="Ingrese peso en kilogramos(kg)"
+                  label="Ingrese peso en gramos(g)"
                   type="peso"
                   id="peso"
                   name="peso"

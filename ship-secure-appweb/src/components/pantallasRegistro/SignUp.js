@@ -22,6 +22,8 @@ import "firebase/auth";
 import "firebase/firestore";
 import { db, auth } from "../firebase";
 import {ScaleLoader} from 'react-spinners';
+import moment from 'moment'
+import 'moment/locale/es'
 
 
 const SignUp = (props) => {
@@ -94,7 +96,7 @@ const SignUp = (props) => {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
-                        fechaNacimiento: fechaNacimiento,
+                        fechaNacimiento: moment(fechaNacimiento).locale('es').format('L'),
                         puntos: 0,
                         username: nombre,
                     })
