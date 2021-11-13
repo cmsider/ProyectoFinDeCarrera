@@ -256,7 +256,7 @@ const CrearEnvio = (props) => {
       //estos campos seran necesarios luego para asignar un repartidor, una smartbox
       usuarioCreado: false,
       idSmartBox: "",
-      idRepartidor: "",
+      idRepartidor: "juanmarivero@gmail.com",
       emailRepartidor: "juanmarivero@gmail.com",
     });
     rt.ref('/envio').update({
@@ -342,9 +342,9 @@ const CrearEnvio = (props) => {
   const calcularEnvio = () => {
         
     var costoEnvio = 0.00;
-    if(datos.peso >= 30){
+    if(datos.peso >= 30000){
       costoEnvio += 1000.00;
-    }else if(datos.peso >=15){
+    }else if(datos.peso >=15000){
       costoEnvio += 700.00;
     }
     else{
@@ -923,6 +923,8 @@ required
                           },
                         })}
                       ></TextFiled>
+
+                      
 
                       <span className="text-danger text-small d-block mb-2">
                         {errors?.fechaEntrega?.message}
