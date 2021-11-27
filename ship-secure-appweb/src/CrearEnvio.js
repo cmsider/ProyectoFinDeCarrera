@@ -913,7 +913,7 @@ required
                           shrink: true,
                         }}
                         FormHelperTextProps={{ className: classes.colorText }}
-                        inputProps={{ className: classes.colorText },{min: hoy}}
+                        inputProps={{ className: classes.colorText , min: hoy}}
                         onChangeCapture={handleInputChange}
                         {...register("fechaEntrega", {
                           required: { value: true, message: "Campo requerido" },
@@ -954,7 +954,7 @@ required
                           className: classes.colorLabel,
                           shrink: true,
                         }}
-                        inputProps={{ className: classes.colorText }, {min:"08:00", max:"20:00"}}
+                        inputProps={{ className: classes.colorText , min:"08:00", max:"20:00"}}
                         onChangeCapture={handleInputChange}
                         {...register("horaEntrega", {
                           required: { value: true, message: "Campo requerido" },
