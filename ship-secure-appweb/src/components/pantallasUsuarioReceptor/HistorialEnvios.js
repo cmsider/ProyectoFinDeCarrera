@@ -100,7 +100,7 @@ db.collection("envios")
         };
         if(pedidoElement!= 'undefined'){
         pedidos.push(pedidoElement);
-
+        
         }
     });
         if(pedidos){
@@ -114,7 +114,7 @@ consultaAPI();
     
 }, [pedidos]);
 
-const historicoEnvios =  pedidos.sort((c, d) => (moment(c.fechaEntrega).locale('en').format('L') < moment(d.fechaEntrega).locale('en').format('L') ? 1 : moment(c.fechaEntrega).locale('en').format('L') > moment(d.fechaEntrega).locale('en').format('L') ? -1 : 0)).sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
+const historicoEnvios =  pedidos.sort((c, d) => (moment(c.fechaEntrega).locale('cs').format('L') < moment(d.fechaEntrega).locale('cs').format('L') ? 1 : moment(c.fechaEntrega).locale('cs').format('L') > moment(d.fechaEntrega).locale('cs').format('L') ? -1 : 0)).sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
 
   <Card className={classes.listSection}>
     

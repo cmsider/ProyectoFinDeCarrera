@@ -23,7 +23,6 @@ import ListaMenuPPal from "./components/menuNavegacion/ListaMenuPPal";
 import Modal from "@material-ui/core/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 const useStyles = makeStyles((theme) => ({
   paper: {
   
@@ -57,6 +56,7 @@ const App = () => {
           puertaAbierta: snapshot.val().fueForzada,
           }
           setCerradura(cerradura.puertaAbierta);
+          //console.log(cerradura.puertaAbierta);
         
 
       })}
@@ -64,11 +64,13 @@ const App = () => {
   }, []);
 
   useEffect(()=>{
-    if(cerr){
+    console.log(cerr);
+    if(cerr == "true"){
     msg.requestPermission().then(()=>{
       return msg.getToken();
     }).then((data)=>{
       console.warn("token",data)
+      toast.error("ATENCION! Estan intentando abrir tu SecurityBox",{autoClose: false})
       let body = {
         to: data,
         notification:{
@@ -87,11 +89,11 @@ const App = () => {
         },
         body: JSON.stringify(body)
       }
-      console.log(options);
+      //console.log(options);
 
     fetch("https://fcm.googleapis.com/fcm/send",options).then(res=>{
-      console.log(res)
-      console.log('ENVIADA')
+      //console.log(res)
+      //console.log('ENVIADA')
     }).catch(e => console.log(e))
     })
     }
@@ -118,10 +120,11 @@ const App = () => {
   }, []);
 
   useEffect(()=>{
-    console.log(pedido.emailRepartidor);
+    //console.log(pedido.emailRepartidor);
     
     if(pedido.fueReprogramado && pedido.emailRepartidor && myJson && myJson["email"] == pedido.emailRepartidor){
-      toast("ATENCION! El envío "+ pedido.idPedido + " fue reprogramado, revisa tu lista de envios del día",{autoClose: false})
+      toast.warn("ATENCION! El envío "+ pedido.idPedido + " fue reprogramado, revisa tu lista de envios del día",{autoClose: false,})
+
     msg.requestPermission().then(()=>{
       return msg.getToken();
     }).then((data)=>{
@@ -144,11 +147,11 @@ const App = () => {
         },
         body: JSON.stringify(body)
       }
-      console.log(options);
+      //console.log(options);
 
     fetch("https://fcm.googleapis.com/fcm/send",options).then(res=>{
-      console.log(res)
-      console.log('ENVIADA')
+      //console.log(res)
+      //console.log('ENVIADA')
     }).catch(e => console.log(e))
     })
     }
