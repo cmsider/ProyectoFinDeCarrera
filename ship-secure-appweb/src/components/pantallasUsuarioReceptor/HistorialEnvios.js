@@ -13,6 +13,8 @@ import { Divider } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import moment from 'moment'
+import 'moment/locale/es'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +114,7 @@ consultaAPI();
     
 }, [pedidos]);
 
-const historicoEnvios =  pedidos.sort((c, d) => (c.fechaEntrega < d.fechaEntrega ? 1 : c.fechaEntrega > d.fechaEntrega ? -1 : 0)).sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
+const historicoEnvios =  pedidos.sort((c, d) => (moment(c.fechaEntrega).locale('en').format('L') < moment(d.fechaEntrega).locale('en').format('L') ? 1 : moment(c.fechaEntrega).locale('en').format('L') > moment(d.fechaEntrega).locale('en').format('L') ? -1 : 0)).sort((a, b) => (a.horaEntrega > b.horaEntrega ? 1 : a.horaEntrega < b.horaEntrega ? -1 : 0)).map((pedido) => (
 
   <Card className={classes.listSection}>
     

@@ -199,7 +199,9 @@ const CrearEnvio = (props) => {
     temperatura: "",
     codigoPostal: "",
     localidad: "",
-    codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
+    codEnvio: "958764",
+    //codEnvio: (100000 + Math.floor(Math.random() * 900000)).toString(),
+
   });
 
   var hoy =  new Date().toISOString().slice(0,10);

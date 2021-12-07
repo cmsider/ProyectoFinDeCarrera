@@ -130,7 +130,7 @@ console.log(pedidoI);
 const consultaAPI = async () => {
   var today = new Date(),
 
-  date = today.getDate() + '/' + (today.getMonth() + 1) + '/' +  today.getFullYear();
+  date = (today.getDate() < 9 ? '0'+ today.getDate(): today.getDate()) + '/' + (today.getMonth() + 1) + '/' +  today.getFullYear();
   
 db.collection("envios")
   .where("emailRepartidor", "==", myJson["email"]).where("fechaEntrega", "==", date)
